@@ -259,9 +259,10 @@ const threeSum = (numbers) => {
             if (sum == target) {
                 pairs.push([slice[p1], slice[p2]]);           // push pair whose sum is target
                 p1++;
-                while (slice[p1] == slice[p1-1] && p1 < p2) { // prevent duplicates
-                    p1++;
-                }
+                p2--;
+                // prevent duplicates
+                while (slice[p1] == slice[p1 - 1] && p1 < p2) p1++;
+                while (slice[p2] == slice[p2 + 1] && p1 < p2) p2--;
             } 
             else if (sum <= target) {
                 p1++;
@@ -276,6 +277,7 @@ const threeSum = (numbers) => {
     const triplets = [];
 
     for (let i = 0; i < numbers.length - 2; i++) {
+        if (i > 0 && numbers[i] === numbers[i - 1]) continue;
         let curr = numbers[i];
         // check for pair in the slice that is inverse of curr
         let resPairs = twoSum(numbers.slice(i + 1), -curr);
@@ -285,9 +287,9 @@ const threeSum = (numbers) => {
             }
         }
     }
-    
+
     return triplets;
-}
+} 
 
 // three sum driver code
 const numbers = [-1, 0, 2, 1, -1, 3, -2];
