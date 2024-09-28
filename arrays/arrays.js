@@ -296,11 +296,18 @@ const numbers = [-1, 0, 2, 1, -1, 3, -2];
 console.log("Checking for triplets whose sum is zero within the numbers: ", numbers);
 console.log("triplets: ", threeSum(numbers));
 
-
 /*
   Find Minimum in Rotated Sorted Array
 */
 
 /*
   Trapping Rain Water
+*/
+
+/*
+  Koko eating bananas
+*/
+
+/*
+  Minimum number of coins to be added
 */
