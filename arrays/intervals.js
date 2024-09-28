@@ -63,6 +63,11 @@ class Intervals {
         console.log(results);
         return results;
     }
+
+    /*
+      Minimum Number of Arrows to Burst Balloons
+      given a set of intervals, return the minimum points which is contained by them
+    */
 }
 
 // Intervals driver code
