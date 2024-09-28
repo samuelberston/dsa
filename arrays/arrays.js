@@ -242,17 +242,62 @@ console.log("\n7. Valid Parentheses");
 console.log("Identifies valid parentheses: ", validParentheses(valid) == true);
 console.log("Identifies invalid parentheses: ", validParentheses(invalid) == false);
 
+/*
+  3 sum
+
+  approach: sort the array and use two sum helper function
+*/
+const threeSum = (numbers) => {
+    numbers.sort((a, b) => a - b);        // sort input array
+
+    const twoSum = (slice, target) => {   // two sum helper function
+        const pairs = [] 
+        let p1 = 0;
+        let p2 = slice.length - 1;
+        while (p1 < p2) {
+            let sum = slice[p1] + slice[p2];
+            if (sum == target) {
+                pairs.push([slice[p1], slice[p2]]);           // push pair whose sum is target
+                p1++;
+                while (slice[p1] == slice[p1-1] && p1 < p2) { // prevent duplicates
+                    p1++;
+                }
+            } 
+            else if (sum <= target) {
+                p1++;
+            } 
+            else {
+                p2--;
+            }
+        }
+        return pairs;
+    }
+
+    const triplets = [];
+
+    for (let i = 0; i < numbers.length - 2; i++) {
+        let curr = numbers[i];
+        // check for pair in the slice that is inverse of curr
+        let resPairs = twoSum(numbers.slice(i + 1), -curr);
+        if (resPairs.length > 0) {
+            for (let j = 0; j < resPairs.length; j++) {
+                triplets.push([curr, ...resPairs[j]]);
+            }
+        }
+    }
+    
+    return triplets;
+}
+
+// three sum driver code
+const numbers = [-1, 0, 2, 1, -1, 3, -2];
+console.log("Checking for triplets whose sum is zero within the numbers: ", numbers);
+console.log("triplets: ", threeSum(numbers));
+
 
 /*
   Find Minimum in Rotated Sorted Array
 */
-
-
-/*
-  3 sum
-*/
-
-
 
 /*
   Trapping Rain Water
