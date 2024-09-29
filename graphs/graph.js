@@ -118,10 +118,10 @@ class directedAdjacencyList {
         // iterate nodes and transpose src/dest nodes
         for (let i = 0; i < this.list.length; i++) {
             let src = i;
-            let list = this.list[src];
+            let edges = this.list[src];
             // iterate edges
-            for (let j = 0; j < list.length; j++) {
-                let dest = list[j];
+            for (let j = 0; j < edges.length; j++) {
+                let dest = edges[j];
                 // reassign the edge from the destination node to the source node
                 transposed[dest].push(src);
             }
