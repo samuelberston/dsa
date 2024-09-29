@@ -83,9 +83,8 @@ class directedAdjacencyList {
         }
         // directed graph only adds the edge to the outgoing node
         this.list[src].push(dest);
-        this.indegree[src]++;
+        this.indegree[dest]++;
         console.log(`added edge: ${src}-${dest}`);
-        console.log(`in-degree of node ${src}: ${this.indegree[src]}`);
     }
 
     // remove edge
