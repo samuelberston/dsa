@@ -298,11 +298,33 @@ console.log("triplets: ", threeSum(numbers));
 
 /*
   Find Minimum in Rotated Sorted Array
+
+  approach: use binary search to find inflection point and min
 */
+const findMinRotatedSortedArray = (rotatedSortedArray) => {
+    let left = 0;
+    let right = rotatedSortedArray.length -1;
+    while (left < right) {
+        let mid = Math.floor((left + right) / 2);
+        if (rotatedSortedArray[mid] > rotatedSortedArray[right]) { // mid is greater than end, inflection point is mid or right of mid
+            left = mid + 1;
+        } else { // mid is less than end, inflection point is mid or left of mid
+            right = mid;
+        }
+    }
+    return rotatedSortedArray[left];
+}
+
+// Find Min in Rotated Sorted Array Driver Code
+const rotSortArr1 = [7, 8, 9, 10, 11, 4, 5, 6];
+const rotSortArr2 = [34, 36, 300, 6, 13, 16, 20, 30];
+console.log("Find min in rotated sorted array 1: ", findMinRotatedSortedArray(rotSortArr1) == 4);
+console.log("Find min in rotated sorted array 2: ", findMinRotatedSortedArray(rotSortArr2) == 6);
 
 /*
   Trapping Rain Water
 */
+
 
 /*
   Koko eating bananas
