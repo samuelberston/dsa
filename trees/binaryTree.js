@@ -177,7 +177,7 @@ console.log(levelOrder(binaryTree));
 let subtree = new Node('yay');
 subtree.left = new Node('ugh');
 subtree.right = new Node('heyy');
-subtree.left.left = new Node('Fuck!');
+subtree.left.left = new Node('Frick!');
 subtree.left.righjt = new Node('Poo');
 
 actualSubtree = new Node(2);
