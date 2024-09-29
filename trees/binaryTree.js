@@ -178,7 +178,7 @@ let subtree = new Node('yay');
 subtree.left = new Node('ugh');
 subtree.right = new Node('heyy');
 subtree.left.left = new Node('Frick!');
-subtree.left.righjt = new Node('Poo');
+subtree.left.right = new Node('foo');
 
 actualSubtree = new Node(2);
 actualSubtree.left = new Node(1);
