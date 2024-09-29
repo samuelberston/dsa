@@ -323,8 +323,46 @@ console.log("Find min in rotated sorted array 2: ", findMinRotatedSortedArray(ro
 
 /*
   Trapping Rain Water
+  Given n non-negative integers representing an elevation map where the 
+  width of each bar is 1, compute how much water it can trap after raining.
+  approach: the vol of each index is the difference between its height and the min height on either side
 */
+const trappingRainWater = (eleMap) => {
+    const maxLeft = Array(eleMap.length);
+    const maxRight = Array(eleMap.length);
+    let maxL = maxR = 0;
 
+    // get max elevation left of i
+    for (let i = 0; i < eleMap.length; i++) {
+        maxLeft[i] = maxL; 
+        if (eleMap[i] > maxL) {
+            maxL = eleMap[i]; // update maxL
+        }
+    }
+
+    // get max elevation right of i
+    for (let i = eleMap.length - 1; i > -1; i--) {
+        maxRight[i] = maxR;
+        if (eleMap[i] > maxR) {
+            maxR = eleMap[i]; // update maxR
+        }
+    }
+
+    let totalVol = 0;
+    for (let i = 0; i < eleMap.length; i++) {
+        // console.log("min: ", Math.min(maxLeft, maxRight));
+        if (eleMap[i] < Math.min(maxLeft[i], maxRight[i])) { // if i can store water
+            totalVol += Math.min(maxLeft[i], maxRight[i]) - eleMap[i];
+        }
+    }
+    return totalVol;
+}
+
+// Trapping Rain Water Driver Code
+const eleMap1 = [0, 1, 0, 2, 1, 0, 1];
+console.log("Calculating volume for elevation map 1: ", trappingRainWater(eleMap1) == 2);
+const eleMap2 = [1, 0, 2, 4, 3, 6, 2, 3, 0];
+console.log("Calculating volume for elevation map 2: ", trappingRainWater(eleMap2) == 3);
 
 /*
   Koko eating bananas
