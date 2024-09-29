@@ -156,7 +156,7 @@ console.log(checkIdentical(binaryTree, nonIdenticalTree));
 
 // level-order traversal of a tree
 let vals = {};
-function levelOrder(root, level) {
+function levelOrder(root, level = 0) {
     // base case: no child node
     if (!root) { return; }
     if (!vals[level]) {
@@ -170,7 +170,7 @@ function levelOrder(root, level) {
 }
 
 console.log("level order traversal: ");
-console.log(levelOrder(binaryTree, 0));
+console.log(levelOrder(binaryTree));
 
 // check if tree is subtree of another tree
 
