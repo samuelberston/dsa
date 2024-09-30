@@ -136,9 +136,10 @@ class directedAdjacencyList {
 
     // breadth-first search of directed graph
     bfs(src) {
+        const visited = Array(this.V).fill(false);
         const queue = [];
         // visit the first node and enqueue it
-        this.visited[src] = true;
+        visited[src] = true;
         queue.push(src);
         // pull nodes from the queue in level-order
         while (queue.length) {
@@ -146,8 +147,8 @@ class directedAdjacencyList {
             process.stdout.write(`${curr} `);
             // iterate over edges
             for (const x of this.list[curr]) {
-                if (!this.visited[x]) {
-                    this.visited[x] = true; // visit edge
+                if (!visited[x]) {
+                    visited[x] = true; // visit edge
                     queue.push(x); // enqueue edge
                 }
             }
