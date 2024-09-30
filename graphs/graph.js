@@ -166,27 +166,28 @@ class directedAdjacencyList {
         }
     }
 
-    // depth-first search of directed graph
-    dfs(src) {
+    // 5. depth-first search of directed graph
+    dfs(src, visited = Array(this.V).fill(false)) {
         // visit current node
-        this.visited[src] = true;
+        visited[src] = true;
         process.stdout.write(`${src} `);
         // recursively visit adjacent nodes
         if (this.list[src]) {
             for (const node of this.list[src]) {
-                if (!this.visited[node]) {
-                    this.dfs(node);
+                if (!visited[node]) {
+                    this.dfs(node, visited);
                 }
             }
         }
     }
 
-    // depth-first search of a directed graph with disconnected node
+    // 6. depth-first search of a directed graph with disconnected node
     dfsDiconnected() {
+        const visited = Array(this.V).fill(false);
         // loop through all vertices to handle disconnected graph
         for (let i = 0; i < this.list.length; i++) {
-            if (!this.visited[i]) {
-                this.dfs(i); // perform dfs
+            if (!visited[i]) {
+                this.dfs(i, visited); // perform dfs
             }
         }
     }
