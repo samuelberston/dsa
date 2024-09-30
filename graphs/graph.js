@@ -348,18 +348,19 @@ class directedAdjacencyList {
         return result;
     }
 
-    // add max edges to DAG so it is still a DAG
+    // 11. add max edges to DAG so it is still a DAG
     addMaxEdgesDAG() {
-        const topologicalOrder = this.khansAlg(); // get nodes in topologicl order
+        const topologicalOrder = this.khansAlg(); // get nodes in topological order
+        const visited = Array(this.V).fill(false);
         for (const node of topologicalOrder) { // for each node in topological order
             for (const neighbor of this.list[node]) { // visit adjacent nodes 
-                this.visited[neighbor] = true;
+                visited[neighbor] = true;
             }
             for (let j = node + 1; j < topologicalOrder.length; j++) { // for each node following it
-                if (!this.visited[this.list[j]]) { // if the edge is not present
+                if (!visited[this.list[j]]) { // if the edge is not present
                     this.addEdge(node, j); // add edge
                 }
-                this.visited[j] = false; // reset visited status
+                visited[j] = false; // reset visited status
             }
         }
     }
