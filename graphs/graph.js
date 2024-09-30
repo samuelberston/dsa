@@ -134,9 +134,8 @@ class directedAdjacencyList {
        this.visited = Array(this.list.length).fill(false);
     }
 
-    // breadth-first search of directed graph
-    bfs(src) {
-        const visited = Array(this.V).fill(false);
+    // 3. breadth-first search of directed graph
+    bfs(src, visited = Array(this.V).fill(false)) {
         const queue = [];
         // visit the first node and enqueue it
         visited[src] = true;
@@ -155,13 +154,14 @@ class directedAdjacencyList {
         }
     }
 
-    // bfs for disconnected graph, touches all nodes
+    // 4. bfs for disconnected graph, touches all nodes
     bfsDisconnected() {
+        const visited = Array(this.V).fill(false);
         // iteratively visit each node and do bfs on adjacent nodes
         for (let i = 0; i < this.list.length; i++) {
-            if (!this.visited[i]) {
-                this.visited[i] = true;
-                this.bfs(i); // invoke bfs function for each node
+            if (!visited[i]) {
+                visited[i] = true;
+                this.bfs(i, visited); // invoke bfs function for each node
             }
         }
     }
