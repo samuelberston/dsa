@@ -70,7 +70,6 @@ class directedAdjacencyList {
     visited;
     constructor(V) {
         this.list = Array(V).fill(null).map(() => []);
-        this.visited = Array(V).fill(false);
         this.indegree = Array(V).fill(0);
     }
 
@@ -127,11 +126,6 @@ class directedAdjacencyList {
             }
         }
         this.list = transposed;
-    }
-
-    // reset visited
-    resetVisited() {
-       this.visited = Array(this.list.length).fill(false);
     }
 
     // 3. breadth-first search of directed graph
@@ -429,7 +423,6 @@ class WeightedGraph {
     visited;
     constructor(V) {
         this.list = Array(V).fill(null).map(() => []);
-        this.visited = Array(V).fill(null).map(() => false);
     }
 
     // add edge to undirected graph
