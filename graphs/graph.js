@@ -466,13 +466,14 @@ class WeightedGraph {
     // detect cycle in a connected undirected graph using BFS
     isCyclicBFS() {
         const queue = [0];
+        const visited = Array(this.V).fill(false);
         while(queue.length) {
             const node = queue.shift();
-            if (this.visited[node]) {
+            if (visited[node]) {
                 console.log("Graph contains a cycle")
                 return true; // detected cycle
             }
-            this.visited[node] = true;
+            visited[node] = true;
             // enqueue adjacent nodes
             if (this.list[node]) {
                 for (const neighbor of this.list[node]) {
