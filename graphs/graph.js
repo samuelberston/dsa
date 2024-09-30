@@ -192,7 +192,7 @@ class directedAdjacencyList {
         }
     }
 
-    // find level of X node using bfs level-order traversal
+    // 7. find level of X node using bfs level-order traversal
     findLevel(X) {
         // edge case: node is not in the graph
         if (!this.list[X]) {
@@ -201,6 +201,7 @@ class directedAdjacencyList {
         // level order traversal 
         const queue = [0];
         let level = 0; // track level
+        const visited = Array(this.V).fill(false);
         while (queue.length) {
             // iterate nodes at current level in graph
             for (let i = 0; i < queue.length; i++) {
@@ -212,8 +213,8 @@ class directedAdjacencyList {
                 }
                 // visit and enqueue adjacent nodes in level-order
                 for (const dest of this.list[node]) {
-                    if (!this.visited[dest]) {
-                        this.visited[dest] = true;
+                    if (!visited[dest]) {
+                        visited[dest] = true;
                         queue.push(dest);
                     }
                 }
