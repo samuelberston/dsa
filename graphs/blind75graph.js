@@ -40,5 +40,62 @@ const cloneGraph = (graph) => {
 
 // Clone Graph driver code
 const adjList = [[2,4],[1,3],[2,4],[1,3]];
-console.log("Create clone of graph: ", adjList);
+console.log("1. Create clone of graph: ", adjList);
 console.log(cloneGraph(adjList));
+
+
+/**
+ * 2. Course Schedule I
+ * There are total numCourses to take.
+ * Given and array of prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
+ * Return true if you can finish all courses, otherwise false.
+ * @param {number} numCourses
+ * @param {number[][]} prerequisites
+ * @return {boolean} 
+ */
+const courseSchedule = (n, pre) => { // approach: bfs detect cycle
+    // Step 1: Form adjacency list
+    const adjList = [];
+    for (const edge of pre) {
+        let course = edge[0];
+        let prereq = edge[1];
+        if (!adjList[prereq]) {
+            adjList[prereq] = [];
+        }
+        adjList[prereq].push(course);
+    }
+
+    // Step 2: bfs detect cycle 
+    const queue = [];
+    const visited = Array(n).fill(false);
+
+    queue.push(0); // enqueu first node
+
+    while (queue.length) {
+        const curr = queue.shift();
+
+        if (visited[curr]) { // check for cycle
+            return false;
+        }
+
+        visited[curr] = true; // visit current node
+
+        if (adjList[curr]) {
+            for (const neighbor of adjList[curr]) { // visit and 
+                queue.push(neighbor); // enqueue adjacent nodes
+            }
+        }
+    }
+
+    return true; // no cycle detected
+}
+
+// driver code
+const numCourses1 = 2;
+const prerequisites1 = [[1 ,0], [2, 1], [3, 2]];
+console.log("\n2. Course Schedule")
+console.log("Detects valid schedule: ", courseSchedule(numCourses1, prerequisites1));
+
+const numCourses2 = 2;
+const prerequisites2 = [[1,0],[0,1]];
+console.log("Detects invalid schedule: ", !courseSchedule(numCourses2, prerequisites2));
