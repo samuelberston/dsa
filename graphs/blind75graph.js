@@ -99,3 +99,93 @@ console.log("Detects valid schedule: ", courseSchedule(numCourses1, prerequisite
 const numCourses2 = 2;
 const prerequisites2 = [[1,0],[0,1]];
 console.log("Detects invalid schedule: ", !courseSchedule(numCourses2, prerequisites2));
+
+/**
+ * 3. Pacific Atlantic Water Flow
+ * Step 1: Create visited matrixes for Pacific / Atlantic sides
+ * Step 2: Use BFS to determine water flow from Pacific / Atlantic oceans
+ * Step 3: Compare the two matrices to determine cells which flow to both oceans
+ * @param {number[][]} graph
+ * @return {number[][]}
+ */
+const waterFlow = (graph) => {
+    // edge cases
+    if (!graph || graph.length === 0 || graph[0].length === 0) return [];
+
+    // Step 1 - initialize visited matrices and directions
+    const m = graph.length;
+    const n = graph[0].length;
+    const visitedPacific = Array.from({ length: m }).map(() => Array(n).fill(false));
+    const visitedAtlantic = Array.from({ length: m }).map(() => Array(n).fill(false));
+    const directions = [
+        [-1, 0], // up
+        [1, 0], // down
+        [0, -1], // left
+        [0, 1] // right
+    ];
+
+    // Step 2 - bfs for water flow
+    const bfs = (cell, visited) => {
+        const queue = [];
+        let head = 0;
+        queue.push(cell);
+        while (head < queue.length) {
+            const curr = queue[head];
+            head++;
+            const i = curr[0];
+            const j = curr[1];
+    
+            for (const [dx, dy] of directions) { // visit adjacent cells
+                const x = i + dx;
+                const y = j + dy;
+    
+                if (
+                    x >= 0 && x < m && // check cell is
+                    y >= 0 && y < n && // within parameters
+                    !visited[x][y] && // not visited
+                    graph[x][y] >= graph[i][j] // water can flow
+                ) {
+                    queue.push([x, y]); // enqueue and 
+                    visited[x][y] = true; // visit cell
+                }
+            }
+        }
+    }    
+
+    // Pacific water flow
+    for (let i = 0; i < m; i++) {
+        bfs([i, 0], visitedPacific); // first column
+    }
+    for (let j = 0; j < n; j++) { 
+        bfs([0, j], visitedPacific); // top row
+    }
+    console.log(visitedPacific);
+
+    // Atlantic water flow
+    for (let i = 0; i < m; i++) {
+        bfs([i, n - 1], visitedAtlantic); // last column
+    }
+    for (let j = 0; j < n; j++) {
+        bfs([m - 1, j], visitedAtlantic); // bottom row
+    }
+    console.log(visitedAtlantic);
+
+    // Step 3: Form results
+    const results = [];
+    for (let i = 0; i < m; i++) {
+        for (let j = 0; j < n; j++) {
+            if (
+                visitedPacific[i][j] && // waters flows to both
+                visitedAtlantic[i][j]   // Pacific and Atlantic
+            ) {
+                results.push([i, j]);
+            }
+        }
+    }
+    return results;
+}
+
+// Pacific Atlantic Water Flow driver code
+console.log("\n3. Pacific Atlantic Water Flow");
+const heights = [[1,2,2,3,5],[3,2,3,4,4],[2,4,5,3,1],[6,7,1,4,5],[5,1,1,2,4]];
+console.log(waterFlow(heights));
