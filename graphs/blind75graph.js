@@ -102,21 +102,22 @@ console.log("Detects invalid schedule: ", !courseSchedule(numCourses2, prerequis
 
 /**
  * 3. Pacific Atlantic Water Flow
- * Step 1: Create visited matrixes for Pacific / Atlantic sides
+ * Step 1: Create visited matrices for Pacific / Atlantic sides
  * Step 2: Use BFS to determine water flow from Pacific / Atlantic oceans
  * Step 3: Compare the two matrices to determine cells which flow to both oceans
  * @param {number[][]} graph
  * @return {number[][]}
  */
 const waterFlow = (graph) => {
-    // edge cases
-    if (!graph || graph.length === 0 || graph[0].length === 0) return [];
 
-    // Step 1 - initialize visited matrices and directions
-    const m = graph.length;
-    const n = graph[0].length;
-    const visitedPacific = Array.from({ length: m }).map(() => Array(n).fill(false));
-    const visitedAtlantic = Array.from({ length: m }).map(() => Array(n).fill(false));
+    // Step 1: create visited matrices for Pacific/Atlantic and define n, m
+    const n = graph.length; // # rows
+    const m = graph[0].length; // # columns
+
+    const visitedPacific = Array.from({ length: n }).map(() => Array(m).fill(false));
+    const visitedAtlantic = Array.from({ length: n }).map(() => Array(m).fill(false));
+    
+    // Step 2: Use BFS to determine water flow for Pacific/Atlantic oceans
     const directions = [
         [-1, 0], // up
         [1, 0], // down
@@ -124,60 +125,58 @@ const waterFlow = (graph) => {
         [0, 1] // right
     ];
 
-    // Step 2 - bfs for water flow
-    const bfs = (cell, visited) => {
-        const queue = [];
-        let head = 0;
-        queue.push(cell);
-        while (head < queue.length) {
-            const curr = queue[head];
-            head++;
-            const i = curr[0];
-            const j = curr[1];
-    
-            for (const [dx, dy] of directions) { // visit adjacent cells
-                const x = i + dx;
-                const y = j + dy;
-    
+    /**
+     * visiter helper function
+     * @param {Number} sr 
+     * @param {Number} sc 
+     * @param {Boolean[][]} visited 
+     */
+    const bfs = (sr, sc, visited) => {
+        const queue = [[sr, sc]];
+        visited[sr][sc] = true;
+        while (queue.length) {
+            const [i, j] = queue[0]; // for
+            queue = queue.slice(1); // speed
+
+            // visit adjacent points
+            for (const [dx, dy] of directions) {
+                let x = i + dx;
+                let y = j + dy;
                 if (
-                    x >= 0 && x < m && // check cell is
-                    y >= 0 && y < n && // within parameters
+                    x >= 0 && x < n && // row in bounds
+                    y >= 0 && y < m && // column in bouns
                     !visited[x][y] && // not visited
                     graph[x][y] >= graph[i][j] // water can flow
                 ) {
-                    queue.push([x, y]); // enqueue and 
-                    visited[x][y] = true; // visit cell
+                    queue.push([x, y]);
+                    visited[x][y] = true; // visit current point
                 }
             }
         }
-    }    
+    }
 
-    // Pacific water flow
+    // visit Pacific top row
     for (let i = 0; i < m; i++) {
-        bfs([i, 0], visitedPacific); // first column
+        bfs(0, i, visitedPacific);
     }
-    for (let j = 0; j < n; j++) { 
-        bfs([0, j], visitedPacific); // top row
+    // visit Pacific first column
+    for (let i = 0; i < n; i++) {
+        bfs(i, 0, visitedPacific);
     }
-    console.log(visitedPacific);
-
-    // Atlantic water flow
+    // visit Atlantic bottom row
     for (let i = 0; i < m; i++) {
-        bfs([i, n - 1], visitedAtlantic); // last column
+        bfs(n - 1, i, visitedAtlantic);
     }
-    for (let j = 0; j < n; j++) {
-        bfs([m - 1, j], visitedAtlantic); // bottom row
+    // visit Atlantic last column
+    for (let i = 0; i < n; i++) {
+        bfs(i, m - 1, visitedAtlantic);
     }
-    console.log(visitedAtlantic);
 
-    // Step 3: Form results
+    // Step 3: Determine two matrices overlap
     const results = [];
-    for (let i = 0; i < m; i++) {
-        for (let j = 0; j < n; j++) {
-            if (
-                visitedPacific[i][j] && // waters flows to both
-                visitedAtlantic[i][j]   // Pacific and Atlantic
-            ) {
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < m; j++) {
+            if (visitedPacific[i][j] && visitedAtlantic[i][j]) { // water can flow to both oceans
                 results.push([i, j]);
             }
         }

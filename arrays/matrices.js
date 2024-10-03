@@ -70,11 +70,6 @@ class Matrix {
         console.log(result);
         return result;
     }
-
-    /*
-      Capture Surrounded Regions in a Matrix
-      A surrounded region is captured by replacing all 'O's with 'X's in the input matrix board.
-    */
 }
 
 
