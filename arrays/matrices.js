@@ -89,3 +89,66 @@ console.log("display matrix");
 matrix.displayMatrix();
 console.log("spiral traversal");
 matrix.spiralTraversal();
+
+/**
+ * Flood Fill
+ * Your task is to perform a flood fill on the image starting from the pixel image[sr][sc].
+ * Change the colors of any neighboring pixels that share the same color as the original pixel.
+ * A neighboring pixel is connected adjacently, including to one with changed color.
+ * 
+ * Approach:
+ * - use a direction helper function to visit and color the adjacent pixels
+ * - use a visited matrix to avoid infinite loops
+ * 
+ * @param {number[][]} image
+ * @param {number} sr
+ * @param {number} sc
+ * @param {number} color
+ * @return {number[][]}
+ */
+var floodFill = function(image, sr, sc, color) {
+    const n = image.length;
+    const m = image[0].length
+    // create visited array
+    const visited = Array.from({ length: n }).map(() => Array(m).fill(false));
+
+    const directions = [
+        [-1, 0], // up
+        [1, 0], // down
+        [0, -1], // left
+        [0, 1] // right
+    ];
+
+    const orCol = image[sr][sc]; // original color
+
+    const visiter = (i, j) => {
+        visited[i][j] = true;
+        image[i][j] = color;
+
+        // visit adjacent pixels
+        for (const dir of directions) {
+            let dx = dir[0];
+            let dy = dir[1];
+            let x = i + dx;
+            let y = j + dy;
+            if (
+                x >=0 && x < n && 
+                y >= 0 && y < m &&
+                !visited[x][y] &&
+                image[x][y] == orCol
+            ) {
+                visiter(x, y);
+            }
+        }
+    }
+    
+    visiter(sr, sc);
+
+    return image;
+};
+
+// Flood Fill Driver Code
+console.log("\n1. Flood Fill Image");
+const image = [[1,1,1],[1,1,0],[1,0,1]];
+console.log("original image: ", image);
+console.log("flooded image: ", floodFill(image, 1, 1, 2))
