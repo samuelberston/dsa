@@ -44,6 +44,7 @@ class WeightedGraph {
         }
     }
 
+    // ISSUE: update this to check for parent node, might always be returning true
     // detect cycle in a connected undirected graph using BFS
     isCyclicBFS() {
         const queue = [0];
