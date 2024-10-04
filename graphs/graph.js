@@ -9,7 +9,7 @@ class AdjacencyMatrix {
     matrix; // VxV matric representing undirected edges in the graph
     constructor(V) {
         this.matrix = Array.from({ length: V }, () => Array(V).fill(0));
-    }
+    } 
     addEdge(i, j) {
         this.matrix[i][j] = 1; // graph is
         this.matrix[j][i] = 1; // undirected
