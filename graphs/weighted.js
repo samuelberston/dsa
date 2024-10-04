@@ -7,75 +7,71 @@
  */
 
 class WeightedGraph {
+    v;
     list;
-    visited;
-    constructor(V) {
-        this.list = Array(V).fill(null).map(() => []);
+    constructor(v) {
+        this.v = v;
+        this.list = [];
     }
 
     // add edge to undirected graph
-    addEdge(n1, n2, weight) {
-        this.list[n1].push({
-            node: n2,
-            weight: weight
-        });
-        this.list[n2].push({
-            node: n1,
-            weight: weight
-        });
+    addEdge(src, dest, weight) {
+        this.list.push([src, dest, weight]);
+        // check if increased v
+        if (this.list.length > this.v) {
+            this.v++;
+        }
     }
 
     // display graph
     displayGraph() {
-        for (let i = 0; i < this.list.length; i++) {
-            let edges = this.list[i].map(edge => `${edge.node} (weight: ${edge.weight})`).join(", ");
-            if (edges) {
-                console.log(`${i}: ${edges}`);
-            } else {
-                console.log(`${i}: None`);
-            }
+        console.log("\nsrc| dest| weight")
+        for (const edge of this.list) {
+            console.log(`\n${edge.join("  |  ")}`);
         }
     }
 
-    // add a new vertex to the graph - increase graph size
-    addVertex(n = 1) {
-        for (let i = 0; i < n; i++) {
-            this.list.push([]);
-        }
-    }
+    // detect cycle in a connected undirected graph using Union Find
+    isCyclic() {
+        // Step 1: Initialize Union Find
+        const uf = new UnionFind(this.v);
 
-    // ISSUE: update this to check for parent node, might always be returning true
-    // detect cycle in a connected undirected graph using BFS
-    isCyclicBFS() {
-        const queue = [0];
-        const visited = Array(this.V).fill(false);
-        while(queue.length) {
-            const node = queue.shift();
-            if (visited[node]) {
-                console.log("Graph contains a cycle")
-                return true; // detected cycle
+        // Step 2: Check if two vertices share a root
+        for (const [u, v, weight] of this.list) {
+            let rootU = uf.find(u);
+            let rootV = uf.find(v);
+            if (rootU == rootV) { // if vertices share a root
+                return true; // a cycle exists
             }
-            visited[node] = true;
-            // enqueue adjacent nodes
-            if (this.list[node]) {
-                for (const neighbor of this.list[node]) {
-                    queue.push(neighbor);
-                }
-            }
+            uf.union(u, v); // union the disjoint sets
         }
-        console.log("Graph does not contain a cycle");
-        return false;
+
+        // no cycle found
+        return false
     }
 
 
     // minimum spanning tree
     // A minimum spanning tree (MST) is defined as a spanning tree that 
     // has the minimum weight among all the possible spanning trees.
-    minSpanningTree() {
-        // Kruskal's algorithm
-        // first, sort edges by weight
-        // then, iteratively find spanning tree, adding lowest weights w/o forming a cycle
+    kruskalMST() {
+        // Step 1: sort edges by weight
+        const sorted = this.list.sort((a, b) => a[2] - b[2]);
+        
+        // Step 2: Initialize Union-Find
+        const uf = new UnionFind(this.v);
+        const mst = [];
+        let mstWeight = 0;
 
+        // Step 3: Process edges in increasing order
+        for (const [u, v, weight] of sorted) {
+            if (uf.find(u) !== uf.find(v)) {
+                uf.union(u, v);
+                mst.push([u, v, weight]);
+                mstWeight += weight;
+            }
+        }
+        return {mst, mstWeight}
     }
 
     /*
@@ -83,7 +79,43 @@ class WeightedGraph {
     */
 }
 
-// driver code - weighted graph
+/**
+ * Disjoint Set Union Find
+ */
+class UnionFind {
+    parent;
+    rank;
+    constructor(V) {
+        this.parent = Array(V).fill(null).map((_, i) => i);
+        this.rank = Array(V).fill(0);
+    }
+
+    find(x) {
+        if (!this.parent[x] == x) {
+            this.parent[x] = this.find(this.parent[x]); // Path compression, each node points to root
+        }
+        return this.parent[x]
+    }
+
+    union(x, y) {
+        const rootX = this.find(x);
+        const rootY = this.find(y);
+
+        if (rootX !== rootY) {
+            // Union by rank to keep the tree balanced
+            if (this.rank[rootX] > this.rank[rootY]) {
+                this.parent[rootY] = rootX;
+            } else if (this.rank[rootX] < this.rank[rootY]) {
+                this.parent[rootX] = rootY;
+            } else {
+                this.parent[rootY] = rootX;
+                this.rank[rootX]++;
+            }
+        }
+    }
+}
+
+// Weighted Graph driver coxced
 console.log("\nWeighted Graph");
 console.log("----------------")
 const weightedGraph = new WeightedGraph(5);
@@ -96,4 +128,6 @@ weightedGraph.addEdge(4, 0, 2);
 console.log("\n1. Display undirected weighted graph ");
 weightedGraph.displayGraph();
 console.log("\n1. Detect cycle in undirected graph: ")
-weightedGraph.isCyclicBFS();
+console.log(weightedGraph.isCyclic());
+console.log("\n2. Minimum Spanning Tree - Kruskal's Algorithm")
+console.log(weightedGraph.kruskalMST());
