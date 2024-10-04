@@ -123,3 +123,6 @@ minHeap.insert(5);
 minHeap.insert(30);
 minHeap.insert(2);
 console.log("Peak without extracting min: ", minHeap.peak());
+
+
+export default MinHeap;
