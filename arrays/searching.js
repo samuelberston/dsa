@@ -58,3 +58,26 @@ var mySqrt = function(x) {
     }
     return left - 1; // return the last integer that satisfies the condition
 };
+
+/**
+ *      Search Insert Position
+ * Given a sorted array and a target number, return either the 
+ * index of the numnber or the index where it should be inserted
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
+var searchInsert = function(nums, target) {
+    let left = 0;
+    let right = nums.length;
+    while (left < right) {
+        let mid = Math.floor((left + right) / 2);
+        // check if mid is less than target
+        if (nums[mid] < target) {
+            left = mid + 1;
+        } else {
+            right = mid;
+        }
+    }
+    return left;
+};
