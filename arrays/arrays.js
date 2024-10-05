@@ -364,9 +364,36 @@ console.log("Calculating volume for elevation map 1: ", trappingRainWater(eleMap
 const eleMap2 = [1, 0, 2, 4, 3, 6, 2, 3, 0];
 console.log("Calculating volume for elevation map 2: ", trappingRainWater(eleMap2) == 3);
 
-/*
-  Koko eating bananas
-*/
+/**
+ *      Koko eating bananas
+ * return the minimum rate needed for koko to consume the bananas in piles in h hours
+ * @param {number[]} piles
+ * @param {number} h
+ * @return {number}
+ */
+var kokoEatingBananas = function(piles, h) {
+    let left = 1;
+    let right = Math.max(...piles);
+
+    // calculate rate feasibility
+    const feasible = (rate) => {
+        return piles.reduce((a, b) =>  a + Math.floor((b - 1) / rate) + 1, 0) <= h;
+    };
+
+    while (left < right) {
+        let mid = left + Math.floor((right - left) / 2);
+        // check if rate is feasible
+        if (feasible(mid)) {
+            right = mid;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return left;
+};
+
+console.log("\nKoko Eating Bananas");
+console.log(kokoEatingBananas([30,11,23,4,20], 6));
 
 /*
   Minimum number of coins to be added
