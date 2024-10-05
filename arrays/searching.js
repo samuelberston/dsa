@@ -34,3 +34,27 @@ var solution = function(isBadVersion) {
         return left;   
     };
 };
+
+/**
+ *         Sqrt(x)
+ * Compute the squareroot of X without using any built in functions.
+ * @param {number} x
+ * @return {number}
+ */
+var mySqrt = function(x) {
+    if (x <= 1) { return x; }     // edge case: sqrt of 0 or 1
+
+    let left = 0;
+    let right = x;
+
+    while (left < right) {
+        let mid = Math.floor((left + right) / 2);
+        
+        if (mid * mid <= x) {        // check if mid-squared satisfies condition
+            left = mid + 1;
+        } else {
+            right = mid;
+        }
+    }
+    return left - 1; // return the last integer that satisfies the condition
+};
