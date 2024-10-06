@@ -395,9 +395,34 @@ var kokoEatingBananas = function(piles, h) {
 console.log("\nKoko Eating Bananas");
 console.log(kokoEatingBananas([30,11,23,4,20], 6));
 
-/*
-  Minimum number of coins to be added
-*/
+/**
+ * Minimum number of coins to be added
+ * @param {number[]} coins
+ * @param {number} target
+ * @return {number}
+ */
+var minimumAddedCoins = function(coins, target) {
+    coins.sort((a, b) => a - b );
+    let sum = 0; // current max
+    let n = 0; // additional coins
+    let i = 0; // index
+
+    while (sum < target) {
+        if (i < coins.length && coins[i] <= sum + 1) {
+            sum += coins[i];
+            i++;
+        } else {
+            sum += sum + 1; // val of coin to be added is sum + 1
+            n++; // a coin needs to be added
+        }
+    }
+    return n; 
+};
+
+console.log("\nMinimum Number of Coins to be Added");
+console.log(minimumAddedCoins([1,4,10,5,7,19], 19));
+console.log(minimumAddedCoins([1,4,10], 19));
+console.log(minimumAddedCoins([1,1,1], 20));
 
 /*
   Median of Two Sorted Arrays
