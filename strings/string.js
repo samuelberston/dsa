@@ -58,10 +58,6 @@ const n = 4;
 console.log(zigZag(string, n));
 
 /**
- *      Minimum Penalty for a Shop
- */
-
-/**
  *      Permutation in String
  * 
  *      Approach: use maps to represent char frequency. Use sliding window approach to traverse substring 2
@@ -135,4 +131,15 @@ var checkInclusion = function(s1, s2) {
     return false; // exhausted search space and did not find permutation
 };
 
+// Permutation in String driver code
+const string1 = "abb";
+const string2 = "uajbabi";
+console.log("\n2. Permutations in String");
+console.log(checkInclusion(string1, string2));
+console.log(checkInclusion(string1, "abcbacb"));
 
+
+
+/**
+ *      Minimum Penalty for a Shop
+ */
