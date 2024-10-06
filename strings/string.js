@@ -57,14 +57,82 @@ const string = "philomendralove";
 const n = 4;
 console.log(zigZag(string, n));
 
-
-
 /**
  *      Minimum Penalty for a Shop
  */
 
 /**
  *      Permutation in String
+ * 
+ *      Approach: use maps to represent char frequency. Use sliding window approach to traverse substring 2
  */
+var checkInclusion = function(s1, s2) {
+    // edge cases: 
+    // if s1 is longer than s2, return false
+    if (s1.length > s2.length) { return false; }
+    // if s1 is one character, return s2.indexOf(s1) !== -1
+    if (s1.length == 1) { return s2.indexOf(s1) !== -1; }
+
+    // Step 1: create char frequency map generation function, apply to s1
+    const getCharFreq = (string) => {
+        const map = {}
+        for (const char of string) {
+            if (!map[char]) {
+                map[char] = 1;
+            } else {
+                map[char]++;
+            }
+        }
+        return map;
+    };
+    const map1 = getCharFreq(s1);
+
+    // Step 2: create check permutation function, comparing two maps
+    const checkPermutation = (map1, map2) => {
+        for (const char of Object.keys(map1)) {
+            if (map1[char] != map2[char]) { // check chars have the same frequency
+                return false;
+            }
+        }
+        return true; // all char frequencies match
+    };
+
+    // Step 3: traverse s2 using a two-pointer sliding window
+    let p1 = 0;
+    let p2 = s1.length - 1;
+
+    let p2substring = s2.slice(p1, p2 + 1); // get p2 starting substring
+    let map2 = getCharFreq(p2substring); // create map of char freq of starting p2
+
+    while (p2 < s2.length && p2 - p1 == s1.length - 1) {
+        // check map equality
+        if (checkPermutation(map1, map2)) {
+            return true;
+        }
+
+        // move sliding window
+        p1++;
+        p2++;
+
+        // update map
+        // add next char
+        if (!map2[s2[p2]]) {
+            map2[s2[p2]] = 1;
+        } else {
+            map2[s2[p2]]++;
+        }
+
+
+        // remove last first char
+        if (map2[s2[p1 - 1]] == 1) {
+            map2[s2[p1 - 1]] = null; // remove char
+        } else {
+            map2[s2[p1 - 1]] = map2[s2[p1 - 1]] - 1; // decrement char frequency
+        }
+    }
+
+
+    return false; // exhausted search space and did not find permutation
+};
 
 
