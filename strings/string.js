@@ -220,3 +220,51 @@ const longestSubstring = (s) => {
 console.log("\n4. Longest Substring Without Repeating Characters");
 console.log(longestSubstring("abcdaeba")); // 5
 console.log(longestSubstring("abcdtghyu")); // 9
+
+/**
+ *      string to integer (atoi)
+ */
+var myAtoi = function(s) {
+    // remove white space
+    let s1 = s.replaceAll(" ", "");
+
+    // check negative
+    let sign = 1; // default positive
+    if (s1[0] == "-") {
+        sign = -1;
+        s1 = s1.slice(1);
+    } else if (s1[0] == '+') {
+        s1.slice(1);
+    }
+
+    // process remaining string
+    let res = 0;
+    for (let i = 0; i < s1.length; i++) {
+        if (isNaN(parseInt(s1[i]))) { // check for NaN
+            return sign * res; // return current value and end processing
+        }
+        // check overflow/underflow conditions
+        if (res > Math.floor(Number.MAX_SAFE_INTEGER / 10)) {
+            return sign == 1 ? Number.MAX_SAFE_INTEGER : Number.MIN_SAFE_INTEGER;
+        }
+        // add digit to result
+        res *= 10;
+        res += parseInt(s1[i]); 
+    }
+
+    return sign * res;
+};
+
+// atio driver code
+console.log("\n4. Atoi");
+console.log(myAtoi("   -402foo")); // -402
+console.log(myAtoi("42")); // 42
+console.log(myAtoi("weeping42")); // 0
+
+
+/**
+ * To do:
+ * regulat expression matching
+ * edit distance
+ * string compression
+ */
