@@ -190,3 +190,33 @@ console.log("\n3. Max Vowels in Substring of Length K");
 console.log(maxVowels("babadoobee", 5)); // 4
 console.log(maxVowels("babadoobee", 4)); // 3
 console.log(maxVowels("babadoobee", 2)); // 2
+
+/**
+ *      Longest Substring Without Repeating Characters
+ */
+const longestSubstring = (s) => {
+    // edge case: string has zero or one character
+    if (s.length == 0 || s.length == 1) {
+        return s.length;
+    }
+    let max = 1;
+    let substr = s[0];
+
+    for (let i = 1; i < s.length; i++) {
+        // check is substring contains duplicates
+        if (!substr.includes(s[i])) {
+            // concatenate the new char to the subtr
+            substr = substr.concat(s[i])
+            max = Math.max(max, substr.length)
+        } else if (substr.length > 1) {
+            substr = substr.slice(substr.indexOf(s[i]) + 1)
+            substr = substr.concat(s[i])
+        }
+    }
+    return max;
+};   
+
+// Longest substring without repeating characters - driver code
+console.log("\n4. Longest Substring Without Repeating Characters");
+console.log(longestSubstring("abcdaeba")); // 5
+console.log(longestSubstring("abcdtghyu")); // 9
