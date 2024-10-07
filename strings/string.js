@@ -118,7 +118,6 @@ var checkInclusion = function(s1, s2) {
             map2[s2[p2]]++;
         }
 
-
         // remove last first char
         if (map2[s2[p1 - 1]] == 1) {
             map2[s2[p1 - 1]] = null; // remove char
@@ -127,7 +126,6 @@ var checkInclusion = function(s1, s2) {
         }
     }
 
-
     return false; // exhausted search space and did not find permutation
 };
 
@@ -135,11 +133,60 @@ var checkInclusion = function(s1, s2) {
 const string1 = "abb";
 const string2 = "uajbabi";
 console.log("\n2. Permutations in String");
-console.log(checkInclusion(string1, string2));
-console.log(checkInclusion(string1, "abcbacb"));
-
-
+console.log(checkInclusion(string1, string2)); // true
+console.log(checkInclusion(string1, "abcbacb")); // false
 
 /**
  *      Minimum Penalty for a Shop
  */
+
+/**
+ *      Maximum number of vowels for substring of given length
+ * Given a string and a given length k, calculate the max number of vowels for substring of length k 
+ */
+const maxVowels = (s, k) => {
+    // Step 1: get initial vowel count
+    const vowels = {
+        "a": true,
+        "e": true,
+        "i": true,
+        "o": true,
+        "u": true
+    };
+    let currCount = 0;
+
+    for (let i = 0; i < k; i++) {
+        if (vowels[s[i]]) {
+            currCount++;
+        }
+    }
+
+    // Step 2: use two pointers to traverse s with a window of length k. Check for new/lost vowels and track vowel count
+    let p1 = 0;
+    let p2 = k - 1;
+    let maxCount = currCount;
+    while (p2 < s.length) { // within bounds of input string
+        // update pointers and check if gaining/losing a vowel
+        p1++;
+        p2++;
+        if (vowels[s[p1 - 1]]) { // lost a vowel
+            currCount--;
+        }
+        if (vowels[s[p2]]) { // gained a vowel
+            currCount++;
+        }
+        // check for max count
+        if (currCount > maxCount) {
+            maxCount = currCount;
+        }
+    }
+    
+    // Step 3: return max vowel count
+    return maxCount;
+};
+
+// Max Vowels in substring of given length - driver code
+console.log("\n3. Max Vowels in Substring of Length K");
+console.log(maxVowels("babadoobee", 5)); // 4
+console.log(maxVowels("babadoobee", 4)); // 3
+console.log(maxVowels("babadoobee", 2)); // 2
