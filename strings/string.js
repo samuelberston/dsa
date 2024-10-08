@@ -1,6 +1,8 @@
 /**
  *      String algorithm problems
  * 1. Zig Zag Pattern
+ * 2. Permutation in String
+ * 3. Maximum Vowels in Substring
  */
 
 
@@ -71,7 +73,7 @@ var checkInclusion = function(s1, s2) {
 
     // Step 1: create char frequency map generation function, apply to s1
     const getCharFreq = (string) => {
-        const map = {}
+        const map = {};
         for (const char of string) {
             if (!map[char]) {
                 map[char] = 1;
@@ -260,8 +262,8 @@ console.log(myAtoi("weeping42")); // 0
 
 /**
  * To do:
- * regular expression matching
- * edit distance
- * string compression
- * minimum penalty for a shop
+ * - regular expression matching
+ * - edit distance
+ * - string compression
+ * - minimum penalty for a shop
  */
