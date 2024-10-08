@@ -47,7 +47,7 @@ console.log(cloneGraph(adjList));
 /**
  * 2. Course Schedule I
  * There are total numCourses to take.
- * Given and array of prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
+ * Given an array of prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
  * Return true if you can finish all courses, otherwise false.
  * @param {number} numCourses
  * @param {number[][]} prerequisites
