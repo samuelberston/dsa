@@ -137,10 +137,6 @@ console.log(checkInclusion(string1, string2)); // true
 console.log(checkInclusion(string1, "abcbacb")); // false
 
 /**
- *      Minimum Penalty for a Shop
- */
-
-/**
  *      Maximum number of vowels for substring of given length
  * Given a string and a given length k, calculate the max number of vowels for substring of length k 
  */
@@ -264,7 +260,8 @@ console.log(myAtoi("weeping42")); // 0
 
 /**
  * To do:
- * regulat expression matching
+ * regular expression matching
  * edit distance
  * string compression
+ * minimum penalty for a shop
  */
