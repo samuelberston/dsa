@@ -64,10 +64,36 @@ class Intervals {
         return results;
     }
 
-    /*
-      Minimum Number of Arrows to Burst Balloons
-      given a set of intervals, return the minimum points which is contained by them
-    */
+    /**
+     *      Minimum Number of Arrows to Burst Balloons
+     * given a set of intervals, return the minimum points which is contained by them
+     * 
+     * @param {number[][]} points
+     * @return {number}
+     */
+    minArrows(points = this.intervals) {
+        // Step 1: sort points
+        points = points.sort((a, b) => a[0] - b[0]);
+
+        // Step 2: iterate points, count disjoint sets of points that overlap
+        let sets = 0;
+        let curr = points[0];
+        for (let i = 1; i < points.length; i++) {
+            // find overlap with current point
+            if (curr[1] >= points[i][0]) { // curr end overlaps next start
+                if (curr[1] >= points[i][1]) { // curr end overlaps next end
+                    curr = points[i][1]; 
+                } else { // curr end less than next end
+                    curr = [curr[1], points[i][0]];
+                }
+            } else {
+                sets++; // pop baloon
+                curr = points[i];
+            }
+        }
+        console.log(sets);
+        return sets;
+    }
 }
 
 // Intervals driver code
@@ -79,3 +105,5 @@ console.log("display intervals");
 intervals.displayIntervals();
 console.log("merge intervals");
 intervals.mergeIntervals();
+console.log("min arrows to burst balloons");
+intervals.minArrows();
