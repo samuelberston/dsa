@@ -90,41 +90,87 @@ console.log("get 4", cache.get(4)); // 44
 /**
  *      2. Expiry Cache
  * 
- * No capacity limit and instead evicts node based on expiry date
+ * Evicts node based on expiry date
  */
-import MinHeap from "../trees/heap";
+import MinHeap from "../trees/heap.js";
 
 class ExpiryCache {
     constructor(capacity) {
+        this.capacity = capacity;
         this.cache = new Map();
-        this.heap = new MinHeap(Number.MAX_SAFE_INTEGER);
+        this.heap = new MinHeap(capacity);
+        this.ttl = new Map();
     }
 
-    add(key, value, ttl) { // ttl in seconds
+    add(key, val, ttl) { // ttl in seconds
         this.audit();
-        if (this.cache[key]) {
-            // deal with already exists
+        if (this.cache.size == this.capacity) { 
+            console.log("Cache has reached capacity, must wait for items to expire.");
+            return;
+        }
+        if (this.cache.has(key)) {
+            console.log(`Item with key ${key} already exists.`);
         } else {
-            let expiry = Date.now() + ttl;
-            this.cache[key] = value;
-            this.heap.insert({ expiry: key });
+            let expiry = Date.now() + ttl * 1000;
+            this.cache.set(key, val);
+            this.heap.insert(expiry);
+            this.ttl.set(expiry, key);
         }
     }
 
     get(key) {
         this.audit();
-        if (!this.cache[key]) {
+        if (!this.cache.has(key)) {
             return -1;
         }
-        return this.cache[key];
+        return this.cache.get(key);
     }
 
     // remove expired items from cache
     audit() {
+        console.log("audit");
+        console.log("cache: ", this.cache);
         let minExpiry = this.heap.peak();
-        while (minExpiry < Date.now()) {
+        console.log(minExpiry);
+        while (minExpiry && minExpiry < Date.now()) {
+            console.log("delete");
             let extracted = this.heap.extractMin();
-            this.cache.delete(extracted)
+            console.log("extracted", extracted);
+            let key = this.ttl.get(extracted);
+            console.log("key: ", key);
+            this.cache.delete(key);
+            console.log(this.cache);
+            this.ttl.delete(extracted);
+            minExpiry = this.heap.peak();
         }
     }
 }
+
+// Expiry Cache driver code
+console.log("\nExpiry Cache");
+
+// TEST 1
+console.log("TEST 1");
+const expiryCache = new ExpiryCache(100);
+expiryCache.add(1, 1, 5); // lives for 5 seconds
+expiryCache.add(2, 2, 1);
+expiryCache.add(3, 3, 1);
+console.log("get 1", expiryCache.get(1)); // 1
+
+// wait five seconds
+function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+async function example1() {
+    await sleep(1000);
+    console.log("now: ", Date.now());
+    expiryCache.audit();
+}
+example1();
+async function example2() {
+    await sleep(2000);
+    console.log("get 3", expiryCache.get(3)); // 1
+}
+example2();
+
+
