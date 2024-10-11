@@ -76,23 +76,17 @@ class Intervals {
         points = points.sort((a, b) => a[0] - b[0]);
 
         // Step 2: iterate points, count disjoint sets of points that overlap
-        let sets = 0;
-        let curr = points[0];
+        let arrows = 1;
+        let end = points[0][1];
         for (let i = 1; i < points.length; i++) {
             // find overlap with current point
-            if (curr[1] >= points[i][0]) { // curr end overlaps next start
-                if (curr[1] >= points[i][1]) { // curr end overlaps next end
-                    curr = points[i][1]; 
-                } else { // curr end less than next end
-                    curr = [curr[1], points[i][0]];
-                }
-            } else {
-                sets++; // pop baloon
-                curr = points[i];
+            if (points[i][0] > end) { // curr end overlaps next start
+                arrows++;
+                end = points[i][1];
             }
         }
-        console.log(sets);
-        return sets;
+        console.log(arrows);
+        return arrows;
     }
 }
 
