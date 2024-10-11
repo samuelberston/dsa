@@ -68,18 +68,20 @@ const mergeSort = (array, left, right) => {
 // mergesort driver code
 console.log("\n1. Merge Sort");
 
+// TEST 1
+console.log("\nTest Case 1: ");
 const arr1 = [6, 3, 8, 4, 10, 33, 22];
 mergeSort(arr1, 0, arr1.length - 1);
-console.log("\nTest Case 1: ");
 if (JSON.stringify(arr1) === JSON.stringify([3,  4,  6, 8, 10, 22, 33])) {
     console.log("SUCCESS");
 } else {
     console.error("FAILED");
 }
 
+// TEST 2
+console.log("\nTest Case 2: ");
 const arr2 = [5, 8, 3, 500, 9, 43, 142];
 mergeSort(arr2, 0, arr2.length - 1);
-console.log("\nTest Case 2: ");
 if (JSON.stringify(arr2) === JSON.stringify([3, 5, 8, 9, 43, 142, 500])) {
     console.log("SUCCESS");
 } else {
