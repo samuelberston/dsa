@@ -1,0 +1,20 @@
+{
+  "name": "dsa",
+  "version": "1.0.0",
+  "description": "Data Structures and Algorithms",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samuelberston/dsa.git"
+  },
+  "author": "Samuel Berston",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/samuelberston/dsa/issues"
+  },
+  "homepage": "https://github.com/samuelberston/dsa#readme",
+  "type": "module"
+}
