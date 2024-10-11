@@ -26,7 +26,7 @@ class LRUcache {
     constructor(capacity) {
         this.capacity = capacity;
         this.cache = new Map();
-        this.head = new Node(-1, -1);
+        this.head = new Node(-1, -1); 
         this.tail = new Node(-1, -1);
         this.head.next = this.tail;
         this.tail.prev = this.head;
