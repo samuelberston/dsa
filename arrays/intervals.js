@@ -73,7 +73,7 @@ class Intervals {
      */
     minArrows(points = this.intervals) {
         // Step 1: sort points
-        points = points.sort((a, b) => a[0] - b[0]);
+        points = points.sort((a, b) => a[1] - b[1]);
 
         // Step 2: iterate points, count disjoint sets of points that overlap
         let arrows = 1;
