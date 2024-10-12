@@ -259,6 +259,63 @@ console.log(myAtoi("   -402foo")); // -402
 console.log(myAtoi("42")); // 42
 console.log(myAtoi("weeping42")); // 0
 
+/**
+ *      Group Anagrams
+
+  Brute force: thrice nested loop, for each string, check if other strings are equal by iterating through each char 
+  TC: O(n * n * m)
+
+  Optimized: Hash map optimization: convert each string to hashmap character frequency representation to identify equality in O(1) time. Use a hashmap with the stringified object representation as the key to store anagram groups. Iterate through the strs array once.
+  TC: O (n * m) 
+
+ * @param {string[]} strs
+ * @return {string[][]}
+ */
+  var groupAnagrams = function(strs) {
+    // Step 1: get anagrams by sorting string chars
+    const anagrams = {};
+    for (const str of strs) {
+        const sorted = str.split("").sort().join("");
+        if (anagrams[sorted]) {
+            anagrams[sorted].push(str);
+        } else {
+            anagrams[sorted] = [str];
+        }
+    }
+
+    return Object.values(anagrams);
+}
+
+// Group Anagrams driver code
+console.log("\n5. Group Anagrams");
+
+process.stdout.write("TEST CASE 1: ");
+const grams1 = ["eat","tea","tan","ate","nat","bat"];
+const result1 = groupAnagrams(grams1);
+if (JSON.stringify(result1) === JSON.stringify([["eat","tea","ate"],["tan","nat"],["bat"]])) {
+    console.log("SUCCESS");
+} else {
+    console.error("FAILURE");
+}
+
+process.stdout.write("TEST CASE 2: ");
+const grams2 = [""];
+const result2 = groupAnagrams(grams2);
+if (JSON.stringify(result2) === JSON.stringify([['']])) {
+    console.log("SUCCESS");
+} else {
+ 
+    console.error("FAILURE");
+}
+
+process.stdout.write("TEST CASE 3: ");
+const grams3 = ["a"];
+const result3 = groupAnagrams(grams3);
+if (JSON.stringify(result3) === JSON.stringify([["a"]])) {
+    console.log("SUCCESS");
+} else {
+    console.error("FAILURE");
+}
 
 /**
  * To do:
