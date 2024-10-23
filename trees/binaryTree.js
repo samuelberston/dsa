@@ -304,6 +304,9 @@ console.log(LCA); // should be 6
  *      Approach: get the middle element, which will be the root node val. Split the array to the left and right.
  *                recursively build the subtrees using the same approach.
  * 
+ *      Time Complexity: O(N)
+ *      Space Complexity: O(log N) - recursion stack space bc tree is height balanced
+ * 
  * @param {number[]} array
  * @return {Node}
  */
