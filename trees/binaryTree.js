@@ -344,8 +344,6 @@ function inorder1(root) {
 }
 inorder1(res1);
 
-import { deepEqual } from 'assert';
-
 if (JSON.stringify(inOrder1) === JSON.stringify(arr1)) {
     console.log("SUCCESS");
 } else {
