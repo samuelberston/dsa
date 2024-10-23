@@ -79,10 +79,10 @@ const serializedString = serialize(binaryTree)
 console.log(serializedString);
 
 // modify the globally-scoped serializedString through the execution of the recursive function
-treeString = serializedString;
+let treeString = serializedString;
 function deserialize() {
     // at each recursion, take the first character from the string
-    data = treeString.charAt(0);
+    let data = treeString.charAt(0);
     treeString = treeString.slice(1);
     if (data == "#") {
         return null;
@@ -180,7 +180,7 @@ subtree.right = new Node('heyy');
 subtree.left.left = new Node('Frick!');
 subtree.left.right = new Node('foo');
 
-actualSubtree = new Node(2);
+let actualSubtree = new Node(2);
 actualSubtree.left = new Node(1);
 actualSubtree.right = new Node(3);
 actualSubtree.left.right = new Node(6);
@@ -253,7 +253,7 @@ function bfs(root) {
 }
 
 // BFS driver code
-serializedBFS = bfs(binaryTree);
+let serializedBFS = bfs(binaryTree);
 console.log(serializedBFS);
 
 // find lowest common amcestor of two nodes in a BST
@@ -283,7 +283,7 @@ function findLCAofBST(root, n1, n2) {
 }
 
 // driver code
-binarySearchTree = new Node(4);
+const binarySearchTree = new Node(4);
 binarySearchTree.left = new Node(2);
 binarySearchTree.left.left = new Node(1);
 binarySearchTree.left.right = new Node(3);
@@ -292,6 +292,59 @@ binarySearchTree.right.left = new Node(5);
 binarySearchTree.right.right = new Node(7);
 
 // the LCA of nodes 5 and 7 is 6
-LCA = findLCAofBST(binarySearchTree, 5, 7);
+const LCA = findLCAofBST(binarySearchTree, 5, 7);
 console.log(LCA); // should be 6
 
+/**
+ *      Convert Sorted Array to Binary Search Tree
+ * 
+ *      Given an integer array nums where the elements are sorted in ascending order, convert it to a 
+ *      height-balanced binary search tree.
+ * 
+ *      Approach: get the middle element, which will be the root node val. Split the array to the left and right.
+ *                recursively build the subtrees using the same approach.
+ * 
+ * @param {number[]} array
+ * @return {Node}
+ */
+
+const arrayToBST = (array) => {
+
+    const inner = (left, right) => {
+        // base case
+        if (left > right) { return null; }
+
+        let p = Math.floor(left + (right - left) / 2);
+
+        const root = new Node(array[p]);
+        root.left = inner(left, p - 1);
+        root.right = inner(p+1, right);
+        return root;
+    };
+
+    return inner(0, array.length - 1);
+};
+
+// Sorted Array to BST driver code
+console.log("Sorted Array to BST");
+const arr1 = [-10, -3, 0, 1, 5, 10];
+const res1 = arrayToBST(arr1);
+console.log("TEST CASE 1"); // use in order traversal to check tree is BST
+
+const inOrder1 = [];
+function inorder1(root) {
+    // base case: nothing to print
+    if (!root) { return; }
+    inorder1(root.left);
+    inOrder1.push(root.data);
+    inorder1(root.right);
+}
+inorder1(res1);
+
+import { deepEqual } from 'assert';
+
+if (JSON.stringify(inOrder1) === JSON.stringify(arr1)) {
+    console.log("SUCCESS");
+} else {
+    console.error("FAILED");
+}
