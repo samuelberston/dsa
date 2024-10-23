@@ -317,6 +317,39 @@ if (JSON.stringify(result3) === JSON.stringify([["a"]])) {
     console.error("FAILURE");
 }
 
+// merge strings alertnately
+const mergeAlt = (word1, word2) => {
+    let m = word1.length;
+    let n = word2.length;
+    let res = "";
+    let i = 0;
+    let j = 0;
+    
+    while (i < m || j < n) {
+        if (i < m) {
+            res += word1[i];
+            i++;
+        }
+        if (j < n) {
+            res += word2[j];
+            j++;
+        }
+    }
+    return res;
+};
+
+console.log("Merge Strings Alternately");
+let str1 = "abcde";
+let str2 = "fghijklm";
+const mergedAlt = mergeAlt(str1, str2);
+
+console.log("Merge Strings Alternately");
+if (mergedAlt === "afbgchdiejklm") {
+    console.log("SUCCESS");
+} else {
+    console.error("FAILED");
+}
+
 /**
  * To do:
  * - regular expression matching
