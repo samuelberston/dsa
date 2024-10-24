@@ -61,7 +61,6 @@ inorder(binaryTree);
 flip(binaryTree);
 
 // serialize/deserialize tree to string and back
-
 let serializedTree = "";
 function serialize(root) {
     // preorder traversal
@@ -175,9 +174,9 @@ console.log(levelOrder(binaryTree));
 // check if tree is subtree of another tree
 
 let subtree = new Node('yay');
-subtree.left = new Node('ugh');
+subtree.left = new Node('huh?');
 subtree.right = new Node('heyy');
-subtree.left.left = new Node('Frick!');
+subtree.left.left = new Node('huzzah!');
 subtree.left.right = new Node('foo');
 
 let actualSubtree = new Node(2);
@@ -256,7 +255,7 @@ function bfs(root) {
 let serializedBFS = bfs(binaryTree);
 console.log(serializedBFS);
 
-// find lowest common amcestor of two nodes in a BST
+// find lowest common ancestor of two nodes in a BST
 // approach: in a BST, the left child node is smaller and the right child node is greater than the parent
 // so, the LCA is the first node that is in between the values of the two child nodes
 // recursively check if the current node is smaller or larger than the two nodes and move accordingly
@@ -310,7 +309,6 @@ console.log(LCA); // should be 6
  * @param {number[]} array
  * @return {Node}
  */
-
 const arrayToBST = (array) => {
 
     const inner = (left, right) => {
