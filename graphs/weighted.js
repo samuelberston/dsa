@@ -86,7 +86,7 @@ class UnionFind {
     parent;
     rank;
     constructor(V) {
-        this.parent = Array(V).fill(null).map((_, i) => i);
+        this.parent = Array.from({ length: V }, (_, i) => i);
         this.rank = Array(V).fill(0);
     }
 

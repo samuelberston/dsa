@@ -257,12 +257,12 @@ class directedAdjacencyList {
 
     // Function to detect cycle in a directed graph
     isCyclic() {
-        const visited = new Array(this.list.length).fill(false);
-        const recStack = new Array(this.list.length).fill(false);
+        const visited = new Array(this.V).fill(false);
+        const recStack = new Array(this.V).fill(false);
 
         // Call the recursive helper function to 
         // detect cycle in different DFS trees
-        for (let i = 0; i < this.list.length; i++) { // iterate each node in case there's a disconnected node
+        for (let i = 0; i < this.V; i++) { // iterate each node in case there's a disconnected node
             if (!visited[i] && 
                 this.isCyclicUtil(i, visited, recStack)) {
                 return true;
@@ -282,12 +282,9 @@ class directedAdjacencyList {
             }
         }
 
-        // After all vertices have been visited, pop elements from the stack and append them to the output list until the stack is empty.
-        const result = [];
-        while (stack.length) {
-            result.push(stack.pop());
-        }
-        console.log(`DFS topological sort: ${result.join(", ")}`);
+        // After all vertices have been visited, reverse elements from the stack
+        const result = stack.reverse().join(", ");
+        console.log(`DFS topological sort: ${stack.reverse().join(", ")}`);
         return result;
     }
 

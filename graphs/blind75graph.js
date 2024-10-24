@@ -9,6 +9,7 @@
     6. Alien dictionary
     7. Graph valid tree
     8. Connected Components
+
 */
 
 /**
@@ -19,7 +20,7 @@
 */
 const cloneGraph = (graph) => {
     const queue = []; // use bfs
-    const clone = Array.from({length: graph.length}).map(() => []);
+    const clone = Array.from({length: graph.length}, () => []);
     const visited = Array(graph.length).fill(false);
     // visit and enqueue first node
     queue.push(1); // start with one not zero because 1-indexed
@@ -40,8 +41,14 @@ const cloneGraph = (graph) => {
 
 // Clone Graph driver code
 const adjList = [[2,4],[1,3],[2,4],[1,3]];
-console.log("1. Create clone of graph: ", adjList);
-console.log(cloneGraph(adjList));
+console.log("\n1. Create clone of graph: ", adjList);
+const cloned = cloneGraph(adjList);
+process.stdout.write("TEST CASE 1: ");
+if (JSON.stringify(cloned) === JSON.stringify(adjList)) {
+    console.log('\x1b[32m%s\x1b[0m', "SUCCESS");
+} else {
+    console.error("FAILED");
+}
 
 
 /**
@@ -92,7 +99,7 @@ const courseSchedule = (n, pre) => { // approach: bfs detect cycle
 
 // driver code
 const numCourses1 = 2;
-const prerequisites1 = [[1 ,0], [2, 1], [3, 2]];
+const prerequisites1 = [[1, 0], [2, 1], [3, 2]];
 console.log("\n2. Course Schedule")
 console.log("Detects valid schedule: ", courseSchedule(numCourses1, prerequisites1));
 
@@ -102,9 +109,11 @@ console.log("Detects invalid schedule: ", !courseSchedule(numCourses2, prerequis
 
 /**
  * 3. Pacific Atlantic Water Flow
+ * 
  * Step 1: Create visited matrices for Pacific / Atlantic sides
  * Step 2: Use BFS to determine water flow from Pacific / Atlantic oceans
  * Step 3: Compare the two matrices to determine cells which flow to both oceans
+ * 
  * @param {number[][]} graph
  * @return {number[][]}
  */
@@ -114,8 +123,8 @@ const waterFlow = (graph) => {
     const n = graph.length; // # rows
     const m = graph[0].length; // # columns
 
-    const visitedPacific = Array.from({ length: n }).map(() => Array(m).fill(false));
-    const visitedAtlantic = Array.from({ length: n }).map(() => Array(m).fill(false));
+    const visitedPacific = Array.from({ length: n }, () => Array(m).fill(false));
+    const visitedAtlantic = Array.from({ length: n }, () => Array(m).fill(false));
     
     // Step 2: Use BFS to determine water flow for Pacific/Atlantic oceans
     const directions = [
@@ -132,7 +141,7 @@ const waterFlow = (graph) => {
      * @param {Boolean[][]} visited 
      */
     const bfs = (sr, sc, visited) => {
-        const queue = [[sr, sc]];
+        let queue = [[sr, sc]];
         visited[sr][sc] = true;
         while (queue.length) {
             const [i, j] = queue[0]; // for
