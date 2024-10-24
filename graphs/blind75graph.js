@@ -52,7 +52,7 @@ if (JSON.stringify(cloned) === JSON.stringify(adjList)) {
 
 
 /**
- * 2. Course Schedule I
+ *      2. Course Schedule I
  * There are total numCourses to take.
  * Given an array of prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
  * Return true if you can finish all courses, otherwise false.
@@ -108,7 +108,7 @@ const prerequisites2 = [[1,0],[0,1]];
 console.log("Detects invalid schedule: ", !courseSchedule(numCourses2, prerequisites2));
 
 /**
- * 3. Pacific Atlantic Water Flow
+ *      3. Pacific Atlantic Water Flow
  * 
  * Step 1: Create visited matrices for Pacific / Atlantic sides
  * Step 2: Use BFS to determine water flow from Pacific / Atlantic oceans
@@ -197,3 +197,7 @@ const waterFlow = (graph) => {
 console.log("\n3. Pacific Atlantic Water Flow");
 const heights = [[1,2,2,3,5],[3,2,3,4,4],[2,4,5,3,1],[6,7,1,4,5],[5,1,1,2,4]];
 console.log(waterFlow(heights));
+
+/**
+ *      5. Longest Consecutive Sequence
+ */
