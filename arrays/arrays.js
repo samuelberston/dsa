@@ -180,7 +180,7 @@ const bestTimeSellStock = (prices) => {
     let minPrice = prices[0];
     // iterate through prices
     for (let i = 1; i < prices.length; i++) {
-        currPrice = prices[i];
+        let currPrice = prices[i];
         if (currPrice < minPrice) { // current price is less than minimum
             minPrice = currPrice;
             continue;
@@ -329,7 +329,8 @@ console.log("Find min in rotated sorted array 2: ", findMinRotatedSortedArray(ro
 const trappingRainWater = (eleMap) => {
     const maxLeft = Array(eleMap.length);
     const maxRight = Array(eleMap.length);
-    let maxL = maxR = 0;
+    let maxL = 0;
+    let maxR = 0;
 
     // get max elevation left of i
     for (let i = 0; i < eleMap.length; i++) {
@@ -427,3 +428,63 @@ console.log(minimumAddedCoins([1,1,1], 20));
   Median of Two Sorted Arrays
   The overall run time complexity should be O(log (m+n))
 */
+
+/**
+ * 
+ *      Longest Consecutive Sequence
+ * 
+ *      Brute force: loops of iteration to determine longest consecutive sequence - O (N^2)
+ *      
+ *      Optimized approach: Sort the array. Iterate to find longest consecutive sequence.
+ * 
+ * @param {number[]} array
+ * @return {number}
+ */
+const lcs = (array) => {
+    // Step 1: Sort the array
+    array.sort((a, b) => a - b);
+
+    // Step 2: Find longest consecutive sequence
+    let max = 1;
+    let curr = 1;
+    let p = 0;
+    while (p < array.length - 1) {
+        // equal
+        if (array[p + 1] === array[p]) {
+            p++;
+            continue;
+        }
+        // consecutive
+        if (array[p + 1] === array[p] + 1) {
+            curr++;
+            if (curr > max) {
+                max = curr;
+            }
+            p++;
+        } else {        // not consecutive
+            curr = 1;   // reset curr
+            p++;
+        }
+    }
+    return max;
+};
+
+// LCS driver code
+console.log("\nLongest Consecutive Sequence");
+process.stdout.write("\nTEST CASE 1: ");
+let seq1 = [1, 400, 3, 32, 2, 13, 4];
+let longest1 = lcs(seq1);
+if (longest1 === 4) {
+    console.log("SUCCESS");
+} else {
+    console.error("FAILED");
+}
+
+process.stdout.write("\nTEST CASE 2: ");
+let seq2 = [588, 9, 352, 5, 453, 4, 54, 6, 432, 7, 7, 8, 8]; // handles edge case: duplicate values
+let longest2 = lcs(seq2);
+if (longest2 === 6) {
+    console.log("SUCCESS");
+} else {
+    console.error("FAILED");
+}
