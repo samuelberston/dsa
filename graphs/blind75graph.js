@@ -5,7 +5,7 @@
     2. Course Schedule
     3. Pacific Atlantic Water Flow
     4. Number of Islands (Grid and Graph)
-    5. Longest Consquetive Sequence
+    5. Longest Consecutive Sequence
     6. Alien dictionary
     7. Graph valid tree
     8. Connected Components
