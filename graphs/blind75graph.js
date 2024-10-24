@@ -305,6 +305,3 @@ if (alienOrder2 === "") {
 } else {
     console.error("ERROR");
 }
-
-
-
