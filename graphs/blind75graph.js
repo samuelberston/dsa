@@ -5,10 +5,11 @@
     2. Course Schedule
     3. Pacific Atlantic Water Flow
     4. Number of Islands (Grid and Graph)
-    5. Longest Consecutive Sequence
-    6. Alien dictionary
-    7. Graph valid tree
-    8. Connected Components
+
+    To do:
+    5. Alien dictionary
+    6. Graph valid tree
+    7. Connected Components
 
 */
 
@@ -198,6 +199,112 @@ console.log("\n3. Pacific Atlantic Water Flow");
 const heights = [[1,2,2,3,5],[3,2,3,4,4],[2,4,5,3,1],[6,7,1,4,5],[5,1,1,2,4]];
 console.log(waterFlow(heights));
 
+
 /**
- *      5. Longest Consecutive Sequence
+ *      5. Alien Dictionary
+ * 
+ *      Approach: 
+ *      1. Generate a directed adjacency list representing the characters predecessors.
+ *      2. Sort the nodes in topological order, using Khan's algorithm
+ * 
+ *      Example: 
+ *      const words1 = ["wrt","wrf","er","ett","rftt"];
+ * 
+ *          
+ * @param {string[]} words
+ * @return {string}
  */
+var alienOrder = function(words) {
+    // Set up adjacency list and indegree data structures
+    const adjList = new Map();
+    const indegree = new Map();
+    for (const word of words) {
+        for (const char of word) {
+            if (!adjList.has(char)) {
+                adjList.set(char, new Set());
+            }
+            if (!indegree.has(char)) {
+                indegree.set(char, 0);
+            }
+        }
+    }
+
+    // Step 1: Create adjacency list and indegree
+    for (let i = 0; i < words.length - 1; i++) {
+        const firstWord = words[i];
+        const secondWord = words[i + 1];
+        let foundDifference = false;
+
+        for (let j = 0; j < Math.min(firstWord.length, secondWord.length); j++) {
+            const c = firstWord[j];
+            const d = secondWord[j];
+
+            if (c !== d) {
+                if (!adjList.get(c).has(d)) {               // check duplicate
+                    adjList.get(c).add(d);                  // add dependency
+                    indegree.set(d, indegree.get(d) + 1);   // increment indegree
+                }
+                foundDifference = true;
+                break;
+            }
+        }
+
+        // ensure second word is not prefix of second word, violates order
+        if (!foundDifference && firstWord.length > secondWord.length) {
+            return "";
+        }
+    }
+
+    // Step 2: Topological sort of directed adjList by indegree
+    const q = [];
+    const result = [];
+
+    for (const [char, degree] of indegree.entries()) {
+        if (degree === 0) {
+            q.push(char);
+        }
+    }
+
+    while (q.length) {
+        const c = q.shift();
+        result.push(c);
+
+        // decrement indegree
+        for (const d of adjList.get(c)) {
+            indegree.set(d, indegree.get(d) - 1);
+            if (indegree.get(d) === 0) {
+                q.push(d);
+            }
+        }
+    }
+
+    // check for cycle
+    if (result.length < indegree.size) {
+        return "";
+    }
+
+    return result.join('');
+};
+
+console.log("\n5. Alien Dictionary");
+
+process.stdout.write("TEST CASE 1: ");
+const words1 = ["wrt","wrf","er","ett","rftt"];
+let alienOrder1 = alienOrder(words1);
+if (alienOrder1 === "wertf") {
+    console.log("SUCCESS");
+} else {
+    console.error("ERROR");
+}
+
+process.stdout.write("TEST CASE 2: ");
+const words2 = ["z","x","z"];
+let alienOrder2 = alienOrder(words2);
+if (alienOrder2 === "") {
+    console.log("SUCCESS");
+} else {
+    console.error("ERROR");
+}
+
+
+
