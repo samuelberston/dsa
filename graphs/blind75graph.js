@@ -13,7 +13,7 @@
 */
 
 /**
- * 1. Clones a connected undirected graph using BFS
+ *      1. Clones a connected undirected graph using BFS
  * Nodes are 1-indexed, each node's value is equal to its index   
  * @param {number[][]} graph - Adjacency list representation of the graph.
  * @returns {number[][]} - Cloned adjacency list.
