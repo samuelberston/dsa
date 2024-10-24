@@ -3,6 +3,10 @@
  * 1. Zig Zag Pattern
  * 2. Permutation in String
  * 3. Maximum Vowels in Substring
+ * 4. Longest Substring without Repeating Characters
+ * 5. String to Integer (atoi)
+ * 6. Group Anagrams
+ * 7. Merge Strings Alternately
  */
 
 
@@ -220,7 +224,7 @@ console.log(longestSubstring("abcdaeba")); // 5
 console.log(longestSubstring("abcdtghyu")); // 9
 
 /**
- *      string to integer (atoi)
+ *      5. String to Integer (atoi)
  */
 var myAtoi = function(s) {
     // remove white space
@@ -260,7 +264,7 @@ console.log(myAtoi("42")); // 42
 console.log(myAtoi("weeping42")); // 0
 
 /**
- *      Group Anagrams
+ *     6. Group Anagrams
 
   Brute force: thrice nested loop, for each string, check if other strings are equal by iterating through each char 
   TC: O(n * n * m)
@@ -317,7 +321,7 @@ if (JSON.stringify(result3) === JSON.stringify([["a"]])) {
     console.error("FAILURE");
 }
 
-// merge strings alertnately
+// 7. merge strings alternately
 const mergeAlt = (word1, word2) => {
     let m = word1.length;
     let n = word2.length;
