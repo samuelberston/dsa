@@ -66,10 +66,12 @@ adjList.displayList();
 
 // directed graph class
 class directedAdjacencyList {
+    V;
     list;
     visited;
     constructor(V) {
-        this.list = Array(V).fill(null).map(() => []);
+        this.V = V;
+        this.list = Array.from({ length: V }, () => []);
         this.indegree = Array(V).fill(0);
     }
 
@@ -80,7 +82,7 @@ class directedAdjacencyList {
             console.log(`cannot add duplicate edge: ${src}->${dest}`);
             return;
         }
-        // directed graph only adds the edge to the outgoing node
+        // directed graph only adds the edge to the src node
         this.list[src].push(dest);
         this.indegree[dest]++;
         console.log(`added edge: ${src}-${dest}`);
@@ -113,7 +115,7 @@ class directedAdjacencyList {
 
     // transpose the direction of all the edges in the graph
     transpose() {
-        let transposed = Array(this.list.length).fill(null).map(() => []);
+        let transposed = Array.from({ length: this.V }, () => []);
         // iterate nodes and transpose src/dest nodes
         for (let i = 0; i < this.list.length; i++) {
             let src = i;
@@ -385,22 +387,18 @@ dirAdjList.displayGraph();
 dirAdjList.transpose();
 console.log("\n3. Breadth-first search of disconnected directed adjacency list starting from node 0: ");
 dirAdjList.bfs(0);
-dirAdjList.resetVisited();
 console.log("\n\n4. Disconnected breadth-first search of directed adjacency list: ")
 dirAdjList.bfsDisconnected();
-dirAdjList.resetVisited();
 console.log("\n\n5. Depth-first search of directed adjacency list starting from node 0: ");
 dirAdjList.dfs(0);
-dirAdjList.resetVisited();
 console.log("\n\n6. Disconnected depth-first search: ");
 dirAdjList.dfsDiconnected();
-dirAdjList.resetVisited();
 console.log("\n\n7. find level of X node in graph: ");
 dirAdjList.findLevel(3);
 console.log("\n8. find ancestors of all nodes in the graph: ");
 dirAdjList.findAncestors();
 console.log("\n9. Detect a cycle in a directed graph")
-containsCycle = dirAdjList.isCyclic();
+const containsCycle = dirAdjList.isCyclic();
 console.log(`Contains cycle: ${containsCycle}`);
 console.log("\n10. topological sort of DAG")
 console.log("adding/removing edges to form DAG")

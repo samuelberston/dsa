@@ -66,7 +66,7 @@ const productArrayExceptSelf = (array) => {
         result[i] *= product;
         product *= array[i];
     }
-    console.log(result);
+
     return result;
 }
 
@@ -128,11 +128,9 @@ containerMostWater(containers);
 edge cases: 
 array contains zero or one element
 
-brute force: 
-calculate subarray sum for every possible subarray - O(n^2)
+brute force: calculate subarray sum for every possible subarray - O(n^2)
 
-approach:
-iterate array tracking start and maxSum, if currSum, < 0, reset it to 0 and continue loop
+approach: iterate array tracking start and maxSum, if currSum, < 0, reset it to 0 and continue loop - O(n)
 */
 const kadanesAlg = (array) => {
     // edge cases:
@@ -246,6 +244,7 @@ console.log("Identifies invalid parentheses: ", validParentheses(invalid) == fal
   3 sum
 
   approach: sort the array and use two sum helper function
+  TC: O(N * log N)
 */
 const threeSum = (numbers) => {
     numbers.sort((a, b) => a - b);        // sort input array

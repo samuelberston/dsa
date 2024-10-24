@@ -62,7 +62,7 @@ var mySqrt = function(x) {
 /**
  *      Search Insert Position
  * Given a sorted array and a target number, return either the 
- * index of the numnber or the index where it should be inserted
+ * index of the number or the index where it should be inserted
  * @param {number[]} nums
  * @param {number} target
  * @return {number}
