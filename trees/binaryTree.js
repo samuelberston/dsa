@@ -403,3 +403,66 @@ if (!symmetricTree(asymTree)) {
 } else {
     console.error("ERROR");
 }
+
+/**
+ *      Balanced Binary Tree
+ * 
+ * Given a binary tree, determine if it is height-balanced.
+ * A height-balanced binary tree is a binary tree in which the depth 
+ * of the two subtrees of every node never differs by more than one.
+ *      
+ */
+var isBalanced = function(root) {
+    
+    // helper function to check depth
+    const checkDepth = (root, depth) => {
+        // base case
+        if (!root) {
+            return 0; // depth of 0
+        }
+
+        return Math.max(checkDepth(root.right, 0), checkDepth(root.left, 0)) + 1;
+    }
+
+    const compareDepth = (root) => {
+        // base case
+        if (!root) { // exhausted space
+            return true;
+        }
+        if (Math.abs(checkDepth(root.left) - checkDepth(root.right)) > 1) {
+            return false;
+        }
+
+        // recursive case
+        return compareDepth(root.left) && compareDepth(root.right);
+    }
+
+    return compareDepth(root);
+};
+
+console.log("\nBalanced Binary Tree");
+process.stdout.write("TEST CASE 1: ");
+const balancedTree = new Node(1);
+balancedTree.left = new Node(2);
+balancedTree.right = new Node(3);
+balancedTree.right.left = new Node(4);
+balancedTree.right.right = new Node(5);
+if (isBalanced(balancedTree)) {
+    console.log("SUCCESS");
+} else {
+    console.error("ERROR");
+}
+
+process.stdout.write("TEST CASE 2: ");
+const unbalancedTree = new Node(1);
+unbalancedTree.left = new Node(2);
+unbalancedTree.right = new Node(3);
+unbalancedTree.right.left = new Node(4);
+unbalancedTree.right.right = new Node(5);
+unbalancedTree.right.left.left = new Node(6);
+if (isBalanced(!unbalancedTree)) {
+    console.log("SUCCESS");
+} else {
+    console.error("ERROR");
+}
+
