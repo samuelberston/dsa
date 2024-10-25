@@ -466,3 +466,47 @@ if (isBalanced(!unbalancedTree)) {
     console.error("ERROR");
 }
 
+/**
+ *      Sum Root to Leaf Numbers
+ */
+var sumNumbers = function(root) {
+    let sum = 0;
+    
+    const dfs = (root, num) => {
+        if (root) {
+            // update num
+            num *= 10;
+            num += root.data;
+
+            // base case
+            if (!root.left && !root.right) {
+                sum += num;
+                return;
+            }
+
+            // recursive case
+            dfs(root.left, num);
+            dfs(root.right, num);
+        }
+    }
+    dfs(root, 0);
+
+    return sum;
+};
+
+console.log("\nSum Numbers");
+process.stdout.write("TEST CASE 1: ");
+// reusing the balanced tree
+if (sumNumbers(balancedTree) === 281) {
+    console.log("SUCCESS");
+} else {
+    console.error("FAILED");
+}
+process.stdout.write("TEST CASE 1: ");
+// reusing the unbalanced tree
+if (sumNumbers(unbalancedTree) === 1493) {
+    console.log("SUCCESS");
+} else {
+    console.error("FAILED");
+}
+
