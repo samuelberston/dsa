@@ -424,11 +424,6 @@ console.log(minimumAddedCoins([1,4,10,5,7,19], 19));
 console.log(minimumAddedCoins([1,4,10], 19));
 console.log(minimumAddedCoins([1,1,1], 20));
 
-/*
-  Median of Two Sorted Arrays
-  The overall run time complexity should be O(log (m+n))
-*/
-
 /**
  * 
  *      Longest Consecutive Sequence
@@ -488,3 +483,9 @@ if (longest2 === 6) {
 } else {
     console.error("FAILED");
 }
+
+/*
+  Median of Two Sorted Arrays
+  The overall run time complexity should be O(log (m+n))
+*/
+
