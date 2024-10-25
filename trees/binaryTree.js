@@ -347,3 +347,59 @@ if (JSON.stringify(inOrder1) === JSON.stringify(arr1)) {
 } else {
     console.error("FAILED");
 }
+
+/**
+ *      Symmetric Tree
+ * Given the root of a binary tree, check whether it is a 
+ * mirror of itself (i.e., symmetric around its center).
+ * 
+ * 
+ */
+const symmetricTree = (root) => {
+
+    const symmetrical = (root1, root2) => {
+        // base case
+        if (!root1 && !root2) {         // exhausted space
+            return true;
+        }
+        if (!root1 || !root2) {         // dissimilar shape
+            return false;
+        }
+        if (root1.data !== root2.data) {  // different values
+            return false;
+        }
+        // recursive case
+        return symmetrical(root1.left, root2.right) && symmetrical(root1.right, root2.left)
+    }
+
+    return symmetrical(root.left, root.right);
+};
+
+console.log("\nSymmetric Tree");
+process.stdout.write("TEST CASE 1: ");
+const symTree = new Node(1);
+symTree.left = new Node(2);
+symTree.right = new Node(2);
+symTree.left.left = new Node(3);
+symTree.right.left = new Node(3);
+symTree.left.right = new Node(3);
+symTree.right.right = new Node(3);
+if (symmetricTree(symTree)) {
+    console.log("SUCCESS");
+} else {
+    console.error("ERROR");
+}
+
+process.stdout.write("TEST CASE 2: ");
+const asymTree = new Node(1);
+asymTree.left = new Node(2);
+asymTree.right = new Node(2);
+asymTree.left.left = new Node(3);
+asymTree.right.left = new Node(3);
+asymTree.left.right = new Node(4);
+asymTree.right.right = new Node(5);
+if (!symmetricTree(asymTree)) {
+    console.log("SUCCESS");
+} else {
+    console.error("ERROR");
+}
