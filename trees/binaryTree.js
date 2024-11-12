@@ -208,23 +208,16 @@ console.log(checkSubtree(binaryTree, actualSubtree));
 
 // is valid bst
 // approach: in order dfs check data increasing order
-function isValidBST(root) {
+function isValidBST(root, min = -Infinity, max = Infinity) {
     // base case: no node
     if (!root) { return true; }
 
-    // in order dfs
-    if (!isValidBST(root.left)) { return false; }
+    // check if the current node is within the min and max
+    if (root.data <= min || root.data >= max) {
+        return false;
+    }
 
-    // check out of order
-    if (min >= root.data) { return false; }
-
-    // update min
-    min = root.data;
-
-    // check right side
-    if (!isValidBST(root.right)) { return false; }
-
-    return true;
+    return isValidBST(root.left, min, root.data) && isValidBST(root.right, root.data, max);
 }
 
 // BFS using a queue
@@ -494,7 +487,7 @@ var sumNumbers = function(root) {
     return sum;
 };
 
-console.log("\nSum Numbers");
+console.log("\nSum Root to Leaf Numbers");
 process.stdout.write("TEST CASE 1: ");
 // reusing the balanced tree
 if (sumNumbers(balancedTree) === 281) {
