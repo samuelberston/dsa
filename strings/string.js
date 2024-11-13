@@ -90,14 +90,8 @@ var checkInclusion = function(s1, s2) {
     const map1 = getCharFreq(s1);
 
     // Step 2: create check permutation function, comparing two maps
-    const checkPermutation = (map1, map2) => {
-        for (const char of Object.keys(map1)) {
-            if (map1[char] != map2[char]) { // check chars have the same frequency
-                return false;
-            }
-        }
-        return true; // all char frequencies match
-    };
+    const checkPermutation = (map1, map2) => 
+        Object.entries(map1).every(([char, freq]) => map2[char] === freq);
 
     // Step 3: traverse s2 using a two-pointer sliding window
     let p1 = 0;
