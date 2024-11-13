@@ -69,64 +69,30 @@ console.log(zigZag(string, n));
  *      Approach: use maps to represent char frequency. Use sliding window approach to traverse substring 2
  */
 var checkInclusion = function(s1, s2) {
-    // edge cases: 
-    // if s1 is longer than s2, return false
-    if (s1.length > s2.length) { return false; }
-    // if s1 is one character, return s2.indexOf(s1) !== -1
-    if (s1.length == 1) { return s2.indexOf(s1) !== -1; }
+    // edge cases
+    if (s1.length > s2.length) return false;
+    if (s1.length === 1) return s2.includes(s1);
 
-    // Step 1: create char frequency map generation function, apply to s1
-    const getCharFreq = (string) => {
-        const map = {};
-        for (const char of string) {
-            if (!map[char]) {
-                map[char] = 1;
-            } else {
-                map[char]++;
-            }
-        }
-        return map;
-    };
-    const map1 = getCharFreq(s1);
-
-    // Step 2: create check permutation function, comparing two maps
-    const checkPermutation = (map1, map2) => 
-        Object.entries(map1).every(([char, freq]) => map2[char] === freq);
-
-    // Step 3: traverse s2 using a two-pointer sliding window
-    let p1 = 0;
-    let p2 = s1.length - 1;
-
-    let p2substring = s2.slice(p1, p2 + 1); // get p2 starting substring
-    let map2 = getCharFreq(p2substring); // create map of char freq of starting p2
-
-    while (p2 < s2.length && p2 - p1 == s1.length - 1) {
-        // check map equality
-        if (checkPermutation(map1, map2)) {
-            return true;
-        }
-
-        // move sliding window
-        p1++;
-        p2++;
-
-        // update map
-        // add next char
-        if (!map2[s2[p2]]) {
-            map2[s2[p2]] = 1;
-        } else {
-            map2[s2[p2]]++;
-        }
-
-        // remove last first char
-        if (map2[s2[p1 - 1]] == 1) {
-            map2[s2[p1 - 1]] = null; // remove char
-        } else {
-            map2[s2[p1 - 1]] = map2[s2[p1 - 1]] - 1; // decrement char frequency
-        }
+    // Create frequency arrays (using arrays instead of objects for simpler comparison)
+    const freq1 = new Array(26).fill(0);
+    const freq2 = new Array(26).fill(0);
+    
+    // Fill initial window
+    for (let i = 0; i < s1.length; i++) {
+        freq1[s1[i].charCodeAt(0) - 97]++;
+        freq2[s2[i].charCodeAt(0) - 97]++;
     }
 
-    return false; // exhausted search space and did not find permutation
+    // Slide window through s2
+    for (let i = 0; i < s2.length - s1.length; i++) {
+        if (freq1.toString() === freq2.toString()) return true;
+        
+        // Move window by updating frequencies
+        freq2[s2[i].charCodeAt(0) - 97]--;
+        freq2[s2[i + s1.length].charCodeAt(0) - 97]++;
+    }
+
+    return freq1.toString() === freq2.toString();
 };
 
 // Permutation in String driver code
@@ -142,42 +108,23 @@ console.log(checkInclusion(string1, "abcbacb")); // false
  */
 const maxVowels = (s, k) => {
     // Step 1: get initial vowel count
-    const vowels = {
-        "a": true,
-        "e": true,
-        "i": true,
-        "o": true,
-        "u": true
-    };
-    let currCount = 0;
+    const vowels = new Set(['a', 'e', 'i', 'o', 'u']);
+    let count = 0;
+    let maxCount = 0;
 
-    for (let i = 0; i < k; i++) {
-        if (vowels[s[i]]) {
-            currCount++;
+    // Count vowels in first k characters
+    for (let i = 0; i < s.length; i++) {
+        if (i >= k) {
+            // remove leftmost character from window
+            if (vowels.has(s[i - k])) count--;
         }
+
+        // Add current character
+        if (vowels.has(s[i])) count++;
+
+        if (i >= k - 1) maxCount = Math.max(maxCount, count);
     }
 
-    // Step 2: use two pointers to traverse s with a window of length k. Check for new/lost vowels and track vowel count
-    let p1 = 0;
-    let p2 = k - 1;
-    let maxCount = currCount;
-    while (p2 < s.length) { // within bounds of input string
-        // update pointers and check if gaining/losing a vowel
-        p1++;
-        p2++;
-        if (vowels[s[p1 - 1]]) { // lost a vowel
-            currCount--;
-        }
-        if (vowels[s[p2]]) { // gained a vowel
-            currCount++;
-        }
-        // check for max count
-        if (currCount > maxCount) {
-            maxCount = currCount;
-        }
-    }
-    
-    // Step 3: return max vowel count
     return maxCount;
 };
 
