@@ -10,6 +10,10 @@ class MinHeap {
         this.heapSize = 0;
     }
 
+    isEmpty() {
+        return this.heapSize == 0;
+    }
+
     getParentIndex(i) {
         return Math.floor((i - 1) / 2);
     }
