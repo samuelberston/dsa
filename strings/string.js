@@ -210,24 +210,18 @@ console.log(myAtoi("weeping42")); // 0
   Brute force: thrice nested loop, for each string, check if other strings are equal by iterating through each char 
   TC: O(n * n * m)
 
-  Optimized: Hash map optimization: convert each string to hashmap character frequency representation to identify equality in O(1) time. Use a hashmap with the stringified object representation as the key to store anagram groups. Iterate through the strs array once.
-  TC: O (n * m) 
+  Optimized: Use the sorted string as a key in a hashmap to group anagrams.
+  TC: O(n * m log m)
 
  * @param {string[]} strs
  * @return {string[][]}
  */
-  var groupAnagrams = function(strs) {
-    // Step 1: get anagrams by sorting string chars
+var groupAnagrams = function(strs) {
     const anagrams = {};
     for (const str of strs) {
         const sorted = str.split("").sort().join("");
-        if (anagrams[sorted]) {
-            anagrams[sorted].push(str);
-        } else {
-            anagrams[sorted] = [str];
-        }
+        anagrams[sorted] = anagrams[sorted] ? [...anagrams[sorted], str] : [str];
     }
-
     return Object.values(anagrams);
 }
 
