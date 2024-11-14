@@ -45,7 +45,10 @@ class MinHeap {
         let index = this.heapSize - 1; // index of last inserted node
         while (index > 0) {
             const parentIndex = this.getParentIndex(index);
-            if (this.heap[parentIndex] > this.heap[index]) {
+            // Compare first element if arrays, otherwise compare directly
+            const parentValue = Array.isArray(this.heap[parentIndex]) ? this.heap[parentIndex][0] : this.heap[parentIndex];
+            const currentValue = Array.isArray(this.heap[index]) ? this.heap[index][0] : this.heap[index];
+            if (parentValue > currentValue) {
                 this.swap(parentIndex, index);
                 index = parentIndex;
             } else {
@@ -76,13 +79,21 @@ class MinHeap {
             let leftChildIndex = this.getLeftChildIndex(index);
             let rightChildIndex = this.getRightChildIndex(index);
             let smallerChildIndex = leftChildIndex;
-            
+
+            // Compare first element if arrays, otherwise compare directly
+            const leftValue = Array.isArray(this.heap[leftChildIndex]) ? this.heap[leftChildIndex][0] : this.heap[leftChildIndex];
+            const rightValue = rightChildIndex < this.heapSize ? 
+            (Array.isArray(this.heap[rightChildIndex]) ? this.heap[rightChildIndex][0] : this.heap[rightChildIndex]) 
+            : Infinity;
+        const currentValue = Array.isArray(this.heap[index]) ? this.heap[index][0] : this.heap[index];
+
             // find smaller child node index
-            if (rightChildIndex < this.heapSize && this.heap[rightChildIndex] < this.heap[leftChildIndex]) {
+            if (rightChildIndex < this.heapSize && rightValue < leftValue) {
                 smallerChildIndex = rightChildIndex;
             }
 
-            if (this.heap[index] > this.heap[smallerChildIndex]) { // current node is smaller than smaller child node
+            const smallerValue = Array.isArray(this.heap[smallerChildIndex]) ? this.heap[smallerChildIndex][0] : this.heap[smallerChildIndex];
+            if (currentValue > smallerValue) { // current node is smaller than smaller child node
                 this.swap(index, smallerChildIndex);
                 index = smallerChildIndex;
             } else {
