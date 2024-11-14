@@ -6,6 +6,8 @@
  * Dijkstra's Algorithm
  */
 
+import MinHeap from "../trees/heap.js";
+
 class WeightedGraph {
     v;
     list;
@@ -50,7 +52,6 @@ class WeightedGraph {
         return false
     }
 
-
     // minimum spanning tree
     // A minimum spanning tree (MST) is defined as a spanning tree that 
     // has the minimum weight among all the possible spanning trees.
@@ -75,8 +76,60 @@ class WeightedGraph {
     }
 
     /*
-    Djikstra's algorithm
+    Dijkstra's algorithm
     */
+    dijkstra(start) {
+        // Convert to adjacency list
+        const adjList = {};
+        for (const [u, v, w] of this.list) {
+            // add edge u -> v with weight w
+            adjList[u] = adjList[u] ? [...adjList[u], [v, w]] : [[v, w]];
+            // add edge v -> u with weight w
+            adjList[v] = adjList[v] ? [...adjList[v], [u, w]] : [[u, w]];
+        }
+
+        // Initialize distance array
+        const distances = Array(this.v).fill(Infinity);
+        distances[start] = 0;
+
+        // Initialize parents array
+        const parents = Array(this.v).fill(null);
+
+        // Initialize min heap
+        const minHeap = new MinHeap(this.v);
+        minHeap.insert([0, start]); // [distance, vertex]
+
+        // Main loop
+        while (!minHeap.isEmpty()) {
+            const [currentDist, current] = minHeap.extractMin();
+
+            // Skip if distance is greater than the recorded distance
+            if (currentDist > distances[current]) continue;
+
+            // Process all edges from the current vertex
+            for (const [neighbor, weight] of adjList[current] || []) {
+                const distance = distances[current] + weight;
+                
+                // If new distance is shorter, update distance and parent
+                if (distance < distances[neighbor]) {
+                    distances[neighbor] = distance;
+                    parents[neighbor] = current;
+                    minHeap.insert([distance, neighbor]);
+                }
+            }
+        }
+        return {distances, parents};
+    }
+
+    getPath(parents, target) {
+        const path = [];
+        let current = target;
+        while (current !== null) {
+            path.push(current);
+            current = parents[current];
+        }
+        return path.reverse();
+    }
 }
 
 /**
@@ -131,3 +184,9 @@ console.log("\n1. Detect cycle in undirected graph: ")
 console.log(weightedGraph.isCyclic());
 console.log("\n2. Minimum Spanning Tree - Kruskal's Algorithm")
 console.log(weightedGraph.kruskalMST());
+
+console.log("\n3. Dijkstra's Algorithm")
+const dijkstraResult = weightedGraph.dijkstra(0);
+console.log(dijkstraResult);
+console.log("\n3. Path from 0 to 3: ")
+console.log(weightedGraph.getPath(dijkstraResult.parents, 3));
