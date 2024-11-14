@@ -33,7 +33,7 @@ const letterCombinations = (digits) => {
         // base case
         if (p > digits.length - 1) {
             combos.push(combo);
-            combo = ""; // ?
+            combo = "";
             return;
         }
         // recursive case
