@@ -3,6 +3,7 @@
  *      https://leetcode.com/company/linkedin/?favoriteSlug=linkedin-thirty-days
  * 
  *      1) Nested List Weight Sum II
+ *      2) Find First and Last Position of Element in Sorted Array
  */
 
 /**
@@ -72,6 +73,62 @@ process.stdout.write("Test case 2: ");
 const nestedList2 = [1, [4, [6]]];
 const res2 = nestedListWeightSumII(nestedList2);
 if (res2 === 17) {
+    console.log("PASSED");
+} else {
+    console.error("FAILED");
+}
+
+/**
+ *      Find First and Last Position of Element in Sorted Array
+ * 
+ * 
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+const findFirstAndLastPosition = (nums, target) => {
+    // Step 1: Use binary search to find element
+    let left = 0;
+    let right = nums.length - 1;
+    while (left <= right) {
+        const mid = Math.floor(left + (right - left) / 2);
+        if (nums[mid] === target) {
+            // Step 2: If element is found, move pointers to find first and last position
+            let first = mid;
+            let last = mid;
+            while (nums[first] === target) {
+                first--;
+            }
+            while (nums[last] === target) {
+                last++;
+            }
+            return [first + 1, last - 1];
+        } else if (nums[mid] < target) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+    return [-1, -1]
+}
+
+// Find first and last position driver code
+console.log("Find First and Last Position of Element in Sorted Array");
+process.stdout.write("Test case 1: ");
+const nums1 = [5,7,7,8,8,10];
+const target1 = 8;
+const res3 = findFirstAndLastPosition(nums1, target1);
+if (JSON.stringify(res3) === JSON.stringify([3, 4])) {
+    console.log("PASSED");
+} else {
+    console.error("FAILED");
+}
+
+process.stdout.write("Test case 2: ");
+const nums2 = [5,7,7,8,8,8,8,8,10,11];
+const target2 = 8;
+const res4 = findFirstAndLastPosition(nums2, target2);
+if (JSON.stringify(res4) === JSON.stringify([3, 7])) {
     console.log("PASSED");
 } else {
     console.error("FAILED");
