@@ -152,21 +152,25 @@ const factorCombinations = (n) => {
     const combos = [];
 
     const findFactors = (n, start = 2, currCombo = []) => {
+        // Early termination if n is too small
+        if (n < start * start) return;
 
         // Iterate through all numbers 2 through n/2
         for (let i = start; i <= Math.sqrt(n); i++) {
-            const quotient = n / i;
             if (n % i === 0) { // i is a factor of n
-                // Add current combo and new factor
-                combos.push([...currCombo, i, quotient]);
-                
-                // recurse on quotient
-                findFactors(quotient, i, [...currCombo, i]);
+                const quotient = n / i;
+                // Only add if quotient is greater than i
+                if (quotient >= i) {
+                    // Add current combo and new factor
+                    combos.push([...currCombo, i, quotient]);
+                    // recurse on quotient
+                    findFactors(quotient, i, [...currCombo, i]);
+                }    
             }
         }    
     }
     findFactors(n);
-    return combos.sort();
+    return combos;
 };
 
 // Factor combinations driver code
