@@ -5,6 +5,7 @@
  *      1) Nested List Weight Sum II
  *      2) Find First and Last Position of Element in Sorted Array
  *      3) Factor Combinations
+ *      4) Sort Transformed Array
  */
 
 /**
@@ -188,6 +189,37 @@ process.stdout.write("Test case 2: ");
 const n2 = 32;
 const res6 = factorCombinations(n2);
 if (JSON.stringify(res6) === JSON.stringify([[2, 16], [2, 2, 2, 2, 2], [2, 2, 2, 4], [2, 2, 8], [2, 4, 4], [4, 8]])) {
+    console.log("PASSED");
+} else {
+    console.error("FAILED");
+}
+
+/**
+ *      Sort Transformed Array
+ * Given a sorted integer array nums and three integers a, b and c, 
+ * apply a quadratic function of the form f(x) = ax2 + bx + c 
+ * to each element nums[i] in the array, and return the array in a sorted order.
+ * 
+ * @param {number[]} nums
+ * @param {number} a
+ * @param {number} b
+ * @param {number} c
+ * @return {number[]}
+ */
+const sortTransformedArray = (nums, a, b, c) => {
+    const transformed = nums.map(x => a * x * x + b * x + c).sort((a, b) => a - b);
+    return transformed;
+}
+
+// Sort transformed array driver code
+console.log("\n4. Sort Transformed Array");
+process.stdout.write("Test case 1: ");
+const nums3 = [-4, -2, 2, 4];
+const a1 = 1;
+const b1 = 3;
+const c1 = 5;
+const res7 = sortTransformedArray(nums3, a1, b1, c1);
+if (JSON.stringify(res7) === JSON.stringify([3, 9, 15, 33])) {
     console.log("PASSED");
 } else {
     console.error("FAILED");
