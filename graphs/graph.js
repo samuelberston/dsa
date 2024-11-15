@@ -141,10 +141,10 @@ class directedAdjacencyList {
             const curr = queue.shift();
             process.stdout.write(`${curr} `);
             // iterate over edges
-            for (const x of this.list[curr]) {
-                if (!visited[x]) {
-                    visited[x] = true; // visit edge
-                    queue.push(x); // enqueue edge
+            for (const neighbor of this.list[curr]) {
+                if (!visited[neighbor]) {
+                    visited[neighbor] = true; // visit edge
+                    queue.push(neighbor); // enqueue edge
                 }
             }
         }
