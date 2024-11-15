@@ -4,6 +4,7 @@
  * 
  *      1) Nested List Weight Sum II
  *      2) Find First and Last Position of Element in Sorted Array
+ *      3) Factor Combinations
  */
 
 /**
@@ -59,7 +60,7 @@ const nestedListWeightSumII = (nestedList) => {
 }
 
 // Nested list II driver code
-console.log("Nested List Weight Sum II");
+console.log("\n1.Nested List Weight Sum II");
 process.stdout.write("Test case 1: ");
 const nestedList1 = [1,[2,2],[[3],2],1];
 const res1 = nestedListWeightSumII(nestedList1);
@@ -113,7 +114,7 @@ const findFirstAndLastPosition = (nums, target) => {
 }
 
 // Find first and last position driver code
-console.log("Find First and Last Position of Element in Sorted Array");
+console.log("\n2. Find First and Last Position of Element in Sorted Array");
 process.stdout.write("Test case 1: ");
 const nums1 = [5,7,7,8,8,10];
 const target1 = 8;
@@ -129,6 +130,60 @@ const nums2 = [5,7,7,8,8,8,8,8,10,11];
 const target2 = 8;
 const res4 = findFirstAndLastPosition(nums2, target2);
 if (JSON.stringify(res4) === JSON.stringify([3, 7])) {
+    console.log("PASSED");
+} else {
+    console.error("FAILED");
+}
+
+/**
+ *      Factor Combinations
+ * 
+ * Numbers can be regarded as the product of their factors.
+ * For example, 8 = 2 x 2 x 2 = 2 x 4.
+ * Given an integer n, return all possible combinations of its factors. You may return the answer in any order.
+ * 
+ * Note that the factors should be in the range [2, n - 1].
+ * 
+ * @param {number} n
+ * @return {number[][]}
+ */
+const factorCombinations = (n) => {
+    // Approach: Iterate through all numbers 2 thought n/2. If the result is divisible by the current number, update the currcombo and recurse on the quotient.
+    const combos = [];
+
+    const findFactors = (n, start = 2, currCombo = []) => {
+
+        // Iterate through all numbers 2 through n/2
+        for (let i = start; i <= Math.sqrt(n); i++) {
+            const quotient = n / i;
+            if (n % i === 0) { // i is a factor of n
+                // Add current combo and new factor
+                combos.push([...currCombo, i, quotient]);
+                
+                // recurse on quotient
+                findFactors(quotient, i, [...currCombo, i]);
+            }
+        }    
+    }
+    findFactors(n);
+    return combos.sort();
+};
+
+// Factor combinations driver code
+console.log("\n3. Factor Combinations");
+process.stdout.write("Test case 1: ");
+const n1 = 8;
+const res5 = factorCombinations(n1);
+if (JSON.stringify(res5) === JSON.stringify([[2, 2, 2], [2, 4]])) {
+    console.log("PASSED");
+} else {
+    console.error("FAILED");
+}
+
+process.stdout.write("Test case 2: ");
+const n2 = 32;
+const res6 = factorCombinations(n2);
+if (JSON.stringify(res6) === JSON.stringify([[2, 16], [2, 2, 2, 2, 2], [2, 2, 2, 4], [2, 2, 8], [2, 4, 4], [4, 8]])) {
     console.log("PASSED");
 } else {
     console.error("FAILED");
