@@ -514,3 +514,85 @@ if (nlres1 === 23) {
 } else {
     console.error("FAILED");
 }
+
+/**
+ *      Course Schedule II
+ * 
+ * There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. 
+ * You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
+ * 
+ * For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.
+ * Return the ordering of courses you should take to finish all courses. 
+ * If there are many valid answers, return any of them. 
+ * If it is impossible to finish all courses, return an empty array.
+ * 
+ * Example:
+ *      numCourses = 4, prerequisites = [[1,0],[2,0],[3,1],[3,2]]
+ *      Output: [0,2,1,3]
+ * 
+ * @param {number[][]}
+ * @return {number[]}
+ */
+const courseScheduleII = (n, prereqs) => {
+    // Step 1: Convert prereqs to adjacency list
+    const adjList = new Array(n).fill(null).map(() => []);
+
+    for (const [course, prereq] of prereqs) {
+        adjList[prereq] = adjList[prereq] ? [...adjList[prereq], course] : [course];
+    }
+
+    // Step 2: Calculate in-degree of each course (# of prereqs)
+    const inDegree = new Array(n).fill(0);
+    for (const node of adjList) {
+        if (node.length) {
+            for (const neighbor of node) {
+                inDegree[neighbor]++;
+            }
+        }
+    }
+
+    // Step 3: Topological sort using Khan's alg - BFS
+    const topologicalSort = [];
+    let q = [];
+    // fill initial q with nodes with 0-indegree
+    for (let i = 0; i < inDegree.length; i++) {
+        if (inDegree[i] === 0) {
+            q.push(i);
+        }
+    }
+    while (q.length) {
+        const curr = q[0];
+        q = q.slice(1);
+        
+        topologicalSort.push(curr);
+
+        // bfs
+        if (adjList[curr].length) {
+            for (const neighbor of adjList[curr]) {
+                // decrement inDegree
+                inDegree[neighbor]--;
+                if (inDegree[neighbor] === 0) {
+                    q.push(neighbor);
+                }
+            }
+        }
+    }
+
+    // check for cycle
+    if (topologicalSort.length !== adjList.length) {
+        console.log("Graph contains cycle, no solution")
+        return [];
+    }
+    return topologicalSort;
+};
+
+// Course Schedule driver code
+console.log("\n9. Course Schedule II");
+process.stdout.write("TEST CASE I: ");
+const prereqs1 = [[1,0],[2,0],[3,1],[3,2]];
+const CSres1 = courseScheduleII(4, prereqs1);
+if (JSON.stringify(CSres1) === JSON.stringify([ 0, 1, 2, 3 ])) {
+    console.log("SUCCESS");
+} else {
+    console.error("FAILED");
+}
