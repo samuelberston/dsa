@@ -364,3 +364,41 @@ if (WDres2 === 1) {
 } else {
     console.error("FAILED");
 }
+
+// LCA II
+/**
+ * // Definition for a _Node.
+ * function _Node(val) {
+ *    this.val = val;
+ *    this.left = null;
+ *    this.right = null;
+ *    this.parent = null;
+ * };
+ */
+
+/**
+ * @param {_Node} p
+ * @param {_Node} q
+ * @return {_Node}
+ */
+var lowestCommonAncestor = function(p, q) {
+    // Track visited nodes
+    const visited = new Set();
+
+    // track path up from p
+    let curr = p;
+    while (curr) {
+        visited.add(curr);
+        curr = curr.parent;
+    }
+
+    // track path up from q until we find first vistied node
+    curr = q;
+    while (curr) {
+        if (visited.has(curr)) {
+            return curr;
+        }
+        curr = curr.parent;
+    }
+    return null;
+};
