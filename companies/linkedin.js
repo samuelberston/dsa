@@ -7,6 +7,7 @@
  *      3) Factor Combinations
  *      4) Sort Transformed Array
  *      5) Find Leaves of Binary Tree
+ *      6) Shorted Word Distanct II
  */
 
 /**
@@ -291,6 +292,74 @@ tree.right.right = new Node(7);
 console.log("\n5. Find Leaves of Binary Tree");
 process.stdout.write("TEST CASE 1: ");
 if(JSON.stringify(findLeaves(tree)) === JSON.stringify([ [ 4, 5, 6, 7 ], [ 2, 3 ], [ 1 ] ])) {
+    console.log("SUCCESS");
+} else {
+    console.error("FAILED");
+}
+
+/**
+ *      Shortest Word Distance II
+ * 
+ * Design a data structure that will be initialized with a string array, 
+ * and then it should answer queries of the shortest distance between two different strings from the array.
+ * 
+ * Implement the WordDistance class:
+ * WordDistance(String[] wordsDict) initializes the object with the strings array wordsDict.
+ * int shortest(String word1, String word2) returns the shortest distance between word1 and word2 in the array wordsDict.
+ * 
+ * ["practice", "makes", "perfect", "coding", "makes"]
+ */
+class WordDistance {
+    constructor(wordsDict) {
+        this.wordsDict = wordsDict;
+        this.dict = this.makeDict();
+
+    }
+
+    makeDict() {
+        const dict = {};
+        for (let i = 0; i < this.wordsDict.length; i++) {
+            const word = this.wordsDict[i];
+            dict[word] = dict[word] ? [...dict[word], i] : [i];
+        }
+        return dict;
+    }
+
+    shortest(word1, word2) {
+        // calculate shortest distance between two words, whether one or more occurances
+        let shortest = Infinity;
+        let p1 = 0;
+        let p2 = 0;
+        // w1: [1, 4]
+        // w2 [3, 5]
+        while(p1 < this.dict[word1].length && p2 < this.dict[word2].length) {
+            // update shortest
+            shortest = Math.min(shortest, Math.abs(this.dict[word1][p1] - this.dict[word2][p2]));
+            // move pointers
+            if (this.dict[word1][p1] <= this.dict[word2][p2]) {
+                p1++
+            } else {
+                p2++;
+            }
+        }
+        return shortest;
+    }
+}
+
+// Shortest word distance driver code
+console.log("\n6. Shortest Word Distance II");
+const WD = new WordDistance(["practice", "makes", "perfect", "coding", "makes", "perfect", "practice"]);
+process.stdout.write("TEST CASE 1: ");
+const WDres1 = WD.shortest("practice", "makes"); // 1
+if (WDres1 === 1) {
+    console.log("SUCCESS");
+} else {
+    console.error("FAILED");
+}
+
+process.stdout.write("TEST CASE 2: ");
+const WDres2 = WD.shortest("practice", "perfect"); // 1
+if (WDres2 === 1) {
     console.log("SUCCESS");
 } else {
     console.error("FAILED");
