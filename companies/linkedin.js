@@ -6,6 +6,7 @@
  *      2) Find First and Last Position of Element in Sorted Array
  *      3) Factor Combinations
  *      4) Sort Transformed Array
+ *      5) Find Leaves of Binary Tree
  */
 
 /**
@@ -221,6 +222,76 @@ const c1 = 5;
 const res7 = sortTransformedArray(nums3, a1, b1, c1);
 if (JSON.stringify(res7) === JSON.stringify([3, 9, 15, 33])) {
     console.log("PASSED");
+} else {
+    console.error("FAILED");
+}
+
+/**
+ *      Find Leaves of Binary Tree
+ * Given the root of a binary tree, collect a tree's nodes as if you were doing this:
+ * Collect all the leaf nodes.
+ * Remove all the leaf nodes.
+ * Repeat until the tree is empty.
+ * 
+ * @param {Node}
+ * @return {number[][]}
+ */
+
+class Node {
+    constructor(val) {
+        this.val = val;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+const findLeaves = (root) => {
+    const leaves = [];
+
+    //  trim leaves using dfs
+    const trimLeaves = (root, trimmed = []) => {
+        // base case - null node
+        if (!root) return;
+
+        // base case - leaf node
+        if (!root.left && !root.right) {
+            trimmed.push(root.val);
+            root.val = null; // trim
+            return true;
+        }
+        if (root.left && trimLeaves(root.left, trimmed)) {
+            root.left = null;
+        }
+        if (root.right && trimLeaves(root.right, trimmed)) {
+            root.right = null;
+        }
+
+        return false;
+    }
+
+    // iterate root node while exists, incrementally removing leaves
+    while (root && root.val !== null) {
+        const trimmed = [];
+        trimLeaves(root, trimmed);
+        leaves.push(trimmed);
+    };
+    
+    return leaves;
+};
+
+// Trim leaves driver code
+const tree = new Node(1);
+tree.left = new Node(2);
+tree.right = new Node(3);
+tree.left.left = new Node(4);
+tree.left.right = new Node(5);
+tree.right.left = new Node(6);
+tree.right.right = new Node(7);
+
+console.log("\n5. Find Leaves of Binary Tree");
+process.stdout.write("TEST CASE 1: ");
+if(JSON.stringify(findLeaves(tree)) === JSON.stringify([ [ 4, 5, 6, 7 ], [ 2, 3 ], [ 1 ] ])) {
+    console.log("SUCCESS");
 } else {
     console.error("FAILED");
 }
