@@ -402,3 +402,73 @@ var lowestCommonAncestor = function(p, q) {
     }
     return null;
 };
+
+/**
+ *      Isomorphic Strings
+ * 
+ * Given two strings s and t, determine if they are isomorphic.
+ * 
+ * @param {string} s
+ * @param {string} t
+ * @return {boolean}
+ */
+const isIsomorphic = (s, t) => {
+    if (s.length !== t.length) return false;
+
+    const mapST = {};
+    const mapTS = {};
+
+    for (let i = 0; i < s.length; i++) {
+        const charS = s[i];
+        const charT = t[i]; 
+
+        // char aligns with maps
+        if (mapST[charS] === charT && mapTS[charS] === charS) {
+            continue;
+        }
+
+        // char already in map and doesn't match curr chars
+        if (mapST[charS] && mapST[charS] !== charT ||
+            mapTS[charT] && mapTS[charT] !== charS) {
+                return false;
+        }
+
+        // chars not in maps, add them
+        else if (!mapST[charS] && !mapTS[charT]) {
+            mapST[charS] = charT;
+            mapTS[charT] = charS;
+        }
+    };
+
+    return true;
+}
+
+// Isomorphic strings driver code
+console.log("\n7. Isomorphic Strings");
+process.stdout.write("TEST CASE 1: ");
+const strings1 = ["egg", "foo"];
+const Ires1 = isIsomorphic(...strings1); // true
+if (Ires1) { 
+    console.log("SUCCESS");
+} else {
+    console.error("FAILED");
+}
+
+process.stdout.write("TEST CASE 2: ");
+const strings2 = ["foo", "bar"];
+const Ires2 = isIsomorphic(...strings2); // false
+if (!Ires2) { 
+    console.log("SUCCESS");
+} else {
+    console.error("FAILED");
+}
+
+process.stdout.write("TEST CASE 3: ");
+const strings3 = ["paper", "title"];
+const Ires3 = isIsomorphic(...strings3); // true
+if (Ires3) { 
+    console.log("SUCCESS");
+} else {
+    console.error("FAILED");
+}
+
