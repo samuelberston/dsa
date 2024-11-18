@@ -8,6 +8,8 @@
  *      4) Sort Transformed Array
  *      5) Find Leaves of Binary Tree
  *      6) Shorted Word Distanct II
+ *      7) Isomorphic Strings
+ *      8) Nested List Weight Sum
  */
 
 /**
@@ -472,3 +474,43 @@ if (Ires3) {
     console.error("FAILED");
 }
 
+/**
+ *      Nested List Weight Sum
+ * 
+ * You are given a nested list of integers nestedList. Each element is either an integer or a list whose elements may also be integers or other lists.
+ * The depth of an integer is the number of lists that it is inside of. For example, the nested list [1,[2,2],[[3],2],1] has each integer's value set to its depth.
+ * Return the sum of each integer in nestedList multiplied by its depth.
+ * 
+ * @param {number[][]}
+ * @return {number}
+ */
+const depthSum = (nestedList) => {
+    let sum = 0;
+
+    const dfs = (list, level = 1) => {
+        // iterate elements in nested list
+        for (const element of list) {
+            // base case
+            if (typeof element === 'number') {
+                sum += element * level;
+            }
+            else if (Array.isArray(element)) {
+                dfs(element, level + 1);
+            }
+        }
+    };
+    dfs(nestedList);
+
+    return sum;
+};
+
+// Nested List driver code
+console.log("\n8. Nested List Weight Sum");
+process.stdout.write("TEST CASE 1: ");
+const nl1 = [1,[2,2],[[3],2],1];
+const nlres1 = depthSum(nl1);
+if (nlres1 === 23) {
+    console.log("SUCCESS");
+} else {
+    console.error("FAILED");
+}
