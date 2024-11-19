@@ -10,6 +10,8 @@
  *      6) Shorted Word Distanct II
  *      7) Isomorphic Strings
  *      8) Nested List Weight Sum
+ *      9) Course Schedule II
+ *      10) Flatten Nested Iterator
  */
 
 /**
@@ -596,3 +598,88 @@ if (JSON.stringify(CSres1) === JSON.stringify([ 0, 1, 2, 3 ])) {
 } else {
     console.error("FAILED");
 }
+
+/**
+ *      10. Flatten Nested Iterator
+ * 
+ * // This is the interface that allows for creating nested lists.
+ * // You should not implement it, or speculate about its implementation
+ * function NestedInteger() {
+ *
+ *     Return true if this NestedInteger holds a single integer, rather than a nested list.
+ *     @return {boolean}
+ *     this.isInteger = function() {
+ *         ...
+ *     };
+ *
+ *     Return the single integer that this NestedInteger holds, if it holds a single integer
+ *     Return null if this NestedInteger holds a nested list
+ *     @return {integer}
+ *     this.getInteger = function() {
+ *         ...
+ *     };
+ *
+ *     Return the nested list that this NestedInteger holds, if it holds a nested list
+ *     Return null if this NestedInteger holds a single integer
+ *     @return {NestedInteger[]}
+ *     this.getList = function() {
+ *         ...
+ *     };
+ * };
+ */
+/**
+ * @constructor
+ * @param {NestedInteger[]} nestedList
+ */
+class NestedIterator {
+    constructor(nestedList) {
+        this.nestedList = nestedList;
+        this.flat = this.flattenList();
+        this.p = -1; // iterate flat list
+    }
+
+    flattenList() {
+        const flat = [];
+
+        const inner = (list) => {
+            // iterate each element in list
+            for (const element of list) {
+                // base case
+                if (element.isInteger()) {
+                    flat.push(element.getInteger());
+                }
+                else {
+                    inner(element.getList());
+                }
+            }
+        };
+        inner(this.nestedList);
+
+        return flat;
+    }
+}
+
+/**
+ * @this NestedIterator
+ * @returns {boolean}
+ */
+NestedIterator.prototype.hasNext = function() {
+    return this.p < this.flat.length - 1;
+};
+
+/**
+ * @this NestedIterator
+ * @returns {integer}
+ */
+NestedIterator.prototype.next = function() {
+    if (!this.hasNext) return false;
+    this.p++;
+    return this.flat[this.p];
+};
+
+/**
+ * Your NestedIterator will be called like this:
+ * var i = new NestedIterator(nestedList), a = [];
+ * while (i.hasNext()) a.push(i.next());
+*/
+// Leet code submission: https://leetcode.com/problems/flatten-nested-list-iterator/submissions/1456766528/?envType=company&envId=linkedin&favoriteSlug=linkedin-thirty-days
