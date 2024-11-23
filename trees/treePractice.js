@@ -133,8 +133,6 @@ class BinaryTree {
         if (root.left) this.trim(root.left);
         if (root.right) this.trim(root.right);
     }
-
-
 }
 
 // Tree Practice Driver Code
@@ -164,4 +162,45 @@ console.log("Flipped tree: ", bTree.tree);
 console.log("\nTrimming leaves from tree...");
 bTree.trim();
 console.log("new max depth: ", bTree.getMaxDepth());
+
+
+// Binary Search Tree
+class BinarySearchTree {
+    constructor(root) {
+        this.tree = new Node(root);
+    }
+
+    insertNode(val) {
+        const dfs = (root) => {
+            if (val < root.val) {
+                if (!root.left) {
+                    root.left = new Node(val);
+                    return;
+                } else {
+                    dfs(root.left);
+                }
+
+            } else if (val >= root.val) {
+                if (!root.right) {
+                    root.right = new Node(val);
+                } else {
+                    dfs(root.right);
+                }
+            }
+        }
+        dfs(this.tree);
+    }
+
+}
+
+// BinarySearchTree driver code
+console.log("\nBinary Search Tree");
+const BST = new BinarySearchTree(6);
+console.log("BST: ", BST);
+console.log("Inserting nodes...");
+BST.insertNode(3);
+BST.insertNode(8);
+BST.insertNode(1);
+BST.insertNode(7);
+console.log("BST: ", BST);
 
