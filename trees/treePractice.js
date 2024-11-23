@@ -94,7 +94,7 @@ class BinaryTree {
         }
     }
 
-    getMaxDepth() {
+    getMaxDepth(root) {
         const dfs = (root) => {
             if (!root) return 0;
 
@@ -110,9 +110,28 @@ class BinaryTree {
         root.left = root.right;
         root.right = tmp;
 
-        // recursive operation
+        // recursive operations
         if (root.left) this.flip(root.left);
         if (root.right) this.flip(root.right);
+    }
+
+    // shed a layer of leaves from the tree
+    trim(root = this.tree) {
+        // check for leaves
+        if (root.left) {
+            if (!root.left.left && !root.left.right) {
+                root.left = null;
+            }
+        }
+        if (root.right) {
+            if (!root.right.left && !root.right.right) {
+                root.right = null;
+            }
+        }
+        
+        // recursive operations
+        if (root.left) this.trim(root.left);
+        if (root.right) this.trim(root.right);
     }
 
 
@@ -142,4 +161,7 @@ console.log("bTreeMaxDepth: ", bTreeMaxDepth2);
 console.log("\nFlipping binary tree...");
 bTree.flip();
 console.log("Flipped tree: ", bTree.tree);
+console.log("\nTrimming leaves from tree...");
+bTree.trim();
+console.log("new max depth: ", bTree.getMaxDepth());
 
