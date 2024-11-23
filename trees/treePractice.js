@@ -11,7 +11,7 @@ class BinaryTree {
         this.tree = new Node(root);
     }
 
-    insertNode(val) {
+    insertNode(val, root = this.tree) {
         // dfs
         const dfs = (root) => {
             // add child node if possible, starting with the left child
@@ -28,21 +28,21 @@ class BinaryTree {
             dfs(root.left);
             dfs(root.right);
         }
-        dfs(this.tree);
+        dfs(root);
     }
 
-    removeNode(key) {
+    removeNode(key, root = this.tree) {
         // edge cases
-        if (!this.tree) return null; // no root node
-        if (!this.tree.left && !this.tree.right) { // only one node
-            if (this.tree.val = key) { // if only node is the key node
-                this.tree = null; // remove it
+        if (!root) return null; // no root node
+        if (!root.left && !root.right) { // only one node
+            if (root.val = key) { // if only node is the key node
+                root = null; // remove it
             }
         } 
 
         // Step 1: Use bfs to find the deepest node in the tree, and a pointer to the key node 
         let q = [];
-        q.push(this.tree);
+        q.push(root);
         let keyNode = null; // pointer to node to delete
         let curr;
 
@@ -66,10 +66,10 @@ class BinaryTree {
         }
     }
 
-    deleteDeepestNode(dNode) {
+    deleteDeepestNode(dNode, root = this.tree) {
         // bfs
         let q = [];
-        q.push(this.tree);
+        q.push(root);
         let curr;
         while (q.length) {
             curr = q.shift();
@@ -94,13 +94,13 @@ class BinaryTree {
         }
     }
 
-    getMaxDepth(root) {
+    getMaxDepth(root = this.tree) {
         const dfs = (root) => {
             if (!root) return 0;
 
             return Math.max(dfs(root.left), dfs(root.right)) + 1;
         };
-        return dfs(this.tree);
+        return dfs(root);
     }
 
     flip(root = this.tree) {
@@ -170,7 +170,7 @@ class BinarySearchTree {
         this.tree = new Node(root);
     }
 
-    insertNode(val) {
+    insertNode(val, root = this.tree) {
         const dfs = (root) => {
             if (val < root.val) {
                 if (!root.left) {
@@ -188,19 +188,43 @@ class BinarySearchTree {
                 }
             }
         }
-        dfs(this.tree);
+        dfs(root);
+    }
+
+    // Least common ancestor of two nodes
+    LCA(node1, node2, root = this.tree) {
+        // edge case - ensure node1 is < node2
+        if (node1 > node2) {
+            [node1, node2] = [node2, node1];
+        }
+
+        const dfs = (root) => {
+            if (root.val >= node1 && root.val <= node2) {
+                return root.val;
+            }
+            if (root.val > node2) {
+                return dfs(root.left);
+            }
+            if (root.val < node1) {
+                return dfs(root.right);
+            }
+        }
+       return dfs(root);
     }
 
 }
 
 // BinarySearchTree driver code
-console.log("\nBinary Search Tree");
+console.log("\n**Binary Search Tree**");
 const BST = new BinarySearchTree(6);
-console.log("BST: ", BST);
-console.log("Inserting nodes...");
+console.log("\nBST: ", BST);
+console.log("\nInserting nodes...");
 BST.insertNode(3);
 BST.insertNode(8);
 BST.insertNode(1);
 BST.insertNode(7);
-console.log("BST: ", BST);
+BST.insertNode(5);
+BST.insertNode(10);
+const LCA = BST.LCA(7, 10);
+console.log("\nLeast common ancestor of 7 and 10: ", LCA);
 
