@@ -83,6 +83,7 @@ class BinaryTree {
                 curr.left = null;
                 return;        
             }
+
             if (curr.right === dNode) {
                 curr.right = null;
                 return;
@@ -105,6 +106,7 @@ class BinaryTree {
 
     flip(root = this.tree) {
         if (!root) return;
+
         // flip operation
         let tmp = root.left;
         root.left = root.right;
@@ -118,16 +120,8 @@ class BinaryTree {
     // shed a layer of leaves from the tree
     trim(root = this.tree) {
         // check for leaves
-        if (root.left) {
-            if (!root.left.left && !root.left.right) {
-                root.left = null;
-            }
-        }
-        if (root.right) {
-            if (!root.right.left && !root.right.right) {
-                root.right = null;
-            }
-        }
+        if (root.left && !root.left.left && !root.left.right) root.left = null;
+        if (root.right && !root.right.left && !root.right.right) root.right = null;
         
         // recursive operations
         if (root.left) this.trim(root.left);
@@ -137,6 +131,24 @@ class BinaryTree {
     // Check for complete tree
 
     // Check for Balanced binary tree
+    isBalanced(root = this.tree) {
+        const dfs = (root) => {
+            if (!root) return 0;
+
+            // Recursively get depth of subtrees
+            const lDepth = dfs(root.left);
+            const rDepth = dfs(root.right);
+
+            // Unbalanced tree
+            if(Math.abs(lDepth - rDepth) > 1) return -1;
+            if (lDepth === -1 || rDepth === -1) return -1;
+
+            // Return height of current subtree
+            return Math.abs(lDepth, rDepth) + 1;
+        }
+
+        return dfs(root) !== -1;
+    }
 
 
 }
@@ -144,30 +156,33 @@ class BinaryTree {
 // Tree Practice Driver Code
 console.log("\nTree Practice");
 console.log("\nAdding nodes to b-tree...");
-const bTree = new BinaryTree(1);
-bTree.insertNode(2);
-bTree.insertNode(3);
-bTree.insertNode(4);
-bTree.insertNode(5);
-console.log("b-tree: ", bTree);
+const tree = new BinaryTree(1);
+tree.insertNode(2);
+tree.insertNode(3);
+tree.insertNode(4);
+tree.insertNode(5);
+console.log("b-tree: ", tree);
 console.log("\nDeleting a node from the b-tree...");
-bTree.removeNode(3);
-console.log("b-tree: ", bTree);
+tree.removeNode(3);
+console.log("b-tree: ", tree);
 console.log("\nGetting max depth of the b-tree...");
-const bTreeMaxDepth1 = bTree.getMaxDepth();
+const bTreeMaxDepth1 = tree.getMaxDepth();
 console.log("bTreeMaxDepth: ", bTreeMaxDepth1);
 console.log("\nAdding more nodes to the b-tree...");
-bTree.insertNode(6);
-bTree.insertNode(7);
+tree.insertNode(6);
+tree.insertNode(7);
 console.log("\nGetting udpated max depth of the b-tree...");
-const bTreeMaxDepth2 = bTree.getMaxDepth();
+const bTreeMaxDepth2 = tree.getMaxDepth();
 console.log("bTreeMaxDepth: ", bTreeMaxDepth2);
 console.log("\nFlipping binary tree...");
-bTree.flip();
-console.log("Flipped tree: ", bTree.tree);
+tree.flip();
+console.log("Flipped tree: ", tree.tree);
 console.log("\nTrimming leaves from tree...");
-bTree.trim();
-console.log("new max depth: ", bTree.getMaxDepth());
+tree.trim();
+console.log("new max depth: ", tree.getMaxDepth());
+console.log("\nChecking if tree is balanced...");
+const isBalanced = tree.isBalanced();
+console.log(isBalanced);
 
 
 // Binary Search Tree
