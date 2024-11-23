@@ -103,7 +103,7 @@ class BinaryTree {
         return dfs(this.tree);
     }
 
-    flipTree(root = this.tree) {
+    flip(root = this.tree) {
         if (!root) return;
         // flip operation
         let tmp = root.left;
@@ -111,9 +111,11 @@ class BinaryTree {
         root.right = tmp;
 
         // recursive operation
-        if (root.left) this.flipTree(root.left);
-        if (root.right) this.flipTree(root.right);
+        if (root.left) this.flip(root.left);
+        if (root.right) this.flip(root.right);
     }
+
+
 }
 
 // Tree Practice Driver Code
@@ -138,6 +140,6 @@ console.log("\nGetting udpated max depth of the b-tree...");
 const bTreeMaxDepth2 = bTree.getMaxDepth();
 console.log("bTreeMaxDepth: ", bTreeMaxDepth2);
 console.log("\nFlipping binary tree...");
-bTree.flipTree();
+bTree.flip();
 console.log("Flipped tree: ", bTree.tree);
 
