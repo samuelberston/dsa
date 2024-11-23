@@ -133,6 +133,12 @@ class BinaryTree {
         if (root.left) this.trim(root.left);
         if (root.right) this.trim(root.right);
     }
+
+    // Check for complete tree
+
+    // Check for Balanced binary tree
+
+
 }
 
 // Tree Practice Driver Code
@@ -228,3 +234,7 @@ BST.insertNode(10);
 const LCA = BST.LCA(7, 10);
 console.log("\nLeast common ancestor of 7 and 10: ", LCA);
 
+
+// enumeration of binary tree (# trees with n nodes)
+
+// AVL tree
