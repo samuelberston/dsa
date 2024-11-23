@@ -42,8 +42,8 @@ class BinaryTree {
 
         // Step 1: Use bfs to find the deepest node in the tree, and a pointer to the key node 
         let q = [];
-        q.push(this.tree)
-        let keyNode = null;
+        q.push(this.tree);
+        let keyNode = null; // pointer to node to delete
         let curr;
 
         while (q.length) {
@@ -79,22 +79,18 @@ class BinaryTree {
                 return;
             }
 
-            if (curr.left) {
-                if (curr.left === dNode) {
-                    curr.left = null;
-                    return;
-                } else {
-                    q.push(curr.left);
-                }
+            if (curr.left === dNode) {
+                curr.left = null;
+                return;        
             }
-            if (curr.right) {
-                if (curr.right === dNode) {
-                    curr.right = null;
-                    return;
-                } else {
-                    q.push(curr.right);
-                }
+            if (curr.right === dNode) {
+                curr.right = null;
+                return;
             }
+
+            // Add children to queue
+            if (curr.left) q.push(curr.left);
+            if (curr.right) q.push(curr.right);
         }
     }
 
@@ -106,6 +102,7 @@ class BinaryTree {
         };
         return dfs(this.tree);
     }
+    
 }
 
 // Tree Practice Driver Code
