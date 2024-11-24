@@ -12,24 +12,20 @@ class BinaryTree {
     }
 
     insertNode(val, root = this.tree) {
-        // dfs
-        const dfs = (root) => {
-            // add child node if possible, starting with the left child
-            if (!root.left) {
-                root.left = new Node(val);
-                return;
-            }
-
-            if (!root.right) {
-                root.right = new Node(val);
-                return;
-            }
-
-            // recurse on subtrees
-            dfs(root.left);
-            dfs(root.right);
+        // add child node if possible, starting with the left child
+        if (!root.left) {
+            root.left = new Node(val);
+            return;
         }
-        dfs(root);
+
+        if (!root.right) {
+            root.right = new Node(val);
+            return;
+        }
+
+        // recurse on subtrees
+        this.insertNode(val, root.left);
+        this.insertNode(val, root.right);
     }
 
     removeNode(key, root = this.tree) {
@@ -145,7 +141,6 @@ class BinaryTree {
         }    
         return dfs(root) !== -1;
     }
-
 }
 
 // Tree Practice Driver Code
