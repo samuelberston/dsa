@@ -272,6 +272,11 @@ class BinarySearchTree {
        return dfs(root);
     }
 
+    // find Min
+    // find Max
+    // find Kth smallest
+    // isValidBST
+
 }
 
 // BinarySearchTree driver code
