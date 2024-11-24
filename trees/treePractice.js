@@ -96,14 +96,8 @@ class BinaryTree {
     }
 
     getMaxDepth(root = this.tree) {
-        const dfs = (root) => {
-            // Base case - depth of zero
-            if (!root) return 0;
-
-            // Recursively calculate max depth of subtrees
-            return Math.max(dfs(root.left), dfs(root.right)) + 1;
-        };
-        return dfs(root);
+        if (!root) return 0;
+        return Math.max(dfs(root.left), dfs(root.right)) + 1;
     }
 
     flip(root = this.tree) {
