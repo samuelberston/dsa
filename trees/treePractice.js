@@ -248,18 +248,15 @@ class BinarySearchTree {
             [node1, node2] = [node2, node1];
         }
 
-        const dfs = (root) => {
-            if (root.val >= node1 && root.val <= node2) {
-                return root.val;
-            }
-            if (root.val > node2) {
-                return dfs(root.left);
-            }
-            if (root.val < node1) {
-                return dfs(root.right);
-            }
+        if (root.val >= node1 && root.val <= node2) {
+            return root.val;
         }
-       return dfs(root);
+        if (root.val > node2) {
+            return this.LCA(root.left);
+        }
+        if (root.val < node1) {
+            return this.LCA(root.right);
+        }
     }
 
     // find Min
