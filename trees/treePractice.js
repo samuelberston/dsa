@@ -97,7 +97,7 @@ class BinaryTree {
 
     getMaxDepth(root = this.tree) {
         if (!root) return 0;
-        return Math.max(dfs(root.left), dfs(root.right)) + 1;
+        return Math.max(this.getMaxDepth(root.left), this.getMaxDepth(root.right)) + 1;
     }
 
     flip(root = this.tree) {
