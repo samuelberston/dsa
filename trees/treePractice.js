@@ -145,23 +145,23 @@ class BinaryTree {
 
 // Tree Practice Driver Code
 console.log("\nTree Practice");
-console.log("\nAdding nodes to b-tree...");
+console.log("\nAdding nodes to binary tree...");
 const tree = new BinaryTree(1);
 tree.insertNode(2);
 tree.insertNode(3);
 tree.insertNode(4);
 tree.insertNode(5);
 console.log("b-tree: ", tree);
-console.log("\nDeleting a node from the b-tree...");
+console.log("\nDeleting a node from the binary tree...");
 tree.removeNode(3);
 console.log("b-tree: ", tree);
-console.log("\nGetting max depth of the b-tree...");
+console.log("\nGetting max depth of the binary tree...");
 const bTreeMaxDepth1 = tree.getMaxDepth();
 console.log("bTreeMaxDepth: ", bTreeMaxDepth1);
-console.log("\nAdding more nodes to the b-tree...");
+console.log("\nAdding more nodes to the binary tree...");
 tree.insertNode(6);
 tree.insertNode(7);
-console.log("\nGetting udpated max depth of the b-tree...");
+console.log("\nGetting udpated max depth of the binary tree...");
 const bTreeMaxDepth2 = tree.getMaxDepth();
 console.log("bTreeMaxDepth: ", bTreeMaxDepth2);
 console.log("\nFlipping binary tree...");
