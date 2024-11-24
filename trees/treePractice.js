@@ -152,7 +152,6 @@ class BinaryTree {
         return dfs(root) !== -1;
     }
 
-
 }
 
 // Tree Practice Driver Code
@@ -214,6 +213,44 @@ class BinarySearchTree {
         dfs(root);
     }
 
+    deleteNode(val, root = this.tree) {
+        // edge case - no root node
+        if (!root) return null;
+
+        // Step 1: Recursively find node to delete
+        if (root.val < val) {
+            root.right = this.deleteNode(val, root.right);
+            return root;
+        } 
+        if (root.val > val) {
+            root.left = this.deleteNode(val, root.left);
+            return root;
+        } 
+        
+        // Step 2: Found node to delete, handle 3 cases:
+        // Case 1: Leaf node - just delete it
+        if (!root.left && !root.right) {
+            return null;
+        }
+
+        // Case 2: Node has one child - replace with child
+        if (!root.left) return root.right;
+        if (!root.right) return root.left;
+
+        // Case 3: Node has two children - find successor
+        let successor = root.right;
+        while (successor.left) {
+            successor = successor.left;
+        }
+
+        // Replace current node value with successor
+        root.val = successor.val;
+
+        // Delete the successor
+        root.right = this.deleteNode(successor.val, root.right);
+        return root;
+    }
+
     // Least common ancestor of two nodes
     LCA(node1, node2, root = this.tree) {
         // edge case - ensure node1 is < node2
@@ -249,7 +286,9 @@ BST.insertNode(5);
 BST.insertNode(10);
 const LCA = BST.LCA(7, 10);
 console.log("\nLeast common ancestor of 7 and 10: ", LCA);
-
+console.log("\nDeleting node 7...");
+BST.deleteNode(7);
+console.log("BST: ", BST);
 // enumeration of binary tree (# trees with n nodes)
 
 // AVL tree
