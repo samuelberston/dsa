@@ -192,13 +192,13 @@ class BinarySearchTree {
                 root.left = new Node(val);
                 return;
             } else {
-                this.insertNode(root.left);
+                this.insertNode(val, root.left);
             }
         } else if (val >= root.val) {
             if (!root.right) {
                 root.right = new Node(val);
             } else {
-                this.insertNode(root.right);
+                this.insertNode(val, root.right);
             }
         }
     }
