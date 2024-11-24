@@ -104,12 +104,12 @@ class BinaryTree {
         if (!root) return;
 
         // flip operation
-        let tmp = root.left;
-        root.left = root.right;
+        let tmp    = root.left;
+        root.left  = root.right;
         root.right = tmp;
 
         // recursive operations
-        if (root.left) this.flip(root.left);
+        if (root.left)  this.flip(root.left);
         if (root.right) this.flip(root.right);
     }
 
@@ -137,7 +137,7 @@ class BinaryTree {
             const rDepth = dfs(root.right);
 
             // Unbalanced tree
-            if(Math.abs(lDepth - rDepth) > 1) return -1;
+            if (Math.abs(lDepth - rDepth) > 1) return -1;
             if (lDepth === -1 || rDepth === -1) return -1;
 
             // Return height of current subtree
@@ -187,24 +187,20 @@ class BinarySearchTree {
     }
 
     insertNode(val, root = this.tree) {
-        const dfs = (root) => {
-            if (val < root.val) {
-                if (!root.left) {
-                    root.left = new Node(val);
-                    return;
-                } else {
-                    dfs(root.left);
-                }
-
-            } else if (val >= root.val) {
-                if (!root.right) {
-                    root.right = new Node(val);
-                } else {
-                    dfs(root.right);
-                }
+        if (val < root.val) {
+            if (!root.left) {
+                root.left = new Node(val);
+                return;
+            } else {
+                this.insertNode(root.left);
+            }
+        } else if (val >= root.val) {
+            if (!root.right) {
+                root.right = new Node(val);
+            } else {
+                this.insertNode(root.right);
             }
         }
-        dfs(root);
     }
 
     deleteNode(val, root = this.tree) {
@@ -267,6 +263,7 @@ class BinarySearchTree {
     }
 
     // find Min
+
     // find Max
     // find Kth smallest
     // isValidBST
