@@ -19,12 +19,13 @@ class BinaryTree {
                 root.left = new Node(val);
                 return;
             }
+
             if (!root.right) {
                 root.right = new Node(val);
                 return;
             }
 
-            // recurse on child nodes
+            // recurse on subtrees
             dfs(root.left);
             dfs(root.right);
         }
@@ -34,10 +35,8 @@ class BinaryTree {
     removeNode(key, root = this.tree) {
         // edge cases
         if (!root) return null; // no root node
-        if (!root.left && !root.right) { // only one node
-            if (root.val = key) { // if only node is the key node
-                root = null; // remove it
-            }
+        if (!root.left && !root.right && root.val === key) { // if only node is the key node
+            root = null; // remove it
         } 
 
         // Step 1: Use bfs to find the deepest node in the tree, and a pointer to the key node 
@@ -52,6 +51,7 @@ class BinaryTree {
             // found node to delete
             if (curr.val === key) keyNode = curr;
 
+            // continue search
             if (curr.left) q.push(curr.left);
             if (curr.right) q.push(curr.right);
         }
@@ -89,7 +89,7 @@ class BinaryTree {
                 return;
             }
 
-            // Add children to queue
+            // Continue search
             if (curr.left) q.push(curr.left);
             if (curr.right) q.push(curr.right);
         }
@@ -97,8 +97,10 @@ class BinaryTree {
 
     getMaxDepth(root = this.tree) {
         const dfs = (root) => {
+            // Base case - depth of zero
             if (!root) return 0;
 
+            // Recursively calculate max depth of subtrees
             return Math.max(dfs(root.left), dfs(root.right)) + 1;
         };
         return dfs(root);
@@ -133,6 +135,7 @@ class BinaryTree {
     // Check for Balanced binary tree
     isBalanced(root = this.tree) {
         const dfs = (root) => {
+            // Base case - depth of zero
             if (!root) return 0;
 
             // Recursively get depth of subtrees
@@ -144,9 +147,8 @@ class BinaryTree {
             if (lDepth === -1 || rDepth === -1) return -1;
 
             // Return height of current subtree
-            return Math.abs(lDepth, rDepth) + 1;
-        }
-
+            return Math.max(lDepth, rDepth) + 1;
+        }    
         return dfs(root) !== -1;
     }
 
@@ -238,7 +240,6 @@ class BinarySearchTree {
 // BinarySearchTree driver code
 console.log("\n**Binary Search Tree**");
 const BST = new BinarySearchTree(6);
-console.log("\nBST: ", BST);
 console.log("\nInserting nodes...");
 BST.insertNode(3);
 BST.insertNode(8);
@@ -248,7 +249,6 @@ BST.insertNode(5);
 BST.insertNode(10);
 const LCA = BST.LCA(7, 10);
 console.log("\nLeast common ancestor of 7 and 10: ", LCA);
-
 
 // enumeration of binary tree (# trees with n nodes)
 
