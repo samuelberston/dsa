@@ -263,8 +263,21 @@ class BinarySearchTree {
     }
 
     // find Min
+    findMin(root = this.tree) {
+        while(root.left) {
+            root = root.left;
+        }
+        return root.val;
+    }
 
     // find Max
+    findMax(root = this.tree) {
+        while(root.right) {
+            root = root.right;
+        }
+        return root.val;
+    }
+
     // find Kth smallest
     // isValidBST
 
@@ -285,6 +298,14 @@ console.log("\nLeast common ancestor of 7 and 10: ", LCA);
 console.log("\nDeleting node 7...");
 BST.deleteNode(7);
 console.log("BST: ", BST);
+console.log("\nFinding min node in BST...");
+const min = BST.findMin();
+console.log(min);
+console.log("\nFinding max node in BST...");
+const max = BST.findMax();
+console.log(max);
+
+
 // enumeration of binary tree (# trees with n nodes)
 
 // AVL tree
