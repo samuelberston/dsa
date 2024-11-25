@@ -183,6 +183,8 @@ printRandomList(copiedList);
 
 /**
  *      Remove Duplicates from Sorted List II
+ * 
+ *      Approach: use a dummy node to save the pointer to the predecessor, in case of sublist of duplicates
  *      
  */
 const removeDuplicates = (head) => {
