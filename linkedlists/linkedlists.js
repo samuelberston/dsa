@@ -188,8 +188,8 @@ printRandomList(copiedList);
  *      
  */
 const removeDuplicates = (head) => {
-    let dummy = new ListNode(-1, head);
     // Pointer to predecessor
+    let dummy = new ListNode(-1, head);
     let pred = dummy;
     while (head) {
         if (head.next && head.val === head.next.val) {

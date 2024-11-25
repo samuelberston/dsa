@@ -224,3 +224,70 @@ if (!sudokuChecker(sudoku2)) {
 } else {
     console.log("FAILED");
 }                
+
+/**
+    Surrounded Regions
+
+    iterate matrix. Once once encounter an O, use iterate BFS to check surrounding nodes, tracking the index of each O. If we encounter an edge, return: it's not a surrounded region. If we finish traversing the subregion without encountering and edge, update all the saved O indices to X's.
+    TC: O(n) where n is number of nodes in the matrix
+
+ * @param {character[][]} board
+ * @return {void} Do not return anything, modify board in-place instead.
+ */
+var solve = function(board) {
+    const visited = Array.from({ length: board.length }, () => Array(board[0].length).fill(false));
+    
+    const bfs = (i, j) => {
+        const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+        const q = [[i, j]];
+        const coordinates = [[i, j]];
+        visited[i][j] = true;
+        
+        let isSurrounded = true;
+        
+        while (q.length > 0) {
+            let [i, j] = q.shift();
+            // Check if current position is on border
+            if (i === 0 || i === board.length - 1 || j === 0 || j === board[0].length - 1) {
+                isSurrounded = false;
+            }
+            
+            for (const [dx, dy] of directions) {
+                let x = i + dx;
+                let y = j + dy;
+
+                // Within bounds and unvisited O
+                if (x >= 0 && x < board.length && y >= 0 && y < board[0].length 
+                    && board[x][y] === 'O' && !visited[x][y]) {
+                    visited[x][y] = true;
+                    q.push([x, y]);
+                    coordinates.push([x, y]);
+                }
+            }
+        }
+        
+        if (isSurrounded) {
+            for (const [x, y] of coordinates) {
+                board[x][y] = 'X';
+            }
+        }
+    };
+
+    // Only process O's
+    for (let i = 0; i < board.length; i++) {
+        for (let j = 0; j < board[0].length; j++) {
+            if (board[i][j] === 'O' && !visited[i][j]) {
+                bfs(i, j);
+            }
+        }
+    }
+
+    return board;
+};
+
+// Surrounded regions driver code
+console.log("\nSurrounded regions");
+process.stdout.write("TEST CASE 1: ");
+const board = [["X","X","X","X"],["X","O","O","X"],["X","X","O","X"],["X","O","X","X"]];
+console.log("original board: ", board);
+console.log("solved board: ", solve(board));
