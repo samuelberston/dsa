@@ -180,3 +180,36 @@ console.log("Original list:");
 printRandomList(n1);
 console.log("\nCopied list:");
 printRandomList(copiedList);
+
+/**
+ *      Remove Duplicates from Sorted List II
+ *      
+ */
+const removeDuplicates = (head) => {
+    let dummy = new ListNode(-1, head);
+    // Pointer to predecessor
+    let pred = dummy;
+    while (head) {
+        if (head.next && head.val === head.next.val) {
+            // skip all duplicates
+            while (head.next && head.val === head.next.val) {
+                head = head.next;
+            }
+            pred.next = head;
+        } else {
+            pred = pred.next;
+        }
+        // move forward
+        head = head.next;
+    }
+    return dummy.next;
+}
+
+// Remove duplicates driver code
+console.log("\nRemove Duplicates from linked list");
+const dupList = new ListNode(1);
+dupList.next = new ListNode(2);
+dupList.next.next = new ListNode(2);
+dupList.next.next.next = new ListNode(3);
+const dedup = removeDuplicates(dupList);
+console.log(dedup);
