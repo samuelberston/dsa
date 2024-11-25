@@ -272,7 +272,6 @@ class BinarySearchTree {
 
     // find Kth smallest
     // isValidBST
-
 }
 
 // BinarySearchTree driver code
@@ -296,7 +295,6 @@ console.log(min);
 console.log("\nFinding max node in BST...");
 const max = BST.findMax();
 console.log(max);
-
 
 // enumeration of binary tree (# trees with n nodes)
 

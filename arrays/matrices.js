@@ -147,3 +147,80 @@ console.log("\n1. Flood Fill Image");
 const image = [[1,1,1],[1,1,0],[1,0,1]];
 console.log("original image: ", image);
 console.log("flooded image: ", floodFill(image, 1, 1, 2))
+
+/**
+ *      Sudoku Checker
+ */
+const sudokuChecker = (board) => {
+    // Step 1: Initialize column, row, and box checkers
+    const rows = Array(9).fill(null).map(() => ({}));
+    const columns = Array(9).fill(null).map(() => ({}));
+    const boxes = Array(9).fill(null).map(() => ({}));
+
+    const check = (i, j) => {
+        const val = board[i][j];
+        // handle empty cells
+        if (val === '.') return true;
+
+        // edge case
+        if (!/^[1-9]$/.test(val)) return false;
+
+        const num = parseInt(val);
+        // check row
+        if(rows[i][num]) return false;
+        rows[i][num] = true;
+        // check column
+        if (columns[j][num]) return false;
+        columns[j][num] = true;
+        // check box
+        const box = Math.floor(i / 3) * 3 + Math.floor(j / 3);
+        if (boxes[box][num]) return false;
+        boxes[box][num] = true;
+        
+        return true;
+    };
+
+    // Step 2: Check all cells
+    for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            if (!check(i, j)) return false;
+        }
+    }
+
+    return true;
+};
+
+// Suduoku checker driver code
+console.log("\nSudoku checker");
+process.stdout.write("TEST CASE 1: ");
+const sudoku1 = [["5","3",".",".","7",".",".",".","."],
+                ["6",".",".","1","9","5",".",".","."],
+                [".","9","8",".",".",".",".","6","."],
+                ["8",".",".",".","6",".",".",".","3"],
+                ["4",".",".","8",".","3",".",".","1"],
+                ["7",".",".",".","2",".",".",".","6"],
+                [".","6",".",".",".",".","2","8","."],
+                [".",".",".","4","1","9",".",".","5"],
+                [".",".",".",".","8",".",".","7","9"]];
+
+if (sudokuChecker(sudoku1)) {
+    console.log("SUCCESS")
+} else {
+    console.log("FAILED");
+}
+
+process.stdout.write("TEST CASE 2: ");
+const sudoku2 = [["8","3",".",".","7",".",".",".","."],
+                ["6",".",".","1","9","5",".",".","."],
+                [".","9","8",".",".",".",".","6","."],
+                ["8",".",".",".","6",".",".",".","3"],
+                ["4",".",".","8",".","3",".",".","1"],
+                ["7",".",".",".","2",".",".",".","6"],
+                [".","6",".",".",".",".","2","8","."],
+                [".",".",".","4","1","9",".",".","5"],
+                [".",".",".",".","8",".",".","7","9"]];
+if (!sudokuChecker(sudoku2)) {
+    console.log("SUCCESS")
+} else {
+    console.log("FAILED");
+}                
