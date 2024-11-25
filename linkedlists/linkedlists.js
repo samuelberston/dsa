@@ -108,6 +108,8 @@ console.log("Merged list: ", mergeKLists(lists));
 
 /**
  *      Copy List with Random Pointer
+ * 
+ *      Approach: Treat it as a graph with multuiple edges, use a visited map to cache nodes
  */
 class RandomNode {
     constructor(val, next, random) {
@@ -125,9 +127,7 @@ const copyRandomList = (head) => {
         if (!node) return null;
 
         // Cached node in hashmap
-        if (visitedHash.has(node)) {
-            return visitedHash.get(node);
-        }
+        if (visitedHash.has(node)) return visitedHash.get(node);
 
         // Create new node
         let newNode = new RandomNode(node.val);
