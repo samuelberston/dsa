@@ -106,3 +106,77 @@ console.log("\n2. Merge K Lists");
 const lists = [l1, l2, l3, l4];
 console.log("Merged list: ", mergeKLists(lists));
 
+/**
+ *      Copy List with Random Pointer
+ */
+class RandomNode {
+    constructor(val, next, random) {
+        this.val = val;
+        this.next = next;
+        this.random = random;
+    }
+}
+
+const copyRandomList = (head) => {
+    // store previously visited nodes in hashmap
+    let visitedHash = new Map();
+
+    const cloneNode = (node) => {
+        if (!node) return null;
+
+        // Cached node in hashmap
+        if (visitedHash.has(node)) {
+            return visitedHash.get(node);
+        }
+
+        // Create new node
+        let newNode = new RandomNode(node.val);
+        visitedHash.set(node, newNode);
+
+        // Recursively clone remaining linkedlist
+        newNode.next = cloneNode(node.next);
+        newNode.random = cloneNode(node.random);
+        return newNode; 
+    };
+    return cloneNode(head);
+};
+
+// Copy Random List driver code
+console.log("\n3. Copy List with Random Pointer");
+
+// Create nodes
+const n1 = new RandomNode(1);
+const n2 = new RandomNode(2);
+const n3 = new RandomNode(3);
+const n4 = new RandomNode(4);
+
+// Connect next pointers
+n1.next = n2;
+n2.next = n3;
+n3.next = n4;
+
+// Connect random pointers
+n1.random = n3;  // 1 points to 3
+n2.random = n2;  // 2 points to itself
+n3.random = n1;  // 3 points to 1
+n4.random = n4;  // 4 points to itself
+
+// Create the deep copy
+const copiedList = copyRandomList(n1);
+
+// Helper function to print the list with random pointers
+const printRandomList = (head) => {
+    let current = head;
+    while (current) {
+        console.log(
+            `Node ${current.val} -> next: ${current.next?.val || 'null'}, ` +
+            `random: ${current.random?.val || 'null'}`
+        );
+        current = current.next;
+    }
+};
+
+console.log("Original list:");
+printRandomList(n1);
+console.log("\nCopied list:");
+printRandomList(copiedList);
