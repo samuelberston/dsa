@@ -5,9 +5,9 @@
     2. Course Schedule
     3. Pacific Atlantic Water Flow
     4. Number of Islands (Grid and Graph)
+    5. Alien dictionary
 
     To do:
-    5. Alien dictionary
     6. Graph valid tree
     7. Connected Components
 
