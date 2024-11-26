@@ -247,10 +247,10 @@ class BinarySearchTree {
             return root.val;
         }
         if (root.val > node2) {
-            return this.LCA(root.left);
+            return this.LCA(node1, node2, root.left);
         }
         if (root.val < node1) {
-            return this.LCA(root.right);
+            return this.LCA(node1, node2, root.right);
         }
     }
 
