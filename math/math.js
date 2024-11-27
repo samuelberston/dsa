@@ -44,3 +44,29 @@ console.log(nthRoot(1, 4));  // 1
 console.log(nthRoot(8, 3));  // 2
 console.log(nthRoot(7, 3));  // 1.912
 console.log(nthRoot(36, 4)); // 2.449
+
+/**
+ *      K-th Factor of N
+ * @param {number} n
+ * @param {number} k
+ * @return {number}
+ */
+const kthFactor = (n, k) => {
+    for (let i = 1; i < n + 1; i++) {
+        // Check for factor
+        if (n % i === 0) {
+            // Check for k-th factor
+            if (k === 1) return i;
+            // Decrement k
+            k--;
+        }
+    }
+    // Searched space and did not find k-th factor
+    return -1;
+};
+
+// k-th factor of n - driver code
+console.log("\n2. K-th Factor of N");
+console.log(kthFactor(12, 3)); // 3
+console.log(kthFactor(7, 2));  // 7
+console.log(kthFactor(4, 4));  // -1
