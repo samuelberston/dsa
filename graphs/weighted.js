@@ -188,5 +188,7 @@ console.log(weightedGraph.kruskalMST());
 console.log("\n3. Dijkstra's Algorithm")
 const dijkstraResult = weightedGraph.dijkstra(0);
 console.log(dijkstraResult);
-console.log("\n3. Path from 0 to 3: ")
+console.log("\n3.a Path from 0 to 3: ")
 console.log(weightedGraph.getPath(dijkstraResult.parents, 3));
+console.log("\n3.b Path from 0 to 2: ")
+console.log(weightedGraph.getPath(dijkstraResult.parents, 2));
