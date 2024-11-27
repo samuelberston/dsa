@@ -7,7 +7,7 @@
  *      3) Factor Combinations
  *      4) Sort Transformed Array
  *      5) Find Leaves of Binary Tree
- *      6) Shorted Word Distanct II
+ *      6) Shorted Word Distance II
  *      7) Isomorphic Strings
  *      8) Nested List Weight Sum
  *      9) Course Schedule II
@@ -40,7 +40,7 @@ const nestedListWeightSumII = (nestedList) => {
         for (let i = 0; i < list.length; i++) {
             // recursive case - element is array, increment level and recurse on nested element
             if (Array.isArray(list[i])) {
-                currentMax = Math.max(currentMax, maxDepth(list[i], level+ 1));
+                currentMax = Math.max(currentMax, maxDepth(list[i], level + 1));
             }
         }
         return currentMax;
@@ -241,7 +241,6 @@ if (JSON.stringify(res7) === JSON.stringify([3, 9, 15, 33])) {
  * @param {Node}
  * @return {number[][]}
  */
-
 class Node {
     constructor(val) {
         this.val = val;
@@ -317,7 +316,6 @@ class WordDistance {
     constructor(wordsDict) {
         this.wordsDict = wordsDict;
         this.dict = this.makeDict();
-
     }
 
     makeDict() {
