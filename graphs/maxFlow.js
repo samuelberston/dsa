@@ -2,7 +2,6 @@
  *      Max Flow in a directed weighted graph
  * 
  */
-
 class DirWeighedGraph {
     constructor(V) {
         this.V = V;

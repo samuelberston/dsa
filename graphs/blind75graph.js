@@ -235,6 +235,7 @@ var alienOrder = function(words) {
         const secondWord = words[i + 1];
         let foundDifference = false;
 
+        // check each char until a difference is found
         for (let j = 0; j < Math.min(firstWord.length, secondWord.length); j++) {
             const c = firstWord[j];
             const d = secondWord[j];

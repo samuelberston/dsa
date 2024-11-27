@@ -132,7 +132,7 @@ class BinaryTree {
             const lDepth = dfs(root.left);
             const rDepth = dfs(root.right);
 
-            // Unbalanced tree
+            // Check if tree is unbalanced, return -1 if so
             if (Math.abs(lDepth - rDepth) > 1) return -1;
             if (lDepth === -1 || rDepth === -1) return -1;
 
