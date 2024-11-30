@@ -3,6 +3,7 @@
  *      Backtracking
  * 
  *      1. Letter Combinations of a Phone Number
+ *      2. Generate Combinations
  */
 
 /**
@@ -74,3 +75,56 @@ if (JSON.stringify(combos2) === JSON.stringify([
 } else {
     console.error("FAILED");
 }
+
+
+/**
+ * 
+ *      Generate combinitation of k integers in range n 
+ *      
+ *      Example:
+ *      n = 5, k = 3
+ *      Output: [[1,2,3],[1,2,4],[1,2,5],[1,3,4],[1,3,5],[1,4,5],[2,3,4],[2,3,5],[2,4,5],[3,4,5]]
+ * 
+ *     
+ */
+const combinations = (n, k) => {
+    // edge cases
+    if (k > n) return [];
+    if (k === 1) return new Array.from({ length: n}, (_, i) => [i + 1]);
+
+    const combos = [];
+
+    // recursively create combos
+    const inner = (start = 1, currCombo = []) => {
+        // base case
+        if (currCombo.length === k) {
+            combos.push([...currCombo]);
+            return;
+        }
+
+        // recursive cases
+        for (let i = start; i <= n; i++) { // digits of n
+            currCombo.push(i); // add i to currCombo
+            inner(i + 1, currCombo); // recurse on next digit
+            currCombo.pop(); // backtrack by removing last digit
+        }
+    }
+    inner(1, []);
+
+    return combos;
+}
+
+console.log("\n2. Generate Combinations");
+process.stdout.write("TEST CASE 1: ");
+const res2a = combinations(5, 3);
+if (JSON.stringify(res2a) === JSON.stringify([
+    [ 1, 2, 3 ], [ 1, 2, 4 ],
+    [ 1, 2, 5 ], [ 1, 3, 4 ],
+    [ 1, 3, 5 ], [ 1, 4, 5 ],
+    [ 2, 3, 4 ], [ 2, 3, 5 ],
+    [ 2, 4, 5 ], [ 3, 4, 5 ]
+  ])) { 
+    console.log("PASSED");
+  } else {
+    console.log("FAILED");
+  }
