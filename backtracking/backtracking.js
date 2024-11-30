@@ -194,26 +194,25 @@ const sudokuSolver = (board) => {
         if (solved) return;
 
         // base case
-        if (r === 9) { // last row
+        if (r === 9) { // last row = solved
             solved = true;
             return;
         }
-        if (c === 9) { // next row
+        if (c === 9) { // move to next row
             backtrack(r + 1, 0);
             return;
         }
 
-        // empty cell
+        // If cell is empty
         if (board[r][c] === '.') {
-            // iterate candidates
+            // iterate candidates 1 - 9
             for (let n = 1; n < 10; n++) {
                 const strN = n.toString();
                 if (couldPlace(r, c, strN)) { 
                     placeNumber(r, c, strN);
                     backtrack(r, c + 1); // next cell
-                    // back track
+                    // If not solved, backtrack by removing number
                     if (!solved) removeNumber(r, c, strN);
-
                 }
             }
         } else {
