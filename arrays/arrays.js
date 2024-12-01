@@ -485,11 +485,15 @@ if (longest2 === 6) {
 }
 
 /**
+ * Next Permutation
+ * 
  * @param {number[]} nums
  * @return {void} Do not return anything, modify nums in-place instead.
-
- // Example : [1, 5, 8, 4, 7, 6, 5, 3, 1]
- // Output: [1, 5, 8, 5, 1, 3, 4, 6, 7]
+ * 
+ * approach: find first decreasing element n, swap n with the next largest number to its right, reverse the subarray to the right of n
+ * 
+ * Example : [1, 5, 8, 4, 7, 6, 5, 3, 1]
+ * Output: [1, 5, 8, 5, 1, 3, 4, 6, 7]
  */
  var nextPermutation = function(nums) {
     // find first decreasing element n
