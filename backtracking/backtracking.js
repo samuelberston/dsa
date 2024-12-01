@@ -245,3 +245,45 @@ const board2 = [[".",".","9","7","4","8",".",".","."],["7",".",".",".",".",".","
 sudokuSolver(board2);
 const solution2 = [["5","1","9","7","4","8","6","3","2"],["7","8","3","6","5","2","4","1","9"],["4","2","6","1","3","9","8","7","5"],["3","5","7","9","8","6","2","4","1"],["2","6","4","3","1","7","5","9","8"],["1","9","8","5","2","4","3","6","7"],["9","7","5","8","6","3","1","2","4"],["8","3","2","4","9","1","7","5","6"],["6","4","1","2","7","5","9","8","3"]];
 console.log(JSON.stringify(board2) === JSON.stringify(solution2) ? "PASSED" : "FAILED");
+
+/**
+ *      4. Generate Parentheses
+ * 
+ * @param {number} n
+ * @return {string[]}
+ */
+var generateParenthesis = function(n) {
+    // approach:
+    // - backtracking - generate all combinations
+    // - balance - know when to place open or close
+    const combos = [];
+    // start with opening paren and empty combo
+    const backtrack = (leftCount = 0, rightCount = 0, curStr = '') => {
+        // base case
+        if (curStr.length === 2 * n) {
+            combos.push(curStr);
+            return;
+        }
+
+        // opening count less than n
+        if (leftCount < n) {
+            curStr += '(';
+            backtrack(leftCount + 1, rightCount, curStr);
+            curStr = curStr.slice(0, -1);
+        }
+        // left count greater than right count
+        if (leftCount > rightCount) {
+            curStr += ')';
+            backtrack(leftCount, rightCount + 1, curStr);
+            curStr = curStr.slice(0, -1);
+        }
+    }
+    backtrack();
+    return combos;
+};
+
+console.log("\n4. Generate Parentheses");
+process.stdout.write("TEST CASE 1: ");
+console.log(JSON.stringify(generateParenthesis(3)) === JSON.stringify(["((()))","(()())","(())()","()(())","()()()"]) ? "PASSED" : "FAILED");
+process.stdout.write("TEST CASE 2: ");
+console.log(JSON.stringify(generateParenthesis(1)) === JSON.stringify(["()"]) ? "PASSED" : "FAILED");
