@@ -67,6 +67,34 @@ const kthFactor = (n, k) => {
 
 // k-th factor of n - driver code
 console.log("\n2. K-th Factor of N");
-console.log(kthFactor(12, 3)); // 3
-console.log(kthFactor(7, 2));  // 7
-console.log(kthFactor(4, 4));  // -1
+process.stdout.write("TEST CASE 1: ");
+console.log(kthFactor(12, 3) === 3 ? "PASSED" : "FAILED");
+process.stdout.write("TEST CASE 2: ");
+console.log(kthFactor(7, 2) === 7 ? "PASSED" : "FAILED");
+process.stdout.write("TEST CASE 3: ");
+console.log(kthFactor(4, 4) === -1 ? "PASSED" : "FAILED");
+
+/**
+ *      Single Number
+ * 
+ * Math: 2 * (a + b + c) - (2a + 2b + c) = c
+ * @param {number[]} nums
+ * @return {number}
+ */
+var singleNumber = function(nums) {
+    // bitwise operation
+    let a = 0;
+    for (const num of nums) {
+        a ^= num;
+    }
+    return a;
+};
+
+//  Single Number driver code
+console.log("\n3. Single Number");
+process.stdout.write("TEST CASE 1: ");
+console.log(JSON.stringify(singleNumber([2,2,1])) === JSON.stringify(1) ? "PASSED" : "FAILED");
+process.stdout.write("TEST CASE 2: ");
+console.log(JSON.stringify(singleNumber([4,1,2,1,2])) === JSON.stringify(4) ? "PASSED" : "FAILED");
+process.stdout.write("TEST CASE 3: ");
+console.log(JSON.stringify(singleNumber([1])) === JSON.stringify(1) ? "PASSED" : "FAILED");
