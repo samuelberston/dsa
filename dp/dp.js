@@ -51,3 +51,29 @@ if (numTrees(5) === 42) {
 } else {
     console.error("ERROR");
 }
+
+/**
+ *  Pascal's Triangle II
+ *  Given an integer rowIndex, return the rowIndex-th (0-indexed) row of the Pascal's triangle.
+ * 
+ * @param {number} rowIndex
+ * @return {number[]}
+ */
+var getRow = function(rowIndex) {
+    // tabulate each row of pascal's triangle from prev row
+    let prev = [1];
+    for (let i = 1; i < rowIndex + 1; i++) {
+        // current row level
+        let curr = Array(i+1).fill(1);
+        for (let j = 1; j < i; j++) {
+            curr[j] = prev[j-1] + prev[j];
+        }
+        prev = curr;
+    }
+    return prev;
+};
+
+// Pascal's Triangle II Driver Code
+console.log("\nPascal's Triangle II");
+process.stdout.write("TEST CASE 1: ");
+console.log(JSON.stringify(getRow(3)) === JSON.stringify([1,3,3,1]) ? "PASSED" : "FAILED");
