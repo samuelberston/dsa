@@ -144,21 +144,25 @@ class BinaryTree {
 
     // min depth of binary tree
     minDepth(root = this.tree) {
-        const dfs = (root) => {
-            // base case - depth of zero
-            if (!root) return 0;
-
-            // recursive cases
-            // only one child - recurse in other direction 
-            if (!root.left) {
-                return dfs(root.right) + 1;
-            } else if (!root.right) {
-                return dfs(root.left) + 1;
+        if (!root) return null;
+        // bfs
+        let q = [root];
+        let depth = 1;
+        while(q.length) {
+            const qSize = q.length;
+            // process entire level
+            for (let i = 0; i < qSize; i++) {
+                const curr = q[0];
+                q = q.slice(1);
+                // check for leaf
+                if (!curr.left && !curr.right) return depth;
+                // enqueue children
+                if (curr.left) q.push(curr.left);
+                if (curr.right) q.push(curr.right);
             }
-            // both children
-            return Math.min(dfs(root.left), dfs(root.right)) + 1;
+            depth++;
         }
-        return dfs(root);
+        return depth;
     }
 }
 
@@ -177,6 +181,8 @@ console.log("binary tree: ", tree);
 console.log("\nGetting max depth of the binary tree...");
 const bTreeMaxDepth1 = tree.getMaxDepth();
 console.log(bTreeMaxDepth1);
+console.log("\nMinimum depth of binary tree...");
+console.log(tree.minDepth())
 console.log("\nAdding more nodes to the binary tree...");
 tree.insertNode(6);
 tree.insertNode(7);
@@ -186,8 +192,7 @@ console.log("bTreeMaxDepth: ", bTreeMaxDepth2);
 console.log("\nFlipping binary tree...");
 tree.flip();
 console.log("Flipped tree: ", tree.tree);
-console.log("\nMinimum depth of binary tree...");
-console.log(tree.minDepth())
+
 console.log("\nTrimming leaves from tree...");
 tree.trim();
 console.log("new max depth: ", tree.getMaxDepth());
