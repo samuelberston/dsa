@@ -98,3 +98,47 @@ process.stdout.write("TEST CASE 2: ");
 console.log(JSON.stringify(singleNumber([4,1,2,1,2])) === JSON.stringify(4) ? "PASSED" : "FAILED");
 process.stdout.write("TEST CASE 3: ");
 console.log(JSON.stringify(singleNumber([1])) === JSON.stringify(1) ? "PASSED" : "FAILED");
+
+/**
+ * @param {number} num
+ * @return {string}
+ */
+var numberToWords = function(num) {
+    // edge case 
+    if (num === 0) return 'Zero';
+
+    // Arrays to store English words
+    const below_ten = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
+    const below_twenty = ["Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
+    const below_hundred = ["", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+
+    const convertToWords = (num) => {
+        // < 10
+        if (num < 10) return below_ten[num];
+        // < 20
+        if (num < 20) return below_twenty[num - 10];
+        // < 100
+        if (num < 100) return below_hundred[Math.floor(num / 10)] + (num % 10 != 0 ? " " + convertToWords(num % 10) : ""); 
+        // < 1000
+        if (num < 1000) return below_ten[Math.floor(num / 100)] + ' Hundred' + (num % 100 != 0 ? " " + convertToWords(num % 100) : "");
+        // < 1000000
+        if (num < 1000000) return convertToWords(Math.floor(num / 1000)) + ' Thousand' + (num % 1000 != 0 ? " " + convertToWords(num % 1000) : "");
+        // < 1000000000
+        if (num < 1000000000) return convertToWords(Math.floor(num / 1000000)) + ' Million' + (num % 1000000 != 0 ? " " + convertToWords(num % 1000000): "");
+        // < 1000000000000
+        return convertToWords(Math.floor(num / 1000000000)) + ' Billion' + (num % 1000000000 != 0 ? " " + convertToWords(num % 1000000000) : "");
+    }
+
+    return convertToWords(num);
+};
+
+// Number to Words driver code
+console.log("\n4. Number to Words");
+process.stdout.write("TEST CASE 1: ");
+console.log(numberToWords(123) === "One Hundred Twenty Three" ? "PASSED" : "FAILED");
+process.stdout.write("TEST CASE 2: ");
+console.log(numberToWords(12345) === "Twelve Thousand Three Hundred Forty Five" ? "PASSED" : "FAILED");
+process.stdout.write("TEST CASE 3: ");
+console.log(numberToWords(1234567) === "One Million Two Hundred Thirty Four Thousand Five Hundred Sixty Seven" ? "PASSED" : "FAILED");
+process.stdout.write("TEST CASE 4: ");
+console.log(numberToWords(1234567891) === "One Billion Two Hundred Thirty Four Million Five Hundred Sixty Seven Thousand Eight Hundred Ninety One" ? "PASSED" : "FAILED");
