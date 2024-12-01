@@ -2,9 +2,11 @@
  * 
  *      Backtracking
  * 
- *      1. Letter Combinations of a Phone Number
+ *      1. Letter Combinations of a Phone Number - not actually backtracking
  *      2. Generate Combinations
  *      3. Sudoku Solver
+ *      4. Generate Parentheses
+ *      5. Clean Room
  * 
  */
 
@@ -36,7 +38,6 @@ const letterCombinations = (digits) => {
         // base case
         if (p > digits.length - 1) {
             combos.push(combo);
-            combo = "";
             return;
         }
         // recursive case
@@ -155,11 +156,8 @@ const sudokuSolver = (board) => {
     // box index helper
     const boxIndex = (r, c) => Math.floor(r / 3) * 3 + Math.floor(c / 3);
     
-
     // could place helper
-    const couldPlace = (r, c, n) => {
-        return !rows[r][n] && !columns[c][n] && !boxes[boxIndex(r, c)][n]; 
-    }
+    const couldPlace = (r, c, n) => !rows[r][n] && !columns[c][n] && !boxes[boxIndex(r, c)][n]; 
 
     // place number helper
     const placeNumber = (r, c, n) => {
@@ -168,18 +166,6 @@ const sudokuSolver = (board) => {
         boxes[boxIndex(r, c)][n] = true;
         board[r][c] = n;
     }
-
-    // place next numbers
-    const placeNextNumbers = (r, c) => {
-        // last cell
-        if (c === 8 && r === 8) {
-            solved = true;
-        } else if (c === 8) {
-            backtrack(r + 1, 0);
-        } else {
-            backtrack(r, c + 1);
-        }
-    };
 
     // remove number helper
     const removeNumber = (r, c, n) => {
@@ -205,26 +191,22 @@ const sudokuSolver = (board) => {
 
         // If cell is empty
         if (board[r][c] === '.') {
-            // iterate candidates 1 - 9
+            // iterate 1 - 9
             for (let n = 1; n < 10; n++) {
                 const strN = n.toString();
                 if (couldPlace(r, c, strN)) { 
                     placeNumber(r, c, strN);
                     backtrack(r, c + 1); // next cell
-                    // If not solved, backtrack by removing number
+                    // If not solved, backtrack
                     if (!solved) removeNumber(r, c, strN);
                 }
             }
-        } else {
-            backtrack(r, c + 1); // next cell
-        }
+        } else backtrack(r, c + 1); // next cell   
     }
-    // First pass - register all initial values
+    // Initial values
     for (let r = 0; r < 9; r++) {
         for (let c = 0; c < 9; c++) {
-            if (board[r][c] !== '.') {
-                placeNumber(r, c, board[r][c]);
-            }
+            if (board[r][c] !== '.') placeNumber(r, c, board[r][c]);
         }
     }
 

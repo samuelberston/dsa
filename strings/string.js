@@ -66,8 +66,10 @@ console.log(zigZag(string, n));
 
 /**
  *      Permutation in String
+ * Given two strings s1 and s2, return true if s2 contains a permutation of s1, or false otherwise.
  * 
  *      Approach: use maps to represent char frequency. Use sliding window approach to traverse substring 2
+ *      TC: O(n)
  */
 var checkInclusion = function(s1, s2) {
     // edge cases
