@@ -7,6 +7,7 @@
  * 5. String to Integer (atoi)
  * 6. Group Anagrams
  * 7. Merge Strings Alternately
+ * 8. Valid Palindrome
  */
 
 
@@ -288,6 +289,31 @@ if (mergedAlt === "afbgchdiejklm") {
 } else {
     console.error("FAILED");
 }
+
+/**
+ *      Valid Palindrome
+ * Given a string s, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.
+ * @param {string} s
+ * @return {boolean}
+ */
+var isPalindrome = function(s) {
+    // convert
+    let c = '';
+    for (const char of s) {
+        if (char.match(/[a-z0-9]/i)) {
+            c += char.toLowerCase();
+        }
+    }
+    const reversed = c.split('').reverse().join('');
+    return c === reversed;
+};
+
+// Valid Palindrome driver code
+console.log("\n8. Valid Palindrome");
+process.stdout.write("TEST CASE 1: ");
+console.log(JSON.stringify(isPalindrome("A man, a plan, a canal: Panama")) === JSON.stringify(true) ? "PASSED" : "FAILED");
+process.stdout.write("TEST CASE 2: ");
+console.log(JSON.stringify(isPalindrome("race a car")) === JSON.stringify(false) ? "PASSED" : "FAILED");
 
 /**
  * To do:
