@@ -350,3 +350,41 @@ var cleanRoom = function(robot) {
 
     backtrack();
 };
+
+/**
+ *      6. Palindrome Partitioning
+ * Generate all possible palindrome partitions of a string
+ * 
+ * @param {string} s
+ * @return {string[][]}
+ */
+var partition = function(s) {
+    const partitions = [];
+
+    const isPalindrome = (str) => str.split('').reverse().join('') === str;
+
+    const backtrack = (start = 0, curPart = []) => {
+        // base case - end of string
+        if (start === s.length) {
+            partitions.push([...curPart]);
+            return;
+        }
+        
+        // recursive case - iterate through string
+        for (let i = start; i < s.length; i++) {
+            const substr = s.slice(start, i + 1);
+            if (isPalindrome(substr)) {
+                curPart.push(substr);
+                backtrack(i + 1, curPart);
+                curPart.pop();
+            }
+        }
+    }
+    backtrack();
+    // return partitions
+    return partitions;
+};
+
+console.log("\n6. Palindrome Partitioning");
+process.stdout.write("TEST CASE 1: ");
+console.log(JSON.stringify(partition("aab")) === JSON.stringify([["a","a","b"],["aa","b"]]) ? "PASSED" : "FAILED");
