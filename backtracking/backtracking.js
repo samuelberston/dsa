@@ -287,3 +287,84 @@ process.stdout.write("TEST CASE 1: ");
 console.log(JSON.stringify(generateParenthesis(3)) === JSON.stringify(["((()))","(()())","(())()","()(())","()()()"]) ? "PASSED" : "FAILED");
 process.stdout.write("TEST CASE 2: ");
 console.log(JSON.stringify(generateParenthesis(1)) === JSON.stringify(["()"]) ? "PASSED" : "FAILED");
+
+/**
+ * // This is the robot's control interface.
+ * // You should not implement it, or speculate about its implementation
+ * function Robot() {
+ *     // Returns true if the cell in front is open and robot moves into the cell.
+ *     // Returns false if the cell in front is blocked and robot stays in the current cell.
+ *     @return {boolean}
+ *     this.move = function() {
+ *         ...
+ *     };
+ *
+ *     // Robot will stay in the same cell after calling turnLeft/turnRight.
+ *     // Each turn will be 90 degrees.
+ *     @return {void}
+ *     this.turnLeft = function() {
+ *         ...
+ *     };
+ * 
+ *     // Robot will stay in the same cell after calling turnLeft/turnRight.
+ *     // Each turn will be 90 degrees.
+ *     @return {void} 
+ *     this.turnRight = function() {
+ *         ...
+ *     };
+ *
+ *     // Clean the current cell.
+ *     @return {void}
+ *     this.clean = function() {
+ *         ...
+ *     };
+ * };
+ */
+
+/**
+ *      5. Clean Room
+ * 
+ * @param {Robot} robot
+ * @return {void}
+ */
+var cleanRoom = function(robot) {
+    const dirs = [
+        [-1, 0], // up
+        [0, 1], // right
+        [1, 0], // down
+        [0, -1] // left
+    ];
+    const visited = new Set();
+
+    const goBack = () => {
+        robot.turnLeft();
+        robot.turnLeft();
+        robot.move();
+        robot.turnLeft();
+        robot.turnLeft();
+    }
+
+    // back track every possible path until all squares are clean
+    const backtrack = (row = 0, col = 0, dir = 0) => {
+        const key = `${row},${col}`;
+        visited.add(key);
+        robot.clean();
+
+        // recurse in all directions
+        for (let i = 0; i < 4; i++) {
+            const newDir = (dir + i) % 4;
+            const newRow = row + dirs[newDir][0];
+            const newCol = col + dirs[newDir][1];
+            const newKey = `${newRow},${newCol}`;
+            // unvisited area
+            if (!visited.has(newKey) && robot.move()) {
+                backtrack(newRow, newCol, newDir);
+                goBack();
+            }
+            // rutn clockwise
+            robot.turnRight();
+        }
+    }  
+
+    backtrack();
+};
