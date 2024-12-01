@@ -538,3 +538,38 @@ console.log("\nNext Permutation");
 process.stdout.write("TEST CASE 1: ");
 console.log(JSON.stringify(nextPermutation([1, 5, 8, 4, 7, 6, 5, 3, 1])) === JSON.stringify([1, 5, 8, 5, 1, 3, 4, 6, 7]) ? "PASSED" : "FAILED");
 
+/**
+ *  Generate Pascal's Triangle
+ * 
+ * @param {number} numRows
+ * @return {number[][]}
+ * Input: numRows = 5
+ * Output: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
+ */
+var generate = function(n) {
+
+    if (n === 1) return [[1]];
+    if (n === 2) return [[1], [1, 1]];
+
+    const triangle = [[1], [1, 1]];
+    let level = 2;
+    while (n > 2) {
+        // calculate currRow for level
+        const currRow = [1];
+        for (let i = 1; i < level; i++) {
+            let ele = triangle[level-1][i-1] + triangle[level-1][i];
+            currRow.push(ele);
+        }
+        currRow.push(1);
+        triangle.push(currRow);
+        n--;
+        level++;
+    }
+
+    return triangle;
+};
+
+// Generate Pascal's Triangle Driver Code
+console.log("\nGenerate Pascal's Triangle");
+process.stdout.write("TEST CASE 1: ");
+console.log(JSON.stringify(generate(5)) === JSON.stringify([[1], [1,1], [1,2,1], [1,3,3,1], [1,4,6,4,1]]) ? "PASSED" : "FAILED");
