@@ -484,8 +484,53 @@ if (longest2 === 6) {
     console.error("FAILED");
 }
 
-/*
-  Median of Two Sorted Arrays
-  The overall run time complexity should be O(log (m+n))
-*/
+/**
+ * @param {number[]} nums
+ * @return {void} Do not return anything, modify nums in-place instead.
+
+ // Example : [1, 5, 8, 4, 7, 6, 5, 3, 1]
+ // Output: [1, 5, 8, 5, 1, 3, 4, 6, 7]
+ */
+ var nextPermutation = function(nums) {
+    // find first decreasing element n
+    let i = nums.length - 2;
+    while (i >= 0 && nums[i+1] <= nums[i]) {
+        i--;
+    }
+
+    // swap helper
+    const swap = (nums, i, j) => {
+        let tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
+    }
+
+    // reverse helper
+    const reverse = (nums, start) => {
+        let i = start;
+        let j = nums.length - 1;
+        while (i < j) {
+            swap(nums, i, j);
+            i++;
+            j--;
+        }
+    }
+
+    // find index of number 1 larger than n - swap them
+    if (i >= 0) {
+        let j = nums.length - 1;
+        while (nums[j] <= nums[i]) {
+            j--;
+        }
+        swap(nums, i, j);
+    }
+    reverse(nums, i + 1);
+
+    return nums;
+};
+
+// Next Permutation Driver Code
+console.log("\nNext Permutation");
+process.stdout.write("TEST CASE 1: ");
+console.log(JSON.stringify(nextPermutation([1, 5, 8, 4, 7, 6, 5, 3, 1])) === JSON.stringify([1, 5, 8, 5, 1, 3, 4, 6, 7]) ? "PASSED" : "FAILED");
 
