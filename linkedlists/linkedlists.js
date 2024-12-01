@@ -215,3 +215,54 @@ dupList.next.next = new ListNode(2);
 dupList.next.next.next = new ListNode(3);
 const dedup = removeDuplicates(dupList);
 console.log(dedup);
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+
+/**
+ * Intersection of Two Linked Lists
+ * 
+ * @param {ListNode} headA
+ * @param {ListNode} headB
+ * @return {ListNode}
+ */
+var getIntersectionNode = function(headA, headB) {
+    // approach: 
+    // - save map with pointers to nodes in A
+    // - iterate b and check if any node it pointing to node in A
+
+    const setA = new Set();
+    while (headA) {
+        setA.add(headA);
+        headA = headA.next;
+    }
+
+    while (headB) {
+        // check if node is in mapA
+        if (setA.has(headB)) return headB;
+        headB = headB.next;
+    }
+    return null;
+};
+
+// Intersection of Two Linked Lists driver code
+console.log("\n4. Intersection of Two Linked Lists");
+process.stdout.write("TEST CASE 1: ");
+const l1a  = new ListNode(8);
+l1a.next = new ListNode(4);
+l1a.next.next = new ListNode(5);
+l1a.next.next.next = new ListNode(4);
+l1a.next.next.next.next = new ListNode(5);
+
+const l2a = new ListNode(4);
+l2a.next = new ListNode(5);
+l2a.next.next = l1a.next.next;
+
+const intersection = l1a.next.next;
+
+console.log(getIntersectionNode(l1a, l2a) === intersection ? "PASSED" : "FAILED");
