@@ -90,14 +90,17 @@ const nthFibonacci = (n) => {
     if (n <= 1) return n;
 
     // tabulate fibonacci sequence
-    const fs = new Array(n);
-    fs[0] = 0;
-    fs[1] = 1;
+    let curr = 0
+    let prev1 = 0;
+    let prev2 = 1;
     for (let i = 2; i <= n; i++) {
-        fs[i] = fs[i-1] + fs[i-2];
+        curr = prev1 + prev2;
+
+        prev1 = prev2;
+        prev2 = curr;
     }
 
-    return fs[n];
+    return curr;
 }
 
 console.log("\nNth Fibonacci Number");
