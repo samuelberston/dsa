@@ -141,6 +141,25 @@ class BinaryTree {
         }    
         return dfs(root) !== -1;
     }
+
+    // min depth of binary tree
+    minDepth(root = this.tree) {
+        const dfs = (root) => {
+            // base case - depth of zero
+            if (!root) return 0;
+
+            // recursive cases
+            // only one child - recurse in other direction 
+            if (!root.left) {
+                return dfs(root.right) + 1;
+            } else if (!root.right) {
+                return dfs(root.left) + 1;
+            }
+            // both children
+            return Math.min(dfs(root.left), dfs(root.right)) + 1;
+        }
+        return dfs(root);
+    }
 }
 
 // Tree Practice Driver Code
@@ -154,10 +173,10 @@ tree.insertNode(5);
 console.log("b-tree: ", tree);
 console.log("\nDeleting a node from the binary tree...");
 tree.removeNode(3);
-console.log("b-tree: ", tree);
+console.log("binary tree: ", tree);
 console.log("\nGetting max depth of the binary tree...");
 const bTreeMaxDepth1 = tree.getMaxDepth();
-console.log("bTreeMaxDepth: ", bTreeMaxDepth1);
+console.log(bTreeMaxDepth1);
 console.log("\nAdding more nodes to the binary tree...");
 tree.insertNode(6);
 tree.insertNode(7);
@@ -167,12 +186,15 @@ console.log("bTreeMaxDepth: ", bTreeMaxDepth2);
 console.log("\nFlipping binary tree...");
 tree.flip();
 console.log("Flipped tree: ", tree.tree);
+console.log("\nMinimum depth of binary tree...");
+console.log(tree.minDepth())
 console.log("\nTrimming leaves from tree...");
 tree.trim();
 console.log("new max depth: ", tree.getMaxDepth());
 console.log("\nChecking if tree is balanced...");
 const isBalanced = tree.isBalanced();
 console.log(isBalanced);
+
 
 
 // Binary Search Tree
