@@ -77,3 +77,28 @@ var getRow = function(rowIndex) {
 console.log("\nPascal's Triangle II");
 process.stdout.write("TEST CASE 1: ");
 console.log(JSON.stringify(getRow(3)) === JSON.stringify([1,3,3,1]) ? "PASSED" : "FAILED");
+
+/**
+ *      Nth Fibonacci Number
+ * 
+ *      Example: n = 5
+ *      0, 1, 1, 2, 3, 5
+ *      return: 5
+ */
+const nthFibonacci = (n) => {
+    // edge case
+    if (n <= 1) return n;
+
+    // tabulate fibonacci sequence
+    const fs = new Array(n);
+    fs[0] = 0;
+    fs[1] = 1;
+    for (let i = 2; i <= n; i++) {
+        fs[i] = fs[i-1] + fs[i-2];
+    }
+
+    return fs[n];
+}
+
+console.log("\nNth Fibonacci Number");
+console.log(nthFibonacci(6)); // 8
