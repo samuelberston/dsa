@@ -266,3 +266,52 @@ l2a.next.next = l1a.next.next;
 const intersection = l1a.next.next;
 
 console.log(getIntersectionNode(l1a, l2a) === intersection ? "PASSED" : "FAILED");
+
+/**
+ * Swap Nodes in Pairs
+ * 
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var swapPairs = function(head) {
+    // edge case 
+    if (!head || !head.next) return head;
+
+    let dummy = new ListNode(-1);
+    dummy.next = head;
+    let prev = dummy;
+
+    while(head && head.next) {
+        const first = head;
+        const second = head.next;
+        // swap nodes
+        first.next = second.next;
+        second.next = first;
+        prev.next = second;
+
+        // move to next nodes
+        prev = first;
+        head = first.next; 
+    }
+
+    return dummy.next;
+};
+
+// Swap Nodes in Pairs driver code
+console.log("\n5. Swap Nodes in Pairs");
+const swapList = new ListNode(1);
+swapList.next = new ListNode(2);
+swapList.next.next = new ListNode(3);
+swapList.next.next.next = new ListNode(4);
+console.log(swapPairs(swapList));

@@ -89,7 +89,7 @@ const nthFibonacci = (n) => {
     // edge case
     if (n <= 1) return n;
 
-    // tabulate fibonacci sequence
+    // fibonacci sequence
     let curr = 0
     let prev1 = 0;
     let prev2 = 1;

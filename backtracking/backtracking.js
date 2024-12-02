@@ -7,6 +7,8 @@
  *      3. Sudoku Solver
  *      4. Generate Parentheses
  *      5. Clean Room
+ *      6. Palindrome Partitioning
+ *      7. Knapsack Problem
  * 
  */
 
@@ -388,3 +390,11 @@ var partition = function(s) {
 console.log("\n6. Palindrome Partitioning");
 process.stdout.write("TEST CASE 1: ");
 console.log(JSON.stringify(partition("aab")) === JSON.stringify([["a","a","b"],["aa","b"]]) ? "PASSED" : "FAILED");
+
+// Palindrome Partitioning optimization with DP
+
+
+/**
+ *      7. Knapsack Problem
+ * 
+ */
