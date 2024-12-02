@@ -42,9 +42,10 @@ class AllO1 {
     }
 
     inc(key) {
-        // check if key exists
+        // case 1 - key does not already exist
         if (!this.map.get(key)) {
-            // check if node with freq 1 exists
+
+            // case 1a - key with freq 1 does not already exist
             if (this.head.next.freq !== 1) {
                 // create new node - default freq = 1
                 const newNode = new ListNode(key, 1);
@@ -57,35 +58,46 @@ class AllO1 {
 
                 // add to map
                 this.map.set(key, newNode);
-            } else { // else, point key to node with freq 1
+
+            // case 1b - key with freq 1 exists - point key to node and add to keys
+            } else {
                 this.map.set(key, this.head.next);
                 this.head.next.keys.push(key);
             }
-        } else { // increment existing key
+
+        // case 2 - increment existing key    
+        } else {
             const curNode = this.map.get(key);
             const curFreq = curNode.freq;
             const nextFreq = curNode.next.freq;
+
+            // case 2a - node with currFreq + 1 already exists
             if (curFreq + 1 === nextFreq) {
                 // update map to point to next node
                 this.map.set(key, curNode.next);
-            // create new node with Freq to add to doubly-linked list
+
+            // case 2b - node with curFreq + 1 does not exist - create new node with Freq to add to doubly-linked list
             } else {
+
+                // insert new node into linked list
                 const newNode = new ListNode(key, curFreq + 1);
-                // insert new node 
                 const tmp = curNode.next;
                 curNode.next = newNode;
                 newNode.prev = curNode;
                 newNode.next = tmp;
+
                 // point map to new node
                 this.map.set(key, newNode);
-                // if curNode is now empty, remove it
+
+                // case 2ba - if curNode is now empty, remove it
                 if (curNode.keys.list === 1) {
                     let prev = curNode.prev;
                     let next = curNode.next;
                     prev.next = next;
                     next.prev = prev;
+
+                // case 2bb - curNode has other keys, remove the node from its keys array
                 } else {
-                    // otherwise, remove the node from its keys array
                     curNode.keys = [curNode.keys.slice(0, curNode.keys.indexOf(key)) + curNode.keys.slice(curNode.keys.indexOf(key) + 1)]; 
                 }
             }
@@ -102,26 +114,26 @@ class AllO1 {
                 let next = curNode.next;
                 prev.next = next;
                 next.prev = prev;
-            } else {
-                // decrement key freq and remove from curNode.keys
-                const curFreq = curNode.freq;
-                const prevFreq = curNode.prev;
-                curNode.keys = curNode.keys.slice(0, curNode.keys.indexOf(key)) + curNode.keys.slice(curNode.keys.indexOf(key) + 1); 
-                // dec node already exists
-                if (prevFreq === curFreq - 1) {
-                    this.map.set(key, curFreq.prev);
-                    // add to previous node key array
-                    curNode.prev.keys.push(key);
-                } else { // create new node with decremented freq 
-                    const decNode = new ListNode(curFreq - 1);
-                    // insert decNode before currNode
-                    const tmp = curNode.prev;
-                    curNode.prev = decNode;
-                    decNode.next = curNode;
-                    decNode.prev = tmp;
-                }
+            } 
+        } else {
+            // decrement key freq and remove from curNode.keys
+            const curFreq = curNode.freq;
+            const prevFreq = curNode.prev;
+            curNode.keys = curNode.keys.slice(0, curNode.keys.indexOf(key)) + curNode.keys.slice(curNode.keys.indexOf(key) + 1); 
+            // dec node already exists
+            if (prevFreq === curFreq - 1) {
+                this.map.set(key, curFreq.prev);
+                // add to previous node key array
+                curNode.prev.keys.push(key);
+            } else { // create new node with decremented freq 
+                const decNode = new ListNode(curFreq - 1);
+                // insert decNode before currNode
+                const tmp = curNode.prev;
+                curNode.prev = decNode;
+                decNode.next = curNode;
+                decNode.prev = tmp;
             }
-        }    
+        }
     }
 }
 
