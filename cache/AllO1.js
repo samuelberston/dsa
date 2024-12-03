@@ -168,7 +168,7 @@ process.stdout.write("\nTEST CASE 1 - adds new string and increments frequency t
 if (allOne.head.next.keys[0] === 'string1' && allOne.head.next.freq === 1) {
     console.log("PASSED");
 } else {
-    console.log('FAILED');
+    console.error('FAILED');
 }    
 
 process.stdout.write("\nTEST CASE 2 - increments frequency of string to 2 and removes node with freq 1: ");
@@ -177,6 +177,16 @@ allOne.inc('string1');
 if (allOne.head.next.keys[0] === 'string1' && allOne.head.next.freq === 2) {
     console.log("PASSED");
 } else {
-    console.log('FAILED');
+    console.error('FAILED');
 }
+
+process.stdout.write("\nTEST CASE 3 - adds a second key and updates linkedlist: ");
+allOne.inc('string2');
+if (allOne.head.next.keys[0] === 'string2' && allOne.head.next.freq === 1 &&
+    allOne.head.next.next.keys[0] === 'string1' && allOne.head.next.next.freq === 2) {
+        console.log('PASSED');
+    } else {
+        console.error('FAILED');
+    }
+
 
