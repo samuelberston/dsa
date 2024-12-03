@@ -71,6 +71,9 @@ class MaxStack {
     }
 
     // peekMax - display item at end of list - O(1)
+    peekMax() {
+        return this.tail.prev.val;
+    }
 
     // popMax - remove item from stack and remove node from list - O(1)
 
@@ -110,3 +113,7 @@ if (maxStack.stack[1] === 3 && maxStack.head.next.val === 3 &&
 process.stdout.write("\nTEST CASE 3: Can view top item in stack: ");
 const top1 = maxStack.top();
 if (top1 === 3) {console.log("SUCCESS")} else {console.error("FAILED")}
+
+process.stdout.write("\nTEST CASE 4: Can view max item in stack: ");
+const max1 = maxStack.peekMax();
+if (max1 === 5) {console.log("SUCCESS")} else {console.error("FAILED")}
