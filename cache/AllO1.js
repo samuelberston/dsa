@@ -46,6 +46,12 @@ class AllO1 {
         return node.keys.filter(k => k !== key);
     }
 
+    removeNode(node) {
+        const { prev, next } = node;
+        next.prev = prev;
+        prev.next = next;
+    }
+
     // getMaxKey
     getMaxKey() {
         return this.tail.prev.keys[0] || "";
@@ -113,10 +119,7 @@ class AllO1 {
 
             // clean up - if key was the only key in curNode, remove it entirely
             if (curNode.keys.length === 1) {
-                let prev = curNode.prev;
-                let next = curNode.next;
-                prev.next = next;
-                next.prev = prev;
+                this.removeNode(curNode);
 
             // case 2bb - curNode has other keys, remove the node from its keys array
             } else {
@@ -133,11 +136,7 @@ class AllO1 {
             // Case 1a - node has only one key 
             if (curNode.keys.length === 1) {
                 // remove node entirely
-                const prevNode = curNode.prev;
-                const nextNode = curNode.next;
-                prevNode.next = nextNode;
-                nextNode.prev = prevNode;
-
+                this.removeNode(curNode);
                 // remove from map
                 this.map.delete(key);
                 
@@ -191,10 +190,7 @@ class AllO1 {
         // clean up - remove node or key
         if (curNode.keys.length === 1) {
             // remove entire node 
-            const prev = curNode.prev;
-            const next = curNode.next;
-            prev.next = next;
-            next.prev = prev;
+            this.removeNode(curNode);
         } else {
             curNode.keys = this.removeKey(key, curNode);
         }
