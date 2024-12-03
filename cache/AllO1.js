@@ -43,7 +43,7 @@ class AllO1 {
 
     // helper function - remove key from keys array
     removeKey(key, node) {
-        return [node.keys.slice(0, node.keys.indexOf(key)) + node.keys.slice(node.keys.indexOf(key) + 1)]; 
+        return node.keys.filter(k => k !== key);
     }
 
     // getMaxKey
