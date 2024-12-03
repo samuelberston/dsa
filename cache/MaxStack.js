@@ -76,7 +76,7 @@ class MaxStack {
         const newNode = new ListNode(item);
         // find first node less than newNode
         let curr = this.head.next;
-        while (curr.val >= item) {
+        while (curr !== this.tail && curr.val < item) {
             curr = curr.next;
         }
         // insert newNode before current curr
@@ -97,3 +97,9 @@ const maxStack = new MaxStack();
 process.stdout.write("\nTEST CASE 1: Can push item to max stack: ");
 maxStack.push(5);
 if (maxStack.stack[0] === 5 && maxStack.head.next.val === 5) {console.log("SUCCESS")} else {console.error("FAILED")}
+
+process.stdout.write("\nTEST CASE 2: Can push second item to max stack: ");
+maxStack.push(3);
+if (maxStack.stack[1] === 3 && maxStack.head.next.val === 3 &&
+    maxStack.stack[0] === 5 && maxStack.head.next.next.val === 5 
+) {console.log("SUCCESS")} else {console.error("FAILED")}
