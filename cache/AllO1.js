@@ -1,28 +1,23 @@
 /**
  * 
  * All O(1) Data Structure
- * Design a data structure to store the strings' count with the ability to return the strings with minimum and maximum counts.
-
-Implement the AllOne class:
-
-AllOne() Initializes the object of the data structure.
-inc(String key) Increments the count of the string key by 1. If key does not exist in the data structure, insert it with count 1.
-dec(String key) Decrements the count of the string key by 1. If the count of key is 0 after the decrement, remove it from the data structure. It is guaranteed that key exists in the data structure before the decrement.
-getMaxKey() Returns one of the keys with the maximal count. If no element exists, return an empty string "".
-getMinKey() Returns one of the keys with the minimum count. If no element exists, return an empty string "".
-Note that each function must run in O(1) average time complexity.
-
- 
-
-Example 1:
-
-Input
-["AllOne", "inc", "inc", "getMaxKey", "getMinKey", "inc", "getMaxKey", "getMinKey"]
-[[], ["hello"], ["hello"], [], [], ["leet"], [], []]
-Output
-[null, null, null, "hello", "hello", null, "hello", "leet"]
-
-Explanation
+ * Design a data structure to store the strings' count with the ability to return the strings with minimum and maximum counts.  
+ * Implement the AllOne class:
+ * AllOne() Initializes the object of the data structure.
+ * inc(String key) Increments the count of the string key by 1. If key does not exist in the data structure, insert it with count 1.
+ * dec(String key) Decrements the count of the string key by 1. If the count of key is 0 after the decrement, remove it from the data structure. It is guaranteed that key exists in the data structure before the decrement.
+ * getMaxKey() Returns one of the keys with the maximal count. If no element exists, return an empty string "".
+ * getMinKey() Returns one of the keys with the minimum count. If no element exists, return an empty string "".
+ * Note that each function must run in O(1) average time complexity.
+ * 
+ * Example 1:
+ * Input
+ * ["AllOne", "inc", "inc", "getMaxKey", "getMinKey", "inc", "getMaxKey", "getMinKey"]
+ * [[], ["hello"], ["hello"], [], [], ["leet"], [], []]
+ * Output
+ * [null, null, null, "hello", "hello", null, "hello", "leet"]
+ * 
+ * Explanation
  */
 class ListNode {
     constructor(key, freq) {
@@ -69,16 +64,13 @@ class AllO1 {
 
             // case 1a - key with freq 1 does not already exist
             if (this.head.next.freq !== 1) {
-                // new node
+                // insert new node after head node
                 const newNode = new ListNode(key, 1);
-
-                // insert node after head node
                 const tmp = this.head.next;
                 this.head.next = newNode;
                 newNode.prev = this.head;
                 newNode.next = tmp;
                 tmp.prev = newNode;
-
                 // add to map
                 this.map.set(key, newNode);
 
@@ -103,7 +95,6 @@ class AllO1 {
 
             // case 2b - node with curFreq + 1 does not exist - create new node with Freq to add to doubly-linked list
             } else {
-
                 // insert new node after curNode
                 const newNode = new ListNode(key, curFreq + 1);
                 const tmp = curNode.next;
@@ -116,7 +107,6 @@ class AllO1 {
                 this.map.set(key, newNode);
 
             }
-
             // clean up - if key was the only key in curNode, remove it entirely
             if (curNode.keys.length === 1) {
                 this.removeNode(curNode);
@@ -163,7 +153,6 @@ class AllO1 {
                     this.map.set(key, decNode);
                 }
             }
-
         // Case 2 - key has freq > 1
         } else {
             // Case 2a: Node with freq-1 exists
@@ -184,9 +173,7 @@ class AllO1 {
                 // insert into map
                 this.map.set(key, decNode);
             }
-
         }
-        
         // clean up - remove node or key
         if (curNode.keys.length === 1) {
             // remove entire node 
@@ -201,9 +188,8 @@ class AllO1 {
 console.log("\nAll O(1) Data Structure");
 const allOne = new AllO1();
 
-
-allOne.inc('string1');
 process.stdout.write("\nTEST CASE 1 - adds new string and increments frequency to 1: ");
+allOne.inc('string1');
 if (allOne.head.next.keys[0] === 'string1' && allOne.head.next.freq === 1) {
     console.log("PASSED");
 } else {
@@ -236,7 +222,6 @@ if (min1 === 'string2') {console.log('PASSED')} else {console.error('FAILED')}
 process.stdout.write("\nTEST CASE 5 - retrieves key with max frequency: ");
 const max1 = allOne.getMaxKey();
 if (max1 === 'string1') {console.log('PASSED')} else {console.error('FAILED')}
-
 
 process.stdout.write('\nTEST CASE 6 - increments second key to also have freq 2, and removes node with freq 1: ');
 allOne.inc('string2');
