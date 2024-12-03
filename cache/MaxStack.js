@@ -38,8 +38,6 @@ class MaxStack {
     constructor() {
         // stack for push, pop. and top - O(1)
         this.stack = []; 
-        // map of keys with pointer to each node and index in stack
-        this.nodes = new Map();
         // doubly-linked list for peekMax O(1) and popMax O(logN)
         this.head = new ListNode(-1);
         this.tail = new ListNode(-1);
@@ -55,12 +53,6 @@ class MaxStack {
         this.stack.push(item);
         // insert into linked list
         const newNode = this.insertNode(item);
-        // update nodes map
-        this.nodes.set(item, {
-            'node': newNode,
-            // support multiple items with the same value in the stack
-            'index': this.nodes.has(item) ? [...this.nodes.get(item).index, this.stack.length - 1] : [this.stack.length - 1]
-        });
     }
 
     // pop - remove item from stop of stack, remove from list, return item - O(1)
@@ -70,17 +62,6 @@ class MaxStack {
 
         // remove node
         this.removeNode(top);
-
-        // remove from map
-        if (this.nodes.get(top).index.length > 1) { // handle duplicate item in stack
-            this.nodes.set(top, {
-                'node': this.nodes.get(top).node,
-                'index': this.nodes.get(top).index.slice(0, -1)
-            });
-        } else {
-            this.nodes.delete(top);
-        }
-
 
         // return top item
         return top;
@@ -97,6 +78,16 @@ class MaxStack {
     }
 
     // popMax - remove item from stack and remove node from list - O(1)
+    popMax() {
+        const max = this.tail.prev.val;
+
+        // remove node
+        this.removeNode(max);
+
+        // remove from stack
+        const index = this.stack.lastIndexOf(max); // handle duplicates - remove top occurance of item in stack 
+        this.stack = this.stack.filter((_, i) => i !== index);
+    }
 
     // helper - insert node into list in order - O(logN)
     insertNode(item) {
@@ -116,12 +107,18 @@ class MaxStack {
         return newNode;
     }
 
-    // helper - remove node from linked list
-    removeNode(item) {
-        const node = this.nodes.get(item)['node'];
-        const { prev, next } = node;
-        prev.next = next;
-        next.prev = prev;
+    // helper - remove node from linked list - O(N)
+    removeNode(val) {
+        let curr = this.head.next;
+        while (curr !== this.tail) {
+            if (curr.val === val) {
+                const { prev, next } = curr;
+                prev.next = next;
+                next.prev = prev;
+                break;
+            }
+            curr = curr.next;
+        }
     }
 }
 
