@@ -171,7 +171,7 @@ if (allOne.head.next.keys[0] === 'string1' && allOne.head.next.freq === 1) {
     console.log('FAILED');
 }    
 
-process.stdout.write("\nTEST CASE 2 - adds new string and increments frequency to 1: ");
+process.stdout.write("\nTEST CASE 2 - increments frequency of string to 2 and removes node with freq 1: ");
 allOne.inc('string1');
 
 if (allOne.head.next.keys[0] === 'string1' && allOne.head.next.freq === 2) {
