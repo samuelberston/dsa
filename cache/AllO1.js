@@ -110,8 +110,6 @@ class AllO1 {
             // clean up - if key was the only key in curNode, remove it entirely
             if (curNode.keys.length === 1) {
                 this.removeNode(curNode);
-
-            // case 2bb - curNode has other keys, remove the node from its keys array
             } else {
                 curNode.keys = this.removeKey(key, curNode); 
             }
