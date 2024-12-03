@@ -190,7 +190,17 @@ if (allOne.head.next.keys[0] === 'string2' && allOne.head.next.freq === 1 &&
     console.error('FAILED');
 }
 
-process.stdout.write('\nTEST CASE 4 - increments second key to also have freq 2, and removes node with freq 1: ');
+process.stdout.write("\nTEST CASE 4 - retrieves key with min frequency: ");
+const min1 = allOne.getMinKey();
+if (min1 === 'string2') {console.log('PASSED')} else {console.error('FAILED')}
+
+
+process.stdout.write("\nTEST CASE 5 - retrieves key with max frequency: ");
+const max1 = allOne.getMaxKey();
+if (max1 === 'string1') {console.log('PASSED')} else {console.error('FAILED')}
+
+
+process.stdout.write('\nTEST CASE 6 - increments second key to also have freq 2, and removes node with freq 1: ');
 allOne.inc('string2');
 if (allOne.head.next.keys.length === 2 && allOne.head.next.freq === 2) {
     console.log('PASSED');
