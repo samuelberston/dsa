@@ -57,7 +57,7 @@ class AllO1 {
         return this.head.next.keys[0] || "";
     }
 
-    // Inc - increments key value - in production, make this method synchronized for thread safety
+    // inc - increments key value - in production, make this method synchronized for thread safety
     inc(key) {
         // case 1 - key does not already exist
         if (!this.map.get(key)) {
@@ -151,6 +151,7 @@ class AllO1 {
                     this.map.set(key, decNode);
                 }
             }
+
         // Case 2 - key has freq > 1
         } else {
             // Case 2a: Node with freq-1 exists
@@ -173,67 +174,51 @@ class AllO1 {
             }
         }
         // clean up - remove node or key
-        if (curNode.keys.length === 1) {
-            // remove entire node 
-            this.removeNode(curNode);
-        } else {
-            curNode.keys = this.removeKey(key, curNode);
-        }
+        if (curNode.keys.length === 1) { this.removeNode(curNode) } 
+        else { curNode.keys = this.removeKey(key, curNode) }
     }
 }
 
 // All O(1) - driver code
+
+// refactor to use test() - DRY
+
 console.log("\nAll O(1) Data Structure");
+const test = (condition) => { if(condition) { console.log("PASSED") } else { console.error('FAILED') } };
+
 const allOne = new AllO1();
+
 
 process.stdout.write("\nTEST CASE 1 - adds new string and increments frequency to 1: ");
 allOne.inc('string1');
-if (allOne.head.next.keys[0] === 'string1' && allOne.head.next.freq === 1) {
-    console.log("PASSED");
-} else {
-    console.error('FAILED');
-}    
+test(allOne.head.next.keys[0] === 'string1' && allOne.head.next.freq === 1);   
 
 process.stdout.write("\nTEST CASE 2 - increments frequency of string to 2 and removes node with freq 1: ");
 allOne.inc('string1');
-
-if (allOne.head.next.keys[0] === 'string1' && allOne.head.next.freq === 2) {
-    console.log("PASSED");
-} else {
-    console.error('FAILED');
-}
+test(allOne.head.next.keys[0] === 'string1' && allOne.head.next.freq === 2);
 
 process.stdout.write("\nTEST CASE 3 - adds a second key and updates linkedlist: ");
 allOne.inc('string2');
-if (allOne.head.next.keys[0] === 'string2' && allOne.head.next.freq === 1 &&
-    allOne.head.next.next.keys[0] === 'string1' && allOne.head.next.next.freq === 2) {
-    console.log('PASSED');
-} else {
-    console.error('FAILED');
-}
+test(allOne.head.next.keys[0] === 'string2' && allOne.head.next.freq === 1 &&
+    allOne.head.next.next.keys[0] === 'string1' && allOne.head.next.next.freq === 2);
 
 process.stdout.write("\nTEST CASE 4 - retrieves key with min frequency: ");
 const min1 = allOne.getMinKey();
-if (min1 === 'string2') {console.log('PASSED')} else {console.error('FAILED')}
-
+test(min1 === 'string2');
 
 process.stdout.write("\nTEST CASE 5 - retrieves key with max frequency: ");
 const max1 = allOne.getMaxKey();
-if (max1 === 'string1') {console.log('PASSED')} else {console.error('FAILED')}
+test(max1 === 'string1');
 
 process.stdout.write('\nTEST CASE 6 - increments second key to also have freq 2, and removes node with freq 1: ');
 allOne.inc('string2');
-if (allOne.head.next.keys.length === 2 && allOne.head.next.freq === 2) {console.log('PASSED')} else {console.error('FAILED')}
+test(allOne.head.next.keys.length === 2 && allOne.head.next.freq === 2);
 
 process.stdout.write("\nTEST CASE 7  - decrements key frequency, returning to last state before increment: ");
 allOne.dec('string2');
-if (allOne.head.next.keys[0] === 'string2' && allOne.head.next.freq === 1 &&
-    allOne.head.next.next.keys[0] === 'string1' && allOne.head.next.next.freq === 2) {
-    console.log('PASSED');
-} else {
-    console.error('FAILED');
-}
+test(allOne.head.next.keys[0] === 'string2' && allOne.head.next.freq === 1 &&
+    allOne.head.next.next.keys[0] === 'string1' && allOne.head.next.next.freq === 2);
 
 process.stdout.write("\nTEST CASE 8 - decrements key frequency, removing key and node: ");
 allOne.dec('string2');
-if (allOne.head.next.keys[0] === 'string1' && allOne.head.next.freq === 2) {console.log('PASSED')} else {console.error('FAILED');}
+test(allOne.head.next.keys[0] === 'string1' && allOne.head.next.freq === 2);
