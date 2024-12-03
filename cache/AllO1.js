@@ -41,7 +41,7 @@ class AllO1 {
         this.tail.prev = this.head;
     }
 
-    // helper function - remove key from keys array
+    // helper functions
     removeKey(key, node) {
         return node.keys.filter(k => k !== key);
     }
@@ -72,7 +72,7 @@ class AllO1 {
                 // new node
                 const newNode = new ListNode(key, 1);
 
-                // add new node to doubly-linked list
+                // insert node after head node
                 const tmp = this.head.next;
                 this.head.next = newNode;
                 newNode.prev = this.head;
@@ -104,7 +104,7 @@ class AllO1 {
             // case 2b - node with curFreq + 1 does not exist - create new node with Freq to add to doubly-linked list
             } else {
 
-                // insert new node into linked list
+                // insert new node after curNode
                 const newNode = new ListNode(key, curFreq + 1);
                 const tmp = curNode.next;
                 curNode.next = newNode;
