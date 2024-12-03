@@ -93,9 +93,7 @@ class AllO1 {
                 // update map to point to next node
                 this.map.set(key, curNode.next);
                 // add key to nextNode's key array
-                curNode.next.keys.push(key);
-                // curNode.keys = [curNode.keys.slice(0, curNode.keys.indexOf(key)) + curNode.keys.slice(curNode.keys.indexOf(key) + 1)]; 
-                
+                curNode.next.keys.push(key);                
 
             // case 2b - node with curFreq + 1 does not exist - create new node with Freq to add to doubly-linked list
             } else {
@@ -146,7 +144,7 @@ class AllO1 {
             // Case 1b - node has more than one key
             } else {
                 // remove from curNode.keys
-                this.removeKey(key, curNode);
+                curNode.keys = this.removeKey(key, curNode);
                 
                 // Case 1ba - prev node with dec freq exists
                 if (curNode.prev.freq === curNode.freq - 1) {
