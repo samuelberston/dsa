@@ -257,4 +257,4 @@ if (allOne.head.next.keys[0] === 'string2' && allOne.head.next.freq === 1 &&
 
 process.stdout.write("\nTEST CASE 8 - decrements key frequency, removing key and node: ");
 allOne.dec('string2');
-if (allOne.head.next.keys[0] === 'string1' && allOne.head.next.freq === 2) {console.log('SUCCESS')} else {console.error('FAILED');}
+if (allOne.head.next.keys[0] === 'string1' && allOne.head.next.freq === 2) {console.log('PASSED')} else {console.error('FAILED');}
