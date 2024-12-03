@@ -64,6 +64,27 @@ class MaxStack {
     }
 
     // pop - remove item from stop of stack, remove from list, return item - O(1)
+    pop() {
+        // pop top item from stack
+        const top = this.stack.pop();    
+
+        // remove node
+        this.removeNode(top);
+
+        // remove from map
+        if (this.nodes.get(top).index.length > 1) { // handle duplicate item in stack
+            this.nodes.set(top, {
+                'node': this.nodes.get(top).node,
+                'index': this.nodes.get(top).index.slice(0, -1)
+            });
+        } else {
+            this.nodes.delete(top);
+        }
+
+
+        // return top item
+        return top;
+    }
 
     // top - display item at top of stack - O(1)
     top() {
@@ -94,6 +115,14 @@ class MaxStack {
 
         return newNode;
     }
+
+    // helper - remove node from linked list
+    removeNode(item) {
+        const node = this.nodes.get(item)['node'];
+        const { prev, next } = node;
+        prev.next = next;
+        next.prev = prev;
+    }
 }
 
 // Max Stack driver code
@@ -110,10 +139,16 @@ if (maxStack.stack[1] === 3 && maxStack.head.next.val === 3 &&
     maxStack.stack[0] === 5 && maxStack.head.next.next.val === 5 
 ) {console.log("SUCCESS")} else {console.error("FAILED")}
 
-process.stdout.write("\nTEST CASE 3: Can view top item in stack: ");
+process.stdout.write("\nTEST CASE 3: View top item in stack: "); // update to check without modifying original array
 const top1 = maxStack.top();
 if (top1 === 3) {console.log("SUCCESS")} else {console.error("FAILED")}
 
-process.stdout.write("\nTEST CASE 4: Can view max item in stack: ");
+process.stdout.write("\nTEST CASE 4: peekMax item in stack: ");
 const max1 = maxStack.peekMax();
 if (max1 === 5) {console.log("SUCCESS")} else {console.error("FAILED")}
+
+process.stdout.write("\nTEST CASE 5: Pop item from top of stack: ");
+const pop1 = maxStack.pop();
+const top2 = maxStack.top();
+const min1 = maxStack.head.next.val;
+if (pop1 === 3 && top2 === 5 && min1 === 5) {console.log("SUCCESS")} else {console.error("FAILED")}
