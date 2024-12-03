@@ -122,7 +122,7 @@ class AllO1 {
 
             // case 2bb - curNode has other keys, remove the node from its keys array
             } else {
-                curNode.keys = [curNode.keys.slice(0, curNode.keys.indexOf(key)) + curNode.keys.slice(curNode.keys.indexOf(key) + 1)]; 
+                curNode.keys = this.removeKey(key, curNode); 
             }
         }
     }
