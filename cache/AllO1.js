@@ -246,11 +246,7 @@ if (max1 === 'string1') {console.log('PASSED')} else {console.error('FAILED')}
 
 process.stdout.write('\nTEST CASE 6 - increments second key to also have freq 2, and removes node with freq 1: ');
 allOne.inc('string2');
-if (allOne.head.next.keys.length === 2 && allOne.head.next.freq === 2) {
-    console.log('PASSED');
-} else {
-    console.error('FAILED');
-}
+if (allOne.head.next.keys.length === 2 && allOne.head.next.freq === 2) {console.log('PASSED')} else {console.error('FAILED')}
 
 process.stdout.write("\nTEST CASE 7  - decrements key frequency, returning to last state before increment: ");
 allOne.dec('string2');
@@ -260,3 +256,7 @@ if (allOne.head.next.keys[0] === 'string2' && allOne.head.next.freq === 1 &&
 } else {
     console.error('FAILED');
 }
+
+process.stdout.write("\nTEST CASE 8 - decrements key frequency, removing key and node: ");
+allOne.dec('string2');
+if (allOne.head.next.keys[0] === 'string1' && allOne.head.next.freq === 2) {console.log('SUCCESS')} else {console.error('FAILED');}
