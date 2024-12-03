@@ -91,10 +91,10 @@ class AllO1 {
             if (curFreq + 1 === nextFreq) {
                 // update map to point to next node
                 this.map.set(key, curNode.next);
-                // remove key from curNode's array and add it to nextNode's
-                curNode.keys = [curNode.keys.slice(0, curNode.keys.indexOf(key)) + curNode.keys.slice(curNode.keys.indexOf(key) + 1)]; 
+                // add key to nextNode's key array
                 curNode.next.keys.push(key);
-
+                // curNode.keys = [curNode.keys.slice(0, curNode.keys.indexOf(key)) + curNode.keys.slice(curNode.keys.indexOf(key) + 1)]; 
+                
 
             // case 2b - node with curFreq + 1 does not exist - create new node with Freq to add to doubly-linked list
             } else {
@@ -110,17 +110,18 @@ class AllO1 {
                 // point map to new node
                 this.map.set(key, newNode);
 
-                // case 2ba - if curNode is now empty, remove it entirely
-                if (curNode.keys.length === 1) {
-                    let prev = curNode.prev;
-                    let next = curNode.next;
-                    prev.next = next;
-                    next.prev = prev;
+            }
 
-                // case 2bb - curNode has other keys, remove the node from its keys array
-                } else {
-                    curNode.keys = [curNode.keys.slice(0, curNode.keys.indexOf(key)) + curNode.keys.slice(curNode.keys.indexOf(key) + 1)]; 
-                }
+            // clean up - if key was the only key in curNode, remove it entirely
+            if (curNode.keys.length === 1) {
+                let prev = curNode.prev;
+                let next = curNode.next;
+                prev.next = next;
+                next.prev = prev;
+
+            // case 2bb - curNode has other keys, remove the node from its keys array
+            } else {
+                curNode.keys = [curNode.keys.slice(0, curNode.keys.indexOf(key)) + curNode.keys.slice(curNode.keys.indexOf(key) + 1)]; 
             }
         }
     }
@@ -184,9 +185,18 @@ process.stdout.write("\nTEST CASE 3 - adds a second key and updates linkedlist: 
 allOne.inc('string2');
 if (allOne.head.next.keys[0] === 'string2' && allOne.head.next.freq === 1 &&
     allOne.head.next.next.keys[0] === 'string1' && allOne.head.next.next.freq === 2) {
-        console.log('PASSED');
-    } else {
-        console.error('FAILED');
-    }
+    console.log('PASSED');
+} else {
+    console.error('FAILED');
+}
+
+process.stdout.write('\nTEST CASE 4 - increments second key to also have freq 2, and removes node with freq 1: ');
+allOne.inc('string2');
+if (allOne.head.next.keys.length === 2 && allOne.head.next.freq === 2) {
+    console.log('PASSED');
+} else {
+    console.error('FAILED');
+}
+
 
 
