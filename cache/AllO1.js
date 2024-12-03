@@ -71,6 +71,7 @@ class AllO1 {
                 this.head.next = newNode;
                 newNode.prev = this.head;
                 newNode.next = tmp;
+                tmp.prev = newNode;
 
                 // add to map
                 this.map.set(key, newNode);
@@ -126,35 +127,78 @@ class AllO1 {
         }
     }
 
+    // dec
     dec(key) {
+        // Case 1 - key has freq 1
         const curNode = this.map.get(key);
-        // check if freq is 1 - remove key 
         if (curNode.freq === 1) {
-            // if key is only key, delete node
+            // Case 1a - node has only one key 
             if (curNode.keys.length === 1) {
-                let prev = curNode.prev;
-                let next = curNode.next;
-                prev.next = next;
-                next.prev = prev;
-            } 
+                // remove node entirely
+                const prevNode = curNode.prev;
+                const nextNode = curNode.next;
+                prevNode.next = nextNode;
+                nextNode.prev = prevNode;
+
+                // remove from map
+                this.map.delete(key);
+                
+            // Case 1b - node has more than one key
+            } else {
+                // remove from curNode.keys
+                this.removeKey(key, curNode);
+                
+                // Case 1ba - prev node with dec freq exists
+                if (curNode.prev.freq === curNode.freq - 1) {
+                    // add key to prev node's keys array
+                    curNode.prev.keys.push(key);
+
+                // Case 1bb - prev node with dec freq does not exist
+                } else {
+                    // create new node and insert behind curNode
+                    const decNode = new ListNode(key, curNode.freq - 1);
+                    const tmp = curNode.prev;
+                    curNode.prev = decNode;
+                    decNode.next = curNode;
+                    decNode.prev = tmp;
+                    tmp.next = decNode;
+                    // insert into map
+                    this.map.set(key, decNode);
+                }
+            }
+
+        // Case 2 - key has freq > 1
         } else {
-            // decrement key freq and remove from curNode.keys
-            const curFreq = curNode.freq;
-            const prevFreq = curNode.prev;
-            curNode.keys = curNode.keys.slice(0, curNode.keys.indexOf(key)) + curNode.keys.slice(curNode.keys.indexOf(key) + 1); 
-            // dec node already exists
-            if (prevFreq === curFreq - 1) {
-                this.map.set(key, curFreq.prev);
-                // add to previous node key array
+            // Case 2a: Node with freq-1 exists
+            if (curNode.prev.freq === curNode.freq - 1) {
+                // Add key to existing node
                 curNode.prev.keys.push(key);
-            } else { // create new node with decremented freq 
-                const decNode = new ListNode(curFreq - 1);
-                // insert decNode before currNode
+                // update map 
+                this.map.set(key, curNode.prev);
+            // Case 2b: Create new node with freq-1
+            } else {
+                // insert new node behind curNode
+                const decNode = new ListNode(key, curNode.freq - 1);
                 const tmp = curNode.prev;
                 curNode.prev = decNode;
                 decNode.next = curNode;
                 decNode.prev = tmp;
+                tmp.next = decNode;
+                // insert into map
+                this.map.set(key, decNode);
             }
+
+        }
+        
+        // clean up - remove node or key
+        if (curNode.keys.length === 1) {
+            // remove entire node 
+            const prev = curNode.prev;
+            const next = curNode.next;
+            prev.next = next;
+            next.prev = prev;
+        } else {
+            curNode.keys = this.removeKey(key, curNode);
         }
     }
 }
@@ -208,5 +252,11 @@ if (allOne.head.next.keys.length === 2 && allOne.head.next.freq === 2) {
     console.error('FAILED');
 }
 
-
-
+process.stdout.write("\nTEST CASE 7  - decrements key frequency, returning to last state before increment: ");
+allOne.dec('string2');
+if (allOne.head.next.keys[0] === 'string2' && allOne.head.next.freq === 1 &&
+    allOne.head.next.next.keys[0] === 'string1' && allOne.head.next.next.freq === 2) {
+    console.log('PASSED');
+} else {
+    console.error('FAILED');
+}
