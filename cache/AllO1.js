@@ -26,8 +26,8 @@ Explanation
  */
 class ListNode {
     constructor(key, freq) {
-        this.keys = [key];
-        this.freq = freq;
+        this.keys = [key]; // array of key strings
+        this.freq = freq; // frequency of key strings
         this.prev = this.next = null;
     }
 }
@@ -41,16 +41,32 @@ class AllO1 {
         this.tail.prev = this.head;
     }
 
+    // helper function - remove key from keys array
+    removeKey(key, node) {
+        return [node.keys.slice(0, node.keys.indexOf(key)) + node.keys.slice(node.keys.indexOf(key) + 1)]; 
+    }
+
+    // getMaxKey
+    getMaxKey() {
+        return this.tail.prev.keys[0] || "";
+    }
+
+    // getMinKey
+    getMinKey() {
+        return this.head.next.keys[0] || "";
+    }
+
+    // Inc - increments key value - in production, make this method synchronized for thread safety
     inc(key) {
         // case 1 - key does not already exist
         if (!this.map.get(key)) {
 
             // case 1a - key with freq 1 does not already exist
             if (this.head.next.freq !== 1) {
-                // create new node - default freq = 1
+                // new node
                 const newNode = new ListNode(key, 1);
 
-                // add to doubly-linked list
+                // add new node to doubly-linked list
                 const tmp = this.head.next;
                 this.head.next = newNode;
                 newNode.prev = this.head;
@@ -65,7 +81,7 @@ class AllO1 {
                 this.head.next.keys.push(key);
             }
 
-        // case 2 - increment existing key    
+        // case 2 - key exists - increment existing key    
         } else {
             const curNode = this.map.get(key);
             const curFreq = curNode.freq;
@@ -75,6 +91,10 @@ class AllO1 {
             if (curFreq + 1 === nextFreq) {
                 // update map to point to next node
                 this.map.set(key, curNode.next);
+                // remove key from curNode's array and add it to nextNode's
+                curNode.keys = [curNode.keys.slice(0, curNode.keys.indexOf(key)) + curNode.keys.slice(curNode.keys.indexOf(key) + 1)]; 
+                curNode.next.keys.push(key);
+
 
             // case 2b - node with curFreq + 1 does not exist - create new node with Freq to add to doubly-linked list
             } else {
@@ -85,12 +105,13 @@ class AllO1 {
                 curNode.next = newNode;
                 newNode.prev = curNode;
                 newNode.next = tmp;
+                tmp.prev = newNode;
 
                 // point map to new node
                 this.map.set(key, newNode);
 
-                // case 2ba - if curNode is now empty, remove it
-                if (curNode.keys.list === 1) {
+                // case 2ba - if curNode is now empty, remove it entirely
+                if (curNode.keys.length === 1) {
                     let prev = curNode.prev;
                     let next = curNode.next;
                     prev.next = next;
@@ -140,16 +161,22 @@ class AllO1 {
 // All O(1) - driver code
 console.log("\nAll O(1) Data Structure");
 const allOne = new AllO1();
-console.log("\nallOne.inc('string1')");
+
+
 allOne.inc('string1');
-console.log(allOne.head.next.keys[0], ': ', allOne.head.next.freq); // string1: 1
-console.log('\ninc string2');
-allOne.inc('string2');
-console.log('keys in first node: ', ...allOne.head.next.keys);
-console.log('\ninc string1');
+process.stdout.write("\nTEST CASE 1 - adds new string and increments frequency to 1: ");
+if (allOne.head.next.keys[0] === 'string1' && allOne.head.next.freq === 1) {
+    console.log("PASSED");
+} else {
+    console.log('FAILED');
+}    
+
+process.stdout.write("\nTEST CASE 2 - adds new string and increments frequency to 1: ");
 allOne.inc('string1');
-//console.log('keys in first node: ', ...allOne.head.next.keys);
-console.log('allOne.head.next.next.keys: ', allOne.head.next.next.keys);
-console.log("\ndec string1");
-allOne.dec('string1');
-console.log(allOne.head.next);
+
+if (allOne.head.next.keys[0] === 'string1' && allOne.head.next.freq === 2) {
+    console.log("PASSED");
+} else {
+    console.log('FAILED');
+}
+
