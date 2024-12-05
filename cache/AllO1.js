@@ -180,14 +180,10 @@ class AllO1 {
 }
 
 // All O(1) - driver code
-
-// refactor to use test() - DRY
-
 console.log("\nAll O(1) Data Structure");
 const test = (condition) => { if(condition) { console.log("PASSED") } else { console.error('FAILED') } };
 
 const allOne = new AllO1();
-
 
 process.stdout.write("\nTEST CASE 1 - adds new string and increments frequency to 1: ");
 allOne.inc('string1');

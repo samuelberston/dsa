@@ -59,10 +59,8 @@ class MaxStack {
     pop() {
         // pop top item from stack
         const top = this.stack.pop();    
-
-        // remove node
+        // remove node from list
         this.removeNode(top);
-
         // return top item
         return top;
     }
