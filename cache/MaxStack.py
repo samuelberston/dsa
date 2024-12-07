@@ -3,9 +3,10 @@ from sortedcontainers import SortedList
 class MaxStack:
 
     def __init__(self):
-        self.stack = SortedList()
-        self.values = SortedList()
-        self.cnt = 0
+        # Use SortedList for O(logN) insertion/deletion
+        self.stack = SortedList() # store count, val in sorted order 
+        self.values = SortedList() # store val, count in sorted order 
+        self.cnt = 0 # increment count for stack order
 
     def push(self, x: int) -> None:
         self.stack.add((self.cnt, x))

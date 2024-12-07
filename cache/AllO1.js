@@ -17,7 +17,6 @@
  * Output
  * [null, null, null, "hello", "hello", null, "hello", "leet"]
  * 
- * Explanation
  */
 class ListNode {
     constructor(key, freq) {
