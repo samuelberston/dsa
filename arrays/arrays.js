@@ -528,11 +528,10 @@ console.log(JSON.stringify(nextPermutation([1, 5, 8, 4, 7, 6, 5, 3, 1])) === JSO
  * Output: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
  */
 var generate = function(n) {
-
-    if (n === 1) return [[1]];
-    if (n === 2) return [[1], [1, 1]];
-
+    // edge cases
     const triangle = [[1], [1, 1]];
+    if (n <= 2) return triangle.slice(0, n);
+
     let level = 2;
     while (n > 2) {
         // calculate currRow for level
@@ -554,3 +553,8 @@ var generate = function(n) {
 console.log("\nGenerate Pascal's Triangle");
 process.stdout.write("TEST CASE 1: ");
 console.log(JSON.stringify(generate(5)) === JSON.stringify([[1], [1,1], [1,2,1], [1,3,3,1], [1,4,6,4,1]]) ? "PASSED" : "FAILED");
+
+process.stdout.write("TEST CASE 2: "); // test edge cases
+console.log(JSON.stringify(generate(1)) === JSON.stringify([[1]]) ? "PASSED" : "FAILED");
+process.stdout.write("TEST CASE 3: ");
+console.log(JSON.stringify(generate(2)) === JSON.stringify([[1,1]]) ? "PASSED" : "FAILED");
