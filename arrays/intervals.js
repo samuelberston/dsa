@@ -79,8 +79,7 @@ class Intervals {
         let arrows = 1;
         let end = points[0][1];
         for (let i = 1; i < points.length; i++) {
-            // find overlap with current point
-            if (points[i][0] > end) { // curr end overlaps next start
+            if (points[i][0] > end) { // next start is greater than current end
                 arrows++;
                 end = points[i][1];
             }

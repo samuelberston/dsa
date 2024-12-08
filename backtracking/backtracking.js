@@ -13,7 +13,7 @@
  */
 
 /**
- *      1. Letter Combinations of a Phone Number
+ *      1. Letter Combinations of a Phone Number - NOT BACKTRACKING
  * 
  * @param {number} digits
  * @return {string[]}

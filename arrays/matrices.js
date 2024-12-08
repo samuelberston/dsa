@@ -63,8 +63,6 @@ class Matrix {
                     result.push(this.matrix[i][spirals]);
                 }    
             }
-
-            // increment spirals
             spirals++;
         }
         console.log(result);
