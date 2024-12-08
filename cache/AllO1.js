@@ -120,8 +120,8 @@ class AllO1 {
                 curNode.prev.keys.push(key);
                 // update map 
                 this.map.set(key, curNode.prev);
-            // Case 2b: Create new node with freq-1
-            } else {
+            
+            } else {                                           // Case 2b: Create new node with freq-1
                 // insert new node before curNode
                 const decNode = new ListNode(key, curNode.freq - 1);
                 this.addNodeBefore(curNode, decNode);
