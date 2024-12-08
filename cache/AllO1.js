@@ -74,83 +74,48 @@ class AllO1 {
 
     // inc - increments key value - in production, make this method synchronized for thread safety
     inc(key) {
-        // case 1 - key does not already exist
-        if (!this.map.get(key)) {
-            // case 1a - key with freq 1 does not already exist
-            if (this.head.next.freq !== 1) {
+        if (!this.map.get(key)) {               // case 1 - key does not already exist
+            if (this.head.next.freq !== 1) {    // case 1a - key with freq 1 does not already exist
                 // insert new node after head node
                 const newNode = new ListNode(key, 1);
                 this.addNodeAfter(this.head, newNode);
                 this.map.set(key, newNode);
-            // case 1b - key with freq 1 exists - point key to node and add to keys
-            } else {
+            } else {                            // case 1b - key with freq 1 exists - point key to node and add to keys
                 this.map.set(key, this.head.next);
                 this.head.next.keys.push(key);
             }
-        // case 2 - key exists - increment existing key    
-        } else {
+        } else {                                // case 2 - key exists - increment existing key   
             const curNode = this.map.get(key);
-            const curFreq = curNode.freq;
-            const nextFreq = curNode.next.freq;
-            // case 2a - node with currFreq + 1 already exists
-            if (curFreq + 1 === nextFreq) {
+            if (curNode.freq + 1 === curNode.next.freq) {     // case 2a - node with currFreq + 1 already exists
                 // update map to point to next node
                 this.map.set(key, curNode.next);
                 // add key to nextNode's key array
                 curNode.next.keys.push(key);                
-            // case 2b - node with curFreq + 1 does not exist - create new node with Freq to add to doubly-linked list
-            } else {
+            } else {                            // case 2b - node with curFreq + 1 does not exist - create new node with Freq to add to doubly-linked list
                 // insert new node after curNode
-                const newNode = new ListNode(key, curFreq + 1);
+                const newNode = new ListNode(key, curNode.freq + 1);
                 this.addNodeAfter(curNode, newNode);
                 // point map to new node
                 this.map.set(key, newNode);
             }
             // clean up - if key was the only key in curNode, remove it entirely
-            if (curNode.keys.length === 1) {
-                this.removeNode(curNode);
-            } else {
-                curNode.keys = this.removeKey(key, curNode); 
-            }
+            if (curNode.keys.length === 1) this.removeNode(curNode);
+            else curNode.keys = this.removeKey(key, curNode); 
         }
     }
 
     // dec
     dec(key) {
-        // Case 1 - key has freq 1
         const curNode = this.map.get(key);
-        if (curNode.freq === 1) {
-            // Case 1a - node has only one key 
-            if (curNode.keys.length === 1) {
+        if (curNode.freq === 1) {                              // Case 1 - key has freq 1
+            if (curNode.keys.length === 1) {                   // Case 1a - node has only one key 
                 // remove node entirely
                 this.removeNode(curNode);
                 // remove from map
                 this.map.delete(key);
-                
-            // Case 1b - node has more than one key
-            } else {
-                // remove from curNode.keys
-                curNode.keys = this.removeKey(key, curNode);
-                
-                // Case 1ba - prev node with dec freq exists
-                if (curNode.prev.freq === curNode.freq - 1) {
-                    // add key to prev node's keys array
-                    curNode.prev.keys.push(key);
-
-                // Case 1bb - prev node with dec freq does not exist
-                } else {
-                    // create new node and insert before curNode
-                    const decNode = new ListNode(key, curNode.freq - 1);
-                    this.addNodeBefore(curNode, decNode);
-                    // insert into map
-                    this.map.set(key, decNode);
-                }
-            }
-
-        // Case 2 - key has freq > 1
-        } else {
-            // Case 2a: Node with freq-1 exists
-            if (curNode.prev.freq === curNode.freq - 1) {
+            } else curNode.keys = this.removeKey(key, curNode);// Case 1b - node with freq 1 has more than one key - simply remove
+        } else {                                               // Case 2 - key has freq > 1
+            if (curNode.prev.freq === curNode.freq - 1) {      // Case 2a: Node with freq-1 exists
                 // Add key to existing node
                 curNode.prev.keys.push(key);
                 // update map 
@@ -172,7 +137,7 @@ class AllO1 {
 
 // All O(1) - driver code
 console.log("\nAll O(1) Data Structure");
-const test = (condition) => { if(condition) { console.log("PASSED") } else { console.error('FAILED') } };
+const test = (condition) => { if (condition) { console.log("PASSED") } else { console.error('FAILED') } };
 
 const allOne = new AllO1();
 
@@ -180,7 +145,7 @@ process.stdout.write("\nTEST CASE 1 - adds new string and increments frequency t
 allOne.inc('string1');
 test(allOne.head.next.keys[0] === 'string1' && allOne.head.next.freq === 1);   
 
-process.stdout.write("\nTEST CASE 2 - increments frequency of string to 2 and removes node with freq 1: ");
+process.stdout.write("\nTEST CASE 2 - increments frequency of existing string to 2 and removes node with freq 1: ");
 allOne.inc('string1');
 test(allOne.head.next.keys[0] === 'string1' && allOne.head.next.freq === 2);
 
