@@ -46,6 +46,22 @@ class AllO1 {
         prev.next = next;
     }
 
+    addNodeBefore(curNode, newNode) {
+        const tmp = curNode.prev;
+        curNode.prev = newNode;
+        newNode.next = curNode;
+        newNode.prev = tmp;
+        tmp.next = newNode;
+    }    
+
+    addNodeAfter(curNode, newNode) {
+        const tmp = curNode.next;
+        curNode.next = newNode;
+        newNode.prev = curNode;
+        newNode.next = tmp;
+        tmp.prev = newNode;
+    }
+
     // getMaxKey
     getMaxKey() {
         return this.tail.prev.keys[0] || "";
@@ -60,51 +76,35 @@ class AllO1 {
     inc(key) {
         // case 1 - key does not already exist
         if (!this.map.get(key)) {
-
             // case 1a - key with freq 1 does not already exist
             if (this.head.next.freq !== 1) {
                 // insert new node after head node
                 const newNode = new ListNode(key, 1);
-                const tmp = this.head.next;
-                this.head.next = newNode;
-                newNode.prev = this.head;
-                newNode.next = tmp;
-                tmp.prev = newNode;
-                // add to map
+                this.addNodeAfter(this.head, newNode);
                 this.map.set(key, newNode);
-
             // case 1b - key with freq 1 exists - point key to node and add to keys
             } else {
                 this.map.set(key, this.head.next);
                 this.head.next.keys.push(key);
             }
-
         // case 2 - key exists - increment existing key    
         } else {
             const curNode = this.map.get(key);
             const curFreq = curNode.freq;
             const nextFreq = curNode.next.freq;
-
             // case 2a - node with currFreq + 1 already exists
             if (curFreq + 1 === nextFreq) {
                 // update map to point to next node
                 this.map.set(key, curNode.next);
                 // add key to nextNode's key array
                 curNode.next.keys.push(key);                
-
             // case 2b - node with curFreq + 1 does not exist - create new node with Freq to add to doubly-linked list
             } else {
                 // insert new node after curNode
                 const newNode = new ListNode(key, curFreq + 1);
-                const tmp = curNode.next;
-                curNode.next = newNode;
-                newNode.prev = curNode;
-                newNode.next = tmp;
-                tmp.prev = newNode;
-
+                this.addNodeAfter(curNode, newNode);
                 // point map to new node
                 this.map.set(key, newNode);
-
             }
             // clean up - if key was the only key in curNode, remove it entirely
             if (curNode.keys.length === 1) {
@@ -139,13 +139,9 @@ class AllO1 {
 
                 // Case 1bb - prev node with dec freq does not exist
                 } else {
-                    // create new node and insert behind curNode
+                    // create new node and insert before curNode
                     const decNode = new ListNode(key, curNode.freq - 1);
-                    const tmp = curNode.prev;
-                    curNode.prev = decNode;
-                    decNode.next = curNode;
-                    decNode.prev = tmp;
-                    tmp.next = decNode;
+                    this.addNodeBefore(curNode, decNode);
                     // insert into map
                     this.map.set(key, decNode);
                 }
@@ -161,13 +157,9 @@ class AllO1 {
                 this.map.set(key, curNode.prev);
             // Case 2b: Create new node with freq-1
             } else {
-                // insert new node behind curNode
+                // insert new node before curNode
                 const decNode = new ListNode(key, curNode.freq - 1);
-                const tmp = curNode.prev;
-                curNode.prev = decNode;
-                decNode.next = curNode;
-                decNode.prev = tmp;
-                tmp.next = decNode;
+                this.addNodeBefore(curNode, decNode);
                 // insert into map
                 this.map.set(key, decNode);
             }
