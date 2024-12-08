@@ -333,22 +333,17 @@ const trappingRainWater = (eleMap) => {
     // get max elevation left of i
     for (let i = 0; i < eleMap.length; i++) {
         maxLeft[i] = maxL; 
-        if (eleMap[i] > maxL) {
-            maxL = eleMap[i]; // update maxL
-        }
+        if (eleMap[i] > maxL) maxL = eleMap[i]; // update maxL
     }
 
     // get max elevation right of i
     for (let i = eleMap.length - 1; i > -1; i--) {
         maxRight[i] = maxR;
-        if (eleMap[i] > maxR) {
-            maxR = eleMap[i]; // update maxR
-        }
+        if (eleMap[i] > maxR) maxR = eleMap[i]; // update maxR
     }
 
     let totalVol = 0;
     for (let i = 0; i < eleMap.length; i++) {
-        // console.log("min: ", Math.min(maxLeft, maxRight));
         if (eleMap[i] < Math.min(maxLeft[i], maxRight[i])) { // if i can store water
             totalVol += Math.min(maxLeft[i], maxRight[i]) - eleMap[i];
         }
@@ -374,18 +369,13 @@ var kokoEatingBananas = function(piles, h) {
     let right = Math.max(...piles);
 
     // calculate rate feasibility
-    const feasible = (rate) => {
-        return piles.reduce((a, b) =>  a + Math.floor((b - 1) / rate) + 1, 0) <= h;
-    };
+    const feasible = (rate) => piles.reduce((a, b) =>  a + Math.floor((b - 1) / rate) + 1, 0) <= h;
 
     while (left < right) {
         let mid = left + Math.floor((right - left) / 2);
         // check if rate is feasible
-        if (feasible(mid)) {
-            right = mid;
-        } else {
-            left = mid + 1;
-        }
+        if (feasible(mid)) right = mid; 
+        else left = mid + 1; 
     }
     return left;
 };
@@ -442,22 +432,15 @@ const lcs = (array) => {
     let curr = 1;
     let p = 0;
     while (p < array.length - 1) {
-        // equal
-        if (array[p + 1] === array[p]) {
-            p++;
-            continue;
-        }
         // consecutive
         if (array[p + 1] === array[p] + 1) {
             curr++;
-            if (curr > max) {
-                max = curr;
-            }
-            p++;
-        } else {        // not consecutive
+            if (curr > max) max = curr;
+        // not equal (or consecutive)
+        } else if (array[p + 1] !== array[p]) {
             curr = 1;   // reset curr
-            p++;
         }
+        p++;
     }
     return max;
 };
