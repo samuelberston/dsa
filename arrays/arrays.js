@@ -134,20 +134,18 @@ approach: iterate array tracking start and maxSum, if currSum, < 0, reset it to 
 */
 const kadanesAlg = (array) => {
     // edge cases:
-    if (array.length == 0) { return 0; }
-    if (array.length == 1) { return array[0]; }
+    if (array.length == 0) return 0; 
+    if (array.length == 1) return array[0]; 
 
     let maxSum = Number.MIN_SAFE_INTEGER;
     let currSum = 0;
+
     for (let i = 0; i < array.length; i++) {
-        currSum += array[i]; // add current element to currSum
-        if (currSum > maxSum) {
-            maxSum = currSum;
-        }
-        if (currSum < 0) {
-            currSum = 0;
-        }
+        currSum += array[i];
+        if (currSum > maxSum) maxSum = currSum;
+        if (currSum < 0) currSum = 0;
     }
+
     console.log(maxSum);
     return maxSum;
 }
@@ -281,8 +279,8 @@ const threeSum = (numbers) => {
         // check for pair in the slice that is inverse of curr
         let resPairs = twoSum(numbers.slice(i + 1), -curr);
         if (resPairs.length > 0) {
-            for (let j = 0; j < resPairs.length; j++) {
-                triplets.push([curr, ...resPairs[j]]);
+            for (const pair of resPairs) {
+                triplets.push([curr, ...pair]);
             }
         }
     }
