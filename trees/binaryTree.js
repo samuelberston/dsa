@@ -100,15 +100,10 @@ console.log(deserializedTree);
 // check height of the tree
 function checkHeight(root) {
     // base case: non-existent node is level 0
-    if (!root) { 
-        return 0;
-    }
-    // get the max height of each side
-    let maxLeft = checkHeight(root.left);
-    let maxRight = checkHeight(root.right);
+    if (!root) return 0;
 
     // return the max height of either side
-    return Math.max(maxLeft, maxRight) + 1;
+    return Math.max(checkHeight(root.left), checkHeight(root.right)) + 1;
 }
 
 const height = checkHeight(binaryTree);
@@ -137,12 +132,11 @@ nonIdenticalTree.right.left = new Node(6);
 // check for identical trees
 function checkIdentical(root1, root2) {
     // base case: finished recursing and both null
-    if (root1 == null && root2 == null) { return true; }
+    if (root1 == null && root2 == null) return true;
     // non-identical: one is null
-    if (root1 == null || root2 == null) { return false; }
+    if (root1 == null || root2 == null) return false;
     // non-identical: different data
-    if (root1.data != root2.data) { return false; }
-
+    if (root1.data != root2.data) return false;
 
     // recurse through both sides
     return checkIdentical(root1.left, root2.left) && checkIdentical(root1.right, root2.right);
