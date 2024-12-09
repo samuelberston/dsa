@@ -142,3 +142,42 @@ process.stdout.write("TEST CASE 3: ");
 console.log(numberToWords(1234567) === "One Million Two Hundred Thirty Four Thousand Five Hundred Sixty Seven" ? "PASSED" : "FAILED");
 process.stdout.write("TEST CASE 4: ");
 console.log(numberToWords(1234567891) === "One Billion Two Hundred Thirty Four Million Five Hundred Sixty Seven Thousand Eight Hundred Ninety One" ? "PASSED" : "FAILED");
+
+/**
+ * 
+ *      Identify the largest outlier in an array
+ * You are given an integer array nums. This array contains n elements, where exactly n - 2 elements are special numbers. One of the remaining two elements is the sum of these special numbers, and the other is an outlier.
+ * An outlier is defined as a number that is neither one of the original special numbers nor the element representing the sum of those numbers.
+ * Note that special numbers, the sum element, and the outlier must have distinct indices, but may share the same value.
+ * 
+ * Return the largest potential outlier in nums.
+ * 
+ */
+const largestOutlier = (nums) => {
+    const totalSum = nums.reduce((a, b) => a + b);
+    const freqMap = new Map();
+    nums.forEach((num) => freqMap.set(num, freqMap.has(num) ? freqMap.get(num) + 1 : 1));
+
+    let largestOutlier = -Infinity;
+
+    // iterate nums looking for outlier
+    for (const num of nums) {
+        if (freqMap.has((totalSum - num) / 2)) {
+            largestOutlier = Math.max(largestOutlier, num);
+        }
+    }
+    return largestOutlier;
+}
+
+// Largest Outlier - driver code
+console.log("\nLargest Outlier in an array");
+const test = (condition) => {if (condition) {console.log("PASSED")} else {console.log("FAILED")}}
+
+process.stdout.write("\nTEST CASE 1: ");
+test(largestOutlier([2,3,5,10]) === 10);
+
+process.stdout.write("\nTEST CASE 2: ");
+test(largestOutlier([-2,-1,-3,-6,4]) === 4);
+
+process.stdout.write("\nTEST CASE 3: ");
+test(largestOutlier([5, 5, 1, 1, 1, 1, 1]) === 5);
