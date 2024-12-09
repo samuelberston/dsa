@@ -162,8 +162,10 @@ const largestOutlier = (nums) => {
 
     // iterate nums looking for outlier
     for (const num of nums) {
-        if (freqMap.has((totalSum - num) / 2)) {
-            largestOutlier = Math.max(largestOutlier, num);
+        const specNum = (totalSum - num) / 2;
+        if (freqMap.has(specNum)) {
+            if (specNum !== num) largestOutlier = Math.max(largestOutlier, num);
+            else if (freqMap.get(specNum) > 1) largestOutlier = Math.max(largestOutlier, num);
         }
     }
     return largestOutlier;
@@ -177,7 +179,7 @@ process.stdout.write("\nTEST CASE 1: ");
 test(largestOutlier([2,3,5,10]) === 10);
 
 process.stdout.write("\nTEST CASE 2: ");
-test(largestOutlier([-2,-1,-3,-6,4]) === 4);
+test(largestOutlier([6,-31,50,-35,41,37,-42,13]) === -35);
 
 process.stdout.write("\nTEST CASE 3: ");
 test(largestOutlier([5, 5, 1, 1, 1, 1, 1]) === 5);
