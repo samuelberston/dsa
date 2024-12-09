@@ -10,25 +10,15 @@ class MinHeap {
         this.heapSize = 0;
     }
 
-    isEmpty() {
-        return this.heapSize == 0;
-    }
+    isEmpty() { return this.heapSize == 0; }
 
-    getParentIndex(i) {
-        return Math.floor((i - 1) / 2);
-    }
+    getParentIndex(i) { return Math.floor((i - 1) / 2); }
 
-    getLeftChildIndex(i) {
-        return i * 2 + 1;
-    }
+    getLeftChildIndex(i) { return i * 2 + 1; }
 
-    getRightChildIndex(i) { 
-        return i * 2 + 2;
-    }
+    getRightChildIndex(i) { return i * 2 + 2; }
 
-    swap(index1, index2) {
-        [this.heap[index1], this.heap[index2]] = [this.heap[index2], this.heap[index1]];
-    }
+    swap(index1, index2) { [this.heap[index1], this.heap[index2]] = [this.heap[index2], this.heap[index1]]; }
 
     insert(value) {
         // check for room
@@ -51,15 +41,13 @@ class MinHeap {
             if (parentValue > currentValue) {
                 this.swap(parentIndex, index);
                 index = parentIndex;
-            } else {
-                break;
-            }
+            } else break;
         }
     }
 
     extractMin() {
         // zero or one node
-        if (this.heap.length == 0) { return null; }
+        if (this.heap.length == 0) return null;
         if (this.heap.length == 1) { 
             this.heapSize--;
             return this.heap.pop(); }
@@ -88,24 +76,18 @@ class MinHeap {
         const currentValue = Array.isArray(this.heap[index]) ? this.heap[index][0] : this.heap[index];
 
             // find smaller child node index
-            if (rightChildIndex < this.heapSize && rightValue < leftValue) {
-                smallerChildIndex = rightChildIndex;
-            }
+            if (rightChildIndex < this.heapSize && rightValue < leftValue) smallerChildIndex = rightChildIndex;
 
             const smallerValue = Array.isArray(this.heap[smallerChildIndex]) ? this.heap[smallerChildIndex][0] : this.heap[smallerChildIndex];
             if (currentValue > smallerValue) { // current node is smaller than smaller child node
                 this.swap(index, smallerChildIndex);
                 index = smallerChildIndex;
-            } else {
-                break; 
-            }
+            } else break;
         }
     }
 
     // view min without extracting it
-    peak() {
-        return this.heapSize > 0 ? this.heap[0] : null;
-    }
+    peak() { return this.heapSize > 0 ? this.heap[0] : null; }
 
     increaseMaxSize(n) {
         this.maxSize += n;
@@ -138,6 +120,5 @@ minHeap.insert(5);
 minHeap.insert(30);
 minHeap.insert(2);
 console.log("Peak without extracting min: ", minHeap.peak());
-
 
 export default MinHeap;
