@@ -151,12 +151,8 @@ console.log(checkIdentical(binaryTree, nonIdenticalTree));
 let vals = {};
 function levelOrder(root, level = 0) {
     // base case: no child node
-    if (!root) { return; }
-    if (!vals[level]) {
-        vals[level] = [root.data];
-    } else {
-        vals[level].push(root.data);
-    }
+    if (!root) return;
+    vals[level] = vals[level] ? [...vals[level], root.data] : [root.data];
     levelOrder(root.left, level+1);
     levelOrder(root.right, level+1);
     return vals;
@@ -166,7 +162,6 @@ console.log("level order traversal: ");
 console.log(levelOrder(binaryTree));
 
 // check if tree is subtree of another tree
-
 let subtree = new Node('yay');
 subtree.left = new Node('huh?');
 subtree.right = new Node('heyy');
@@ -181,15 +176,12 @@ actualSubtree.left.right = new Node(6);
 // approach: dfs of input tree, for each node, run the checkIdentical algorithm
 function checkSubtree(root, subtree) {
     // base case: there was no child
-    if (!root) { return false; }
+    if (!root) return false;
     // base case: empty subtree is a subtree
-    if (!subtree) { return true; }
+    if (!subtree) return true;
 
     // check every node and check if they're the same
-    if (checkIdentical(root, subtree)) {
-        return true;
-    }
-
+    if (checkIdentical(root, subtree)) return true;
     // recursive case succeeds for either right or left
     return checkSubtree(root.left, subtree) || checkSubtree(root.right, subtree);
 }
@@ -204,12 +196,10 @@ console.log(checkSubtree(binaryTree, actualSubtree));
 // approach: in order dfs check data increasing order
 function isValidBST(root, min = -Infinity, max = Infinity) {
     // base case: no node
-    if (!root) { return true; }
+    if (!root) return true;
 
     // check if the current node is within the min and max
-    if (root.data <= min || root.data >= max) {
-        return false;
-    }
+    if (root.data <= min || root.data >= max) return false;
 
     return isValidBST(root.left, min, root.data) && isValidBST(root.right, root.data, max);
 }
@@ -217,7 +207,7 @@ function isValidBST(root, min = -Infinity, max = Infinity) {
 // BFS using a queue
 function bfs(root) {
     //edge case: no root, return empty answer
-    if (!root) { return []; }
+    if (!root) return [];
     // use a queue to visit the nodes in level order
     let queue = [root];
     // serialize the nodes in an array
@@ -239,6 +229,7 @@ function bfs(root) {
 }
 
 // BFS driver code
+console.log("\nBFS of binary tree: ");
 let serializedBFS = bfs(binaryTree);
 console.log(serializedBFS);
 
@@ -269,6 +260,7 @@ function findLCAofBST(root, n1, n2) {
 }
 
 // driver code
+console.log("\nFind LCA of BST");
 const binarySearchTree = new Node(4);
 binarySearchTree.left = new Node(2);
 binarySearchTree.left.left = new Node(1);
@@ -300,7 +292,7 @@ const arrayToBST = (array) => {
 
     const inner = (left, right) => {
         // base case
-        if (left > right) { return null; }
+        if (left > right) return null;
 
         let p = Math.floor(left + (right - left) / 2);
 
@@ -314,7 +306,7 @@ const arrayToBST = (array) => {
 };
 
 // Sorted Array to BST driver code
-console.log("Sorted Array to BST");
+console.log("\nSorted Array to BST");
 const arr1 = [-10, -3, 0, 1, 5, 10];
 const res1 = arrayToBST(arr1);
 console.log("TEST CASE 1"); // use in order traversal to check tree is BST
@@ -343,22 +335,14 @@ if (JSON.stringify(inOrder1) === JSON.stringify(arr1)) {
  * 
  */
 const symmetricTree = (root) => {
-
     const symmetrical = (root1, root2) => {
-        // base case
-        if (!root1 && !root2) {         // exhausted space
-            return true;
-        }
-        if (!root1 || !root2) {         // dissimilar shape
-            return false;
-        }
-        if (root1.data !== root2.data) {  // different values
-            return false;
-        }
+        // base cases
+        if (!root1 && !root2) return true;
+        if (!root1 || !root2) return false;
+        if (root1.data !== root2.data) return false;
         // recursive case
         return symmetrical(root1.left, root2.right) && symmetrical(root1.right, root2.left)
     }
-
     return symmetrical(root.left, root.right);
 };
 
@@ -371,11 +355,7 @@ symTree.left.left = new Node(3);
 symTree.right.left = new Node(3);
 symTree.left.right = new Node(3);
 symTree.right.right = new Node(3);
-if (symmetricTree(symTree)) {
-    console.log("SUCCESS");
-} else {
-    console.error("ERROR");
-}
+if (symmetricTree(symTree)) console.log("SUCCESS"); else console.error("ERROR");
 
 process.stdout.write("TEST CASE 2: ");
 const asymTree = new Node(1);
@@ -385,11 +365,7 @@ asymTree.left.left = new Node(3);
 asymTree.right.left = new Node(3);
 asymTree.left.right = new Node(4);
 asymTree.right.right = new Node(5);
-if (!symmetricTree(asymTree)) {
-    console.log("SUCCESS");
-} else {
-    console.error("ERROR");
-}
+if (!symmetricTree(asymTree)) console.log("SUCCESS"); else console.error("ERROR");
 
 /**
  *      Balanced Binary Tree
@@ -399,31 +375,21 @@ if (!symmetricTree(asymTree)) {
  * of the two subtrees of every node never differs by more than one.
  *      
  */
-var isBalanced = function(root) {
-    
+const isBalanced = (root) => {
     // helper function to check depth
-    const checkDepth = (root, depth) => {
+    const checkDepth = (root) => {
         // base case
-        if (!root) {
-            return 0; // depth of 0
-        }
-
-        return Math.max(checkDepth(root.right, 0), checkDepth(root.left, 0)) + 1;
+        if (!root) return 0; // depth of 0
+        return Math.max(checkDepth(root.right), checkDepth(root.left)) + 1;
     }
 
     const compareDepth = (root) => {
-        // base case
-        if (!root) { // exhausted space
-            return true;
-        }
-        if (Math.abs(checkDepth(root.left) - checkDepth(root.right)) > 1) {
-            return false;
-        }
-
+        // base cases
+        if (!root) return true;
+        if (Math.abs(checkDepth(root.left) - checkDepth(root.right)) > 1) return false;
         // recursive case
         return compareDepth(root.left) && compareDepth(root.right);
     }
-
     return compareDepth(root);
 };
 
@@ -434,11 +400,7 @@ balancedTree.left = new Node(2);
 balancedTree.right = new Node(3);
 balancedTree.right.left = new Node(4);
 balancedTree.right.right = new Node(5);
-if (isBalanced(balancedTree)) {
-    console.log("SUCCESS");
-} else {
-    console.error("ERROR");
-}
+if (isBalanced(balancedTree)) console.log("SUCCESS"); else console.error("ERROR");
 
 process.stdout.write("TEST CASE 2: ");
 const unbalancedTree = new Node(1);
@@ -447,53 +409,37 @@ unbalancedTree.right = new Node(3);
 unbalancedTree.right.left = new Node(4);
 unbalancedTree.right.right = new Node(5);
 unbalancedTree.right.left.left = new Node(6);
-if (isBalanced(!unbalancedTree)) {
-    console.log("SUCCESS");
-} else {
-    console.error("ERROR");
-}
+if (isBalanced(unbalancedTree)) console.log("SUCCESS"); else console.error("ERROR");
 
 /**
  *      Sum Root to Leaf Numbers
  */
-var sumNumbers = function(root) {
+const sumNumbers = (root) => {
     let sum = 0;
-    
     const dfs = (root, num) => {
         if (root) {
             // update num
             num *= 10;
             num += root.data;
-
             // base case
             if (!root.left && !root.right) {
                 sum += num;
                 return;
             }
-
             // recursive case
             dfs(root.left, num);
             dfs(root.right, num);
         }
     }
     dfs(root, 0);
-
     return sum;
 };
 
 console.log("\nSum Root to Leaf Numbers");
 process.stdout.write("TEST CASE 1: ");
 // reusing the balanced tree
-if (sumNumbers(balancedTree) === 281) {
-    console.log("SUCCESS");
-} else {
-    console.error("FAILED");
-}
+if (sumNumbers(balancedTree) === 281) console.log("SUCCESS"); else console.error("FAILED");
+
 process.stdout.write("TEST CASE 1: ");
 // reusing the unbalanced tree
-if (sumNumbers(unbalancedTree) === 1493) {
-    console.log("SUCCESS");
-} else {
-    console.error("FAILED");
-}
-
+if (sumNumbers(unbalancedTree) === 1493) console.log("SUCCESS"); else console.error("FAILED");
