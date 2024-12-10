@@ -9,7 +9,7 @@
 // - recursive check tree is subtree
 // - recursive inorder DFS check is valid BST
 // - iterative breadth-first search with a queue
-
+const test = (condition) => {if (condition) console.log("PASSED"); else console.error("ERROR");}
 // node of the binary tree
 class Node {
     constructor(item) {
@@ -443,3 +443,34 @@ if (sumNumbers(balancedTree) === 281) console.log("SUCCESS"); else console.error
 process.stdout.write("TEST CASE 1: ");
 // reusing the unbalanced tree
 if (sumNumbers(unbalancedTree) === 1493) console.log("SUCCESS"); else console.error("FAILED");
+
+/**
+ *      Upside Down Binary Tree
+ * 
+ * Given the root of a binary tree, turn the tree upside down and return the new root.
+ * 
+ * 
+ */
+var upsideDownBinaryTree = function(root) {
+    if (!root || !root.left) return root;
+
+    const newRoot = upsideDownBinaryTree(root.left);
+
+    root.left.right = root;
+    root.left.left = root.right;
+    root.left = null;
+    root.right = null;
+
+    return newRoot;
+};
+
+// Upside Down Binary Tree driver code
+console.log("\nUpside Down Binary Tree");
+process.stdout.write("TEST CASE 1: ");
+const upsideDownTree = new Node(1);
+upsideDownTree.left = new Node(2);
+upsideDownTree.right = new Node(3);
+upsideDownTree.left.left = new Node(4);
+upsideDownTree.left.right = new Node(5);
+const newRoot = upsideDownBinaryTree(upsideDownTree);
+test(newRoot.data === 4 && newRoot.left.data === 5 && newRoot.right.data === 2 && newRoot.right.left.data === 3 && newRoot.right.right.data === 1);
