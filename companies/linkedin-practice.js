@@ -126,7 +126,7 @@ const comboSum = (nums, target) => {
 
     const backtrack = (start = 0, combo = [], sum = 0) => {
         // base cases
-        if (sum > target) return false; // Invalid combo
+        if (sum > target) return; // Invalid combo
         if (sum === target) {
             combo = combo.sort();
             const key = JSON.stringify(combo);
@@ -158,3 +158,36 @@ process.stdout.write("Test 1: ");
 test(JSON.stringify(comboSum([2, 2, 3, 6, 7], 7)) === JSON.stringify([[2,2,3],[7]]));
 process.stdout.write("Test 2: ");
 test(JSON.stringify(comboSum([2, 3, 6, 7], 7)) === JSON.stringify([[7]]));
+
+/**
+ * Maximum Subarray Sum 
+ * 
+ * Example: nums = [-2,1,-3,4,-1,2,1,-5,4]
+ * Output: 6
+ */
+const maxSubSum = (nums) => {
+    // edge case
+    if (nums.length === 1) return nums[0];
+
+    let max = -Infinity;
+    let curSum = 0;
+    
+    // iterate nums, track max and cur
+    for (let i = 0; i < nums.length; i++) {
+        curSum += nums[i];
+        if (curSum < 0) curSum = 0;
+        max = Math.max(max, curSum);
+    }
+    return max;
+}
+
+// Maximum Subarray Sum Driver code
+console.log("\nMaximum Subarray Sum");
+process.stdout.write("Test 1: ");
+test(maxSubSum([-2,1,-3,4,-1,2,1,-5,4]) === 6);
+process.stdout.write("Test 2: ");
+test(maxSubSum([1]) === 1);
+process.stdout.write("Test 3: ");
+test(maxSubSum([5,4,-1,7,8]) === 23);
+process.stdout.write("Test 4: ");
+test(maxSubSum([-1]) === -1);
