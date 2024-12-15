@@ -1,6 +1,12 @@
 /**
  * Linked Lists
  * 1. merge 2 sorted lists
+ * 2. merge k sorted lists
+ * 3. copy list with random pointer
+ * 4. remove duplicates from sorted list II
+ * 5. intersection of two linked lists
+ * 6. swap nodes in pairs
+ * 7. delete duplicates from sorted list
  */
 
 class ListNode {
@@ -11,7 +17,6 @@ class ListNode {
         this.next = null === undefined ? null : next;
     }
 }
-
 
 /**
  * Merge Two Sorted Lists
