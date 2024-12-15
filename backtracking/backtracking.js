@@ -393,8 +393,40 @@ console.log(JSON.stringify(partition("aab")) === JSON.stringify([["a","a","b"],[
 
 // Palindrome Partitioning optimization with DP
 
-
 /**
- *      7. Knapsack Problem
- * 
+ *      7. Combination Sum II
+ * @param {number[]} candidates
+ * @param {number} target
+ * @return {number[][]}
  */
+var combinationSum2 = function(candidates, target) {
+    const combos = [];
+    candidates.sort();
+
+    const backtrack = (start = 0, combo = [], curSum = 0) => {
+        // base cases
+        if (curSum > target) return;
+        if (curSum === target) {
+            combo = combo.sort();
+            combos.push([...combo]);
+            return;
+        }
+
+        // backtracking
+        for (let i = start; i < candidates.length; i++) {
+            // Skip duplicates
+            if (i > start && candidates[i] === candidates[i - 1]) continue;
+            combo.push(candidates[i]);
+            backtrack(i + 1, combo, curSum + candidates[i]);
+            combo.pop();
+        }
+    }
+
+    backtrack();
+    return combos;
+};
+
+// Combination Sum II driver code
+console.log("\n7. Combination Sum II");
+process.stdout.write("TEST CASE 1: ");
+console.log(JSON.stringify(combinationSum2([10,1,2,7,6,1,5], 8)) === JSON.stringify([[1,1,6],[1,2,5],[1,7],[2,6]]) ? "PASSED" : "FAILED");
