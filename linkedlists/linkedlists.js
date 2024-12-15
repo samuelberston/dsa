@@ -315,3 +315,45 @@ swapList.next = new ListNode(2);
 swapList.next.next = new ListNode(3);
 swapList.next.next.next = new ListNode(4);
 console.log(swapPairs(swapList));
+
+/**
+ *  Delete Duplicates from Sorted List
+* 
+ * Example:
+ * - Input: [1, 1, 2, 3, 4, 4, 5]
+ * - Returns: [2, 3, 5]
+ * 
+ * @param {ListNode}
+ * @return {ListNode}
+ */
+const deleteDuplicates = (head) => {
+    let sentinel = new ListNode(-1); // Sentinel node to build deduplicated list
+    let prev = sentinel; // Prev pointer to track previous node to current node
+    sentinel.next = head;
+    let current = head;
+
+    while (current) {
+        // Duplicate 
+        if (current.next && current.val === current.next.val) {
+            while (current.next && current.val === current.next.val) current = current.next;
+            // move past last duplicate
+            prev.next = current.next;
+        } else prev = prev.next;
+        current = current.next;
+    }
+
+    return sentinel.next;
+};
+
+// Delete Duplicates driver code
+console.log("\n6. Delete Duplicates from Sorted List");
+const dupList1 = new ListNode(1);
+dupList1.next = new ListNode(1);
+dupList1.next.next = new ListNode(2);
+dupList1.next.next.next = new ListNode(3);
+dupList1.next.next.next.next = new ListNode(4);
+dupList1.next.next.next.next.next = new ListNode(4);
+dupList1.next.next.next.next.next.next = new ListNode(5);
+const test = (condition) => condition ? console.log("PASSED") : console.log("FAILED");
+process.stdout.write("TEST CASE 1: ");
+test(deleteDuplicates(dupList1) === dupList1.next.next);
