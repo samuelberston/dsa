@@ -10,6 +10,8 @@
  * 8. Valid Palindrome
  */
 
+const test = (condition) => condition ? console.log("PASSED") : console.log("FAILED");
+
 
 /**
  *      Zig Zag String Pattern
@@ -117,10 +119,8 @@ const maxVowels = (s, k) => {
 
     // Count vowels in first k characters
     for (let i = 0; i < s.length; i++) {
-        if (i >= k) {
-            // remove leftmost character from window
-            if (vowels.has(s[i - k])) count--;
-        }
+        // remove leftmost character from window
+        if (i >= k && vowels.has(s[i - k])) count--;
 
         // Add current character
         if (vowels.has(s[i])) count++;
@@ -133,9 +133,9 @@ const maxVowels = (s, k) => {
 
 // Max Vowels in substring of given length - driver code
 console.log("\n3. Max Vowels in Substring of Length K");
-console.log(maxVowels("babadoobee", 5)); // 4
-console.log(maxVowels("babadoobee", 4)); // 3
-console.log(maxVowels("babadoobee", 2)); // 2
+test(maxVowels("babadoobee", 5) === 4);
+test(maxVowels("babadoobee", 4) === 3);
+test(maxVowels("babadoobee", 2) === 2);
 
 /**
  *      Longest Substring Without Repeating Characters
@@ -164,8 +164,8 @@ const longestSubstring = (s) => {
 
 // Longest substring without repeating characters - driver code
 console.log("\n4. Longest Substring Without Repeating Characters");
-console.log(longestSubstring("abcdaeba")); // 5
-console.log(longestSubstring("abcdtghyu")); // 9
+test(longestSubstring("abcdaeba") === 5); // 5
+test(longestSubstring("abcdtghyu") === 9); // 9
 
 /**
  *      5. String to Integer (atoi)
@@ -203,9 +203,9 @@ var myAtoi = function(s) {
 
 // atio driver code
 console.log("\n4. Atoi");
-console.log(myAtoi("   -402foo")); // -402
-console.log(myAtoi("42")); // 42
-console.log(myAtoi("weeping42")); // 0
+test(myAtoi("   -402foo") === -402);
+test(myAtoi("42") === 42);
+test(myAtoi("weeping42") === 0);
 
 /**
  *     6. Group Anagrams
@@ -234,30 +234,20 @@ console.log("\n5. Group Anagrams");
 process.stdout.write("TEST CASE 1: ");
 const grams1 = ["eat","tea","tan","ate","nat","bat"];
 const result1 = groupAnagrams(grams1);
-if (JSON.stringify(result1) === JSON.stringify([["eat","tea","ate"],["tan","nat"],["bat"]])) {
-    console.log("SUCCESS");
-} else {
-    console.error("FAILURE");
-}
+test(JSON.stringify(result1) === JSON.stringify([["eat","tea","ate"],["tan","nat"],["bat"]]));
+
 
 process.stdout.write("TEST CASE 2: ");
 const grams2 = [""];
 const result2 = groupAnagrams(grams2);
-if (JSON.stringify(result2) === JSON.stringify([['']])) {
-    console.log("SUCCESS");
-} else {
- 
-    console.error("FAILURE");
-}
+test(JSON.stringify(result2) === JSON.stringify([['']]));
+
 
 process.stdout.write("TEST CASE 3: ");
 const grams3 = ["a"];
 const result3 = groupAnagrams(grams3);
-if (JSON.stringify(result3) === JSON.stringify([["a"]])) {
-    console.log("SUCCESS");
-} else {
-    console.error("FAILURE");
-}
+test(JSON.stringify(result3) === JSON.stringify([["a"]]));
+
 
 // 7. merge strings alternately
 const mergeAlt = (word1, word2) => {
@@ -280,17 +270,14 @@ const mergeAlt = (word1, word2) => {
     return res;
 };
 
-console.log("Merge Strings Alternately");
 let str1 = "abcde";
 let str2 = "fghijklm";
 const mergedAlt = mergeAlt(str1, str2);
 
-console.log("Merge Strings Alternately");
-if (mergedAlt === "afbgchdiejklm") {
-    console.log("SUCCESS");
-} else {
-    console.error("FAILED");
-}
+console.log("\n7. Merge Strings Alternately");
+process.stdout.write("TEST CASE 1: ");
+test(mergedAlt === "afbgchdiejklm");
+
 
 /**
  *      Valid Palindrome
@@ -313,9 +300,9 @@ var isPalindrome = function(s) {
 // Valid Palindrome driver code
 console.log("\n8. Valid Palindrome");
 process.stdout.write("TEST CASE 1: ");
-console.log(JSON.stringify(isPalindrome("A man, a plan, a canal: Panama")) === JSON.stringify(true) ? "PASSED" : "FAILED");
+test(isPalindrome("A man, a plan, a canal: Panama") === true);
 process.stdout.write("TEST CASE 2: ");
-console.log(JSON.stringify(isPalindrome("race a car")) === JSON.stringify(false) ? "PASSED" : "FAILED");
+test(isPalindrome("race a car") === false);
 
 /**
  * To do:
