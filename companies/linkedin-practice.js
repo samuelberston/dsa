@@ -191,3 +191,88 @@ process.stdout.write("Test 3: ");
 test(maxSubSum([5,4,-1,7,8]) === 23);
 process.stdout.write("Test 4: ");
 test(maxSubSum([-1]) === -1);
+
+
+/**
+ * 
+ * Insert Delete GetRandom O(1)
+ * 
+ * Example: 
+ * 
+ */
+class RandomizedCollection {
+    constructor() {
+        this.map = new Map(); // Maps val to Set of indices in list
+        this.list = []; // List of elements in collection
+    }
+
+    insert(val) {
+        const indices = this.map.get(val) || new Set();
+        indices.add(this.list.length);
+        this.map.set(val, indices);
+        this.list.push(val);
+        return indices.size === 1; // Returns true if this is the first occurrence
+    }
+
+    remove(val) {
+        if (!this.map.has(val)) return false;
+        
+        // Get indices set for this value
+        const indices = this.map.get(val);
+        const indexToRemove = indices.values().next().value;
+        const lastIndex = this.list.length - 1;
+        const lastElement = this.list[lastIndex];
+
+        // Swap with last element
+        this.list[indexToRemove] = lastElement;
+        
+        // Update indices
+        indices.delete(indexToRemove);
+        if (indices.size === 0) {
+            this.map.delete(val);
+        }
+
+        const lastElementIndices = this.map.get(lastElement);
+        if (lastElement !== val) {
+            lastElementIndices.delete(lastIndex);
+            lastElementIndices.add(indexToRemove);
+        } else {
+            indices.delete(lastIndex);
+            if (indexToRemove !== lastIndex) indices.add(indexToRemove);
+        }
+
+        // Remove last element
+        this.list.pop();
+        return true;
+    }
+    
+    getRandom() {
+        return this.list[Math.floor(Math.random() * this.list.length)];
+    }
+}
+
+
+
+/** 
+ * Your RandomizedCollection object will be instantiated and called as such:
+ * var obj = new RandomizedCollection()
+ * var param_1 = obj.insert(val)
+ * var param_2 = obj.remove(val)
+ * var param_3 = obj.getRandom()
+ */
+console.log("\nInsert Delete GetRandom O(1)");
+const obj = new RandomizedCollection();
+process.stdout.write("Test 1: ");
+test(obj.insert(1)); // true
+process.stdout.write("Test 2: ");
+test(!obj.insert(1)); // false
+process.stdout.write("Test 3: ");
+test(obj.insert(2)); // true
+process.stdout.write("Test 4: ");
+let random = obj.getRandom();
+test(random === 1 || random === 2); // 1 or 2
+process.stdout.write("Test 5: ");
+test(obj.remove(1)); // true
+process.stdout.write("Test 6: ");
+random = obj.getRandom();
+test(random === 1 || random === 2); // 1 or 2
