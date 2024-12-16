@@ -41,11 +41,11 @@ const mergeTwoLists = (list1, list2) => {
         }
         prev = prev.next;
     }
-    if (list1 != null) {
-        prev.next = list1;
-    } else {
-        prev.next = list2;
-    }
+    
+    // append remaining nodes
+    if (list1 != null) prev.next = list1;
+    else prev.next = list2;
+
     return dummyHead.next;
 }
 
@@ -293,6 +293,7 @@ var swapPairs = function(head) {
     // edge case 
     if (!head || !head.next) return head;
 
+    // sentinel / prev pattern
     let dummy = new ListNode(-1);
     dummy.next = head;
     let prev = dummy;

@@ -228,9 +228,7 @@ class RandomizedCollection {
         
         // Update indices
         indices.delete(indexToRemove);
-        if (indices.size === 0) {
-            this.map.delete(val);
-        }
+        if (indices.size === 0) this.map.delete(val);
 
         const lastElementIndices = this.map.get(lastElement);
         if (lastElement !== val) {
