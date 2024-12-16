@@ -1,30 +1,40 @@
 from sortedcontainers import SortedList
 
 class MaxStack:
-
     def __init__(self):
-        # Use SortedList for O(logN) insertion/deletion
-        self.stack = SortedList() # store count, val in sorted order 
-        self.values = SortedList() # store val, count in sorted order 
-        self.cnt = 0 # increment count for stack order
+        self.stack  = SortedList()
+        self.values = SortedList()
+        self.count  = 0
 
-    def push(self, x: int) -> None:
-        self.stack.add((self.cnt, x))
-        self.values.add((x, self.cnt))
-        self.cnt += 1
-
-    def pop(self) -> int:
-        idx, val = self.stack.pop()
-        self.values.remove((val, idx))
+    def push(self, val):
+        self.stack.add((self.count, val));
+        self.values.add((val, self.count));
+        self.count++
+    
+    def pop(self):
+        cnt, val = self.stack.pop()
+        self.values.remove((val, cnt))
         return val
 
-    def top(self) -> int:
-        return self.stack[-1][1]
+    def popMax(self):
+        val, cnt = self.values.pop()
+        self.stack.remove((cnt, val))
+        return val
 
-    def peekMax(self) -> int:
+    def peekMax(self):
         return self.values[-1][0]
 
-    def popMax(self) -> int:
-        val, idx = self.values.pop()
-        self.stack.remove((idx, val))
-        return val
+    def top(self):
+        return self.stack[-1][0]
+
+# MaxStack driver code
+obj = MaxStack()
+obj.push(5)
+obj.push(1)
+obj.push(5)
+print(obj.top())
+print(obj.popMax())
+print(obj.top())
+print(obj.peekMax())
+print(obj.pop())
+print(obj.top())

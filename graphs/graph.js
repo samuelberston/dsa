@@ -23,7 +23,7 @@ class AdjacencyMatrix {
 
 // driver code - undirected unconnected adjacency matrix graph
 console.log("\nUndirected Adjacency Matrix");
-console.log("----------------")
+console.log("----------------");
 let adjMat = new AdjacencyMatrix(4);
 console.log("adding edges to graph...");
 adjMat.addEdge(0, 2);
