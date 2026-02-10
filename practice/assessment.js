@@ -152,3 +152,30 @@ const prices = [7, 1, 5, 3, 6, 4];
 console.log("TEST CASE 1: ", buySellStock(prices) == 5 ? 'PASSED' : 'FAILED');
 const prices1 = [7, 6, 4, 3, 1];
 console.log("TEST CASE 2: ", buySellStock(prices1) == 0 ? 'PASSED' : 'FAILED');
+
+// Subarray Sum Equals K
+// Given an array of integers nums and an integer k, return the total number of subarrays whose sum equals k.
+// Input: nums = [1, 1, 1], k = 2
+// Output: 2  // [1,1] at index 0-1 and [1,1] at index 1-2
+
+// Input: nums = [1, 2, 3], k = 3
+// Output: 2  // [1,2] and [3]
+
+// Input: nums = [1, -1, 0], k = 0
+// Output: 3  // [1,-1], [-1,0], [1,-1,0]
+const subarraySum = (arr, k) => {
+    let map = {0: 1};
+    let prefixSum = 0;
+    let count = 0;
+    for (let i = 0; i < arr.length; i++) {
+        prefixSum += arr[i];
+        if (map[prefixSum - k]) count += map[prefixSum - k];
+        map[prefixSum] = (map[prefixSum] || (0 + 1));
+    }
+    return count;
+};
+console.log("Subarray sum equal to K");
+const nums = [1, 1, 1], k = 2;
+console.log("TEST CASE 1: ", subarraySum(nums, k) == 2);
+const nums1 = [1, 2, 3], k1 = 3
+console.log("TEST CASE 2: ", subarraySum(nums1, k1) == 2);
