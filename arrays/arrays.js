@@ -1,29 +1,29 @@
 // array data structure
 
 // 2sum problems
+// Input: array [5, 7, 3, 9, 22, 34], target = 16
+// Output: [7, 9]
+// approach: track each n in a map and search for the complement
 const twoSum = (array, target) => {
-    array.sort((a, b) => a - b) // sort the array
-    let p1 = 0; 
-    let p2 = array.length - 1;
-    while (p1 < p2) {
-        let sum = array[p1] + array[p2];
-        if (sum == target) {
-            return [array[p1], array[p2]];
+    let map = {};
+    for (let i = 0; i < array.length; i++) {
+        const complement = target - array[i];
+        if (map[complement] !== undefined) {
+            return [complement, array[i]];
         }
-        if (sum <= target) {
-            p1++
-        } else {
-            p2--;
-        }
+        map[array[i]] = i;
     }
-    return -1;
 }
 
 // 2sum driver code
 console.log("\n1. Two Sum");
 const arr = [5, 7, 3, 9, 22, 34];
 const solution = twoSum(arr, 16);
-console.log(solution);
+console.log("TEST CASE 1: ", JSON.stringify(solution) === JSON.stringify([7, 9]) ? 'PASSED' : 'FAILED');
+const arr1 = [8, 3, 6, 1, 9, 0];
+const target1 = 15;
+const solution1 = twoSum(arr1, target1);
+console.log("TEST CASE 2: ", JSON.stringify(solution1) === JSON.stringify([6, 9]) ? 'PASSED' : 'FAILED');
 
 // contains duplicate
 const containsDuplicate = (array) => {
@@ -78,7 +78,8 @@ arr.push(0);
 productArrayExceptSelf(arr);
 arr.pop();
 
-// container with the most water
+// container with the most water - choose which two walls to use as the sides
+// of the container to maximize area
 /* 
 Approach: 
 use two pointers initialized at the start and end of the array
@@ -146,15 +147,15 @@ const kadanesAlg = (array) => {
         if (currSum < 0) currSum = 0;
     }
 
-    console.log(maxSum);
     return maxSum;
 }
 
 // Kadane's algorithm driver code
 const array = [-7, 3, -4, 5, 3, -2, 1];
 console.log("\n5. Kadane's algorithm, maximum subarray sum");
-kadanesAlg(array);
+console.log("TEST CASE 1: ", kadanesAlg(array) == 8 ? 'PASSED' : 'FAILED');
 const negativeArray = [-8, -5, -3, -5, -8];
+console.log("TEST CASE 2: ", kadanesAlg(negativeArray) == -3 ? 'PASSED' : 'FAILED');
 
 
 /* 
@@ -188,15 +189,15 @@ const bestTimeSellStock = (prices) => {
             maxProfit = currProfit;
         }
     }
-    console.log(maxProfit);
     return maxProfit;
 }
 
 // Best Time to Buy and Sell Stock driver code
 const prices = [4, 5, 2, 5, 7, 6];
 console.log("\n6. Best Time to Buy and Sell Stock");
-console.log("maximum profit: ");
-bestTimeSellStock(prices);
+console.log("TEST CASE 1: ", bestTimeSellStock(prices) == 5 ? 'PASSED' : 'FAILED');
+const prices1 = [5, 8, 1, 4, 8, 4];
+console.log("TEST CASE 2: ", bestTimeSellStock(prices1) == 7 ? 'PASSED' : 'FAILED');
 
 /*
 Valid Parentheses
@@ -239,7 +240,7 @@ console.log("Identifies valid parentheses: ", validParentheses(valid) == true);
 console.log("Identifies invalid parentheses: ", validParentheses(invalid) == false);
 
 /*
-  3 sum
+  3 sum - find the sum of three numbers equal to 0
 
   approach: sort the array and use two sum helper function
   TC: O(N * log N)

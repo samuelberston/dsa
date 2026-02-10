@@ -10,6 +10,7 @@
 // - recursive inorder DFS check is valid BST
 // - iterative breadth-first search with a queue
 const test = (condition) => {if (condition) console.log("PASSED"); else console.error("ERROR");}
+
 // node of the binary tree
 class Node {
     constructor(item) {
