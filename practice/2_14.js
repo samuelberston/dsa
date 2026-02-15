@@ -334,3 +334,142 @@ console.log("\nRansom Note");
 console.log(canConstruct("a", "b") === false ? "PASSED" : "FAILED");
 console.log(canConstruct("aa", "aab") === true ? "PASSED" : "FAILED");
 console.log(canConstruct("aa", "ab") === false ? "PASSED" : "FAILED");
+
+// ========== EASY: Maximum Depth of Binary Tree ==========
+// Given root of a binary tree, return its max depth (longest path from root to a leaf).
+// Pattern: DFS recursion. null → 0, else 1 + max(left, right).
+
+function TreeNode(val, left, right) {
+  this.val = val === undefined ? 0 : val;
+  this.left = left === undefined ? null : left;
+  this.right = right === undefined ? null : right;
+}
+
+const maxDepth = (root) => {
+  // base case
+  if (!root) return 0;
+  // recursive case
+  return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
+};
+
+// Test tree:    3
+//             / \
+//            9  20
+//              / \
+//             15  7
+const tree1 = new TreeNode(3, new TreeNode(9), new TreeNode(20, new TreeNode(15), new TreeNode(7)));
+console.log("\nMax Depth of Binary Tree");
+console.log(maxDepth(tree1) === 3 ? "PASSED" : "FAILED");
+console.log(maxDepth(null) === 0 ? "PASSED" : "FAILED");
+
+// ========== EASY: Invert Binary Tree ==========
+// Flip a binary tree (swap left and right children at every node).
+//      4              4
+//    /   \    →     /   \
+//   2     7       7     2
+//  / \   / \     / \   / \
+// 1   3 6   9   9   6 3   1
+
+const invertTree = (root) => {
+  // base case
+  if (!root) return;
+  // swap nodes
+  let tmp = root.left
+  root.left = root.right;
+  root.right = tmp;
+  // recursive case
+  invertTree(root.right);
+  invertTree(root.left);
+  return root;
+};
+
+const tree2 = new TreeNode(4, new TreeNode(2, new TreeNode(1), new TreeNode(3)), new TreeNode(7, new TreeNode(6), new TreeNode(9)));
+invertTree(tree2);
+console.log("\nInvert Binary Tree");
+console.log(tree2.left.val === 7 && tree2.right.val === 2 ? "PASSED" : "FAILED");
+console.log(tree2.left.left.val === 9 && tree2.right.right.val === 1 ? "PASSED" : "FAILED");
+
+// ========== EASY: Linked List Cycle ==========
+// Given head of a linked list, return true if there's a cycle.
+// Pattern: fast and slow pointers. If they ever meet, there's a cycle.
+
+function ListNode(val, next) {
+  this.val = val === undefined ? 0 : val;
+  this.next = next === undefined ? null : next;
+}
+
+const hasCycle = (head) => {
+  const map = {};
+  while (head) {
+    // console.log("head.val: ", head.val);
+    // console.log("map: ", map);
+    if (map[head.val]) return true;
+    map[head.val] = true;
+    head = head.next;
+  }
+  return false;
+};
+
+// Test: 1 → 2 → 3 → 4 → back to 2
+const ln1 = new ListNode(1);
+const ln2 = new ListNode(2);
+const ln3 = new ListNode(3);
+const ln4 = new ListNode(4);
+ln1.next = ln2; ln2.next = ln3; ln3.next = ln4; ln4.next = ln2;
+console.log("\nLinked List Cycle");
+console.log(hasCycle(ln1) === true ? "PASSED" : "FAILED");
+// Test: 1 → 2 → 3 → null (no cycle)
+const ln5 = new ListNode(1, new ListNode(2, new ListNode(3)));
+console.log(hasCycle(ln5) === false ? "PASSED" : "FAILED");
+
+// ========== EASY: Reverse Linked List ==========
+// Given the head of a singly linked list, reverse it and return the new head.
+// Example: 1 → 2 → 3 → null  becomes  3 → 2 → 1 → null
+
+const reverseList = (head) => {
+  let prev = null;
+  let curr = head;
+  while (curr) {
+    let next = curr.next;
+    curr.next = prev;
+    prev = curr;
+    curr = next;
+  }
+  return prev;
+};
+
+const rl1 = new ListNode(1, new ListNode(2, new ListNode(3)));
+const reversed = reverseList(rl1);
+console.log("\nReverse Linked List");
+console.log(reversed.val === 3 && reversed.next.val === 2 && reversed.next.next.val === 1 ? "PASSED" : "FAILED");
+console.log(reverseList(null) === null ? "PASSED" : "FAILED");
+
+// ========== EASY: Merge Two Sorted Linked Lists ==========
+// Merge two sorted linked lists into one sorted list (made from splicing the nodes together).
+// Example: 1→2→4 and 1→3→4 → 1→1→2→3→4→4
+
+const mergeTwoLists = (list1, list2) => {
+  const res = new ListNode(null);
+  let curr = res
+  while (list1 && list2) {
+    if (list1.val <= list2.val) {
+      curr.next = list1;
+      list1 = list1.next;
+    } else {
+      curr.next = list2;
+      list2 = list2.next;
+    }
+    curr = curr.next
+  }
+  curr.next = list1 || list2;
+  return res.next;
+};
+
+const la = new ListNode(1, new ListNode(2, new ListNode(4)));
+const lb = new ListNode(1, new ListNode(3, new ListNode(4)));
+const merged = mergeTwoLists(la, lb);
+console.log("\nMerge Two Sorted Lists");
+let vals = [];
+let node = merged;
+while (node) { vals.push(node.val); node = node.next; }
+console.log(JSON.stringify(vals) === "[1,1,2,3,4,4]" ? "PASSED" : "FAILED");
