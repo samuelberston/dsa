@@ -473,3 +473,127 @@ let vals = [];
 let node = merged;
 while (node) { vals.push(node.val); node = node.next; }
 console.log(JSON.stringify(vals) === "[1,1,2,3,4,4]" ? "PASSED" : "FAILED");
+
+// ========== EASY: Symmetric Tree ==========
+// Given the root of a binary tree, check if it's a mirror of itself (symmetric around the center).
+//       1
+//      / \
+//     2   2
+//    / \ / \
+//   3  4 4  3    → true
+//
+//       1
+//      / \
+//     2   2
+//      \   \
+//      3    3    → false
+
+const isSymmetric = (root) => {
+  const checker = (left, right) => {
+    // base cases
+    if (!left && !right) return true;
+    else if (!left || !right) return false;
+    else if (left.val !== right.val) return false;
+    // recursive case
+    return checker(left.left, right.right) && checker(left.right, right.left);
+  }
+  return checker(root.left, root.right);
+};
+
+const sym1 = new TreeNode(1, new TreeNode(2, new TreeNode(3), new TreeNode(4)), new TreeNode(2, new TreeNode(4), new TreeNode(3)));
+const sym2 = new TreeNode(1, new TreeNode(2, null, new TreeNode(3)), new TreeNode(2, null, new TreeNode(3)));
+console.log("\nSymmetric Tree");
+console.log(isSymmetric(sym1) === true ? "PASSED" : "FAILED");
+console.log(isSymmetric(sym2) === false ? "PASSED" : "FAILED");
+
+// ========== EASY: Intersection of Two Linked Lists ==========
+// Given heads of two linked lists, return the node where they intersect. If no intersection, return null.
+// Example: list A = 4→1→8→4→5, list B = 5→6→1→8→4→5 (they merge at node 8)
+
+const getIntersectionNode = (headA, headB) => {
+  let a = headA;
+  let b = headB;
+  while (a !== b) {
+    a = a ? a.next : headB;
+    b = b ? b.next : headA;
+  }
+  return a;
+};
+
+// Build intersection: shared tail 8→4→5
+const shared = new ListNode(8, new ListNode(4, new ListNode(5)));
+const listA = new ListNode(4, new ListNode(1, shared));
+const listB = new ListNode(5, new ListNode(6, new ListNode(1, shared)));
+console.log("\nIntersection of Two Linked Lists");
+console.log(getIntersectionNode(listA, listB) === shared ? "PASSED" : "FAILED");
+// No intersection
+const listC = new ListNode(1, new ListNode(2));
+const listD = new ListNode(3, new ListNode(4));
+console.log(getIntersectionNode(listC, listD) === null ? "PASSED" : "FAILED");
+
+// ========== EASY: Middle of the Linked List ==========
+// Given the head of a linked list, return the middle node.
+// If two middle nodes, return the second one.
+// Example: 1→2→3→4→5 → node 3
+// Example: 1→2→3→4→5→6 → node 4
+
+const middleNode = (head) => {
+  let slow = head;
+  let fast = head;
+  while (fast && fast.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+  }
+  return slow;
+};
+
+const mid1 = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5)))));
+console.log("\nMiddle of Linked List");
+console.log(middleNode(mid1).val === 3 ? "PASSED" : "FAILED");
+const mid2 = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5, new ListNode(6))))));
+console.log(middleNode(mid2).val === 4 ? "PASSED" : "FAILED");
+
+// ========== EASY: Implement Queue using Stacks ==========
+// Implement a FIFO queue using only two stacks (arrays with push/pop only).
+// Implement: push(x), pop(), peek(), empty()
+// Example:
+//   q.push(1), q.push(2), q.peek() → 1, q.pop() → 1, q.empty() → false
+
+class MyQueue {
+  constructor() {
+    this.input = [];
+    this.output = [];
+  }
+  push(x) {
+    this.input.push(x);
+  }
+  pop() {
+    if (this.output.length === 0) {
+      while(this.input.length > 0) {
+        this.output.push(this.input.pop());
+      }
+    }
+    return this.output.pop();
+  }
+  peek() {
+    if (this.output.length === 0) {
+      while(this.input.length > 0) {
+        this.output.push(this.input.pop());
+      }
+    }
+    return this.output[this.output.length - 1];
+  }
+  empty() {
+    return this.input.length === 0 && this.output.length === 0;
+  }
+}
+
+console.log("\nQueue using Stacks");
+const q = new MyQueue();
+q.push(1);
+q.push(2);
+console.log(q.peek() === 1 ? "PASSED" : "FAILED");
+console.log(q.pop() === 1 ? "PASSED" : "FAILED");
+console.log(q.empty() === false ? "PASSED" : "FAILED");
+console.log(q.pop() === 2 ? "PASSED" : "FAILED");
+console.log(q.empty() === true ? "PASSED" : "FAILED");
